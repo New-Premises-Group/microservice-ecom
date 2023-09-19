@@ -8,17 +8,21 @@ using Microsoft.EntityFrameworkCore;
 using IW.Repository;
 using IW.Repositories;
 using IW.Interfaces;
+using IW.Services;
+using IW.Exceptions.ReadUserError;
 
 namespace IW.Extensions;
 
-public static class ServicesRegistor
+public static class ServicesExtension
 {
     public static void RegisterServices(this WebApplicationBuilder builder)
     {
         builder.Services.AddCors();
         builder.Services.AddGraphQLServer()
             .AddQueryType<Query>()
-            .AddMutationType<Mutation>();
+            .AddErrorFilter<ErrorFilter>()
+            .AddMutationType<Mutation>()
+            .AddMutationConventions(applyToAllMutations: true);
         //Swagger
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
@@ -53,7 +57,7 @@ public static class ServicesRegistor
 
         // DI for UserService
         builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
-        builder.Services.AddScoped<IUserService,IUserService>();
+        builder.Services.AddScoped<IUserService,UserService>();
         builder.Services.AddScoped<IUserRepository, UserRepository>();
     }
 }

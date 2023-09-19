@@ -5,11 +5,12 @@ namespace IW.Interfaces
 {
     public interface IUserService
     {
-        Task Login(CreateUser model);
-        Task Logout();
+        Task CreateUser(CreateUser model);
+        Task UpdateToken(Guid id, string token);
         Task<User?> Authenticate(string tokens);
-        Task<User> GetUser(int id);
-        Task<User> UpdateUser(int id, User model);
-        void DeleteUser(int id);
+        Task<User> GetUser(Guid id);
+        Task<IEnumerable<User>> GetUsers();
+        Task UpdateUser(Guid id, UpdateUser model);
+        Task DeleteUser(Guid id);
     }
 }

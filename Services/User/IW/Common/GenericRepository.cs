@@ -1,5 +1,6 @@
 ﻿using IW.Interfaces;
 using IW.Models;
+using IW.Models.Entities;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq.Expressions;
@@ -32,18 +33,23 @@ namespace IW.Common
             dbSet.Update(entity);
         }
 
+        public async Task<IEnumerable<TEntity>> FindByConditionToList(Expression<Func<TEntity, bool>> expression)
+        {
+            IEnumerable<TEntity> results= await dbSet.AsNoTracking().Where(expression).ToListAsync();
+            return results;
+        }
+
         public IQueryable<TEntity> FindByCondition(Expression<Func<TEntity, bool>> expression)
         {
-            IQueryable<TEntity> results= dbSet.Where(expression).AsNoTracking();
-            return results;
+            return dbSet.Where(expression).AsTracking();
         }
 
         public async Task<IEnumerable<TEntity>> GetAll()
         {
-            return await dbSet.ToListAsync();
+            return await dbSet.AsNoTracking().ToListAsync();
         }
 
-        public async Task<TEntity?>GetById(int id)
+        public async Task<TEntity?>GetById<T>(T id)
         {
             return await dbSet.FindAsync(id);
         }
