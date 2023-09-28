@@ -2,7 +2,6 @@
 using System.ComponentModel.DataAnnotations;
 using FluentValidation;
 using IW.Common;
-using FluentValidation.Results;
 using ValidationResult = FluentValidation.Results.ValidationResult;
 using IW.Exceptions.CreateUserError;
 
@@ -28,17 +27,17 @@ namespace IW.Models.Entities
         {
             RuleFor(user=>user.Email)
                 .Matches(@"^([\w\!\#$\%\&\'*\+\-\/\=\?\^`{\|\}\~]+\.)*[\w\!\#$\%\&\'*\+\-\/\=\?\^`{\|\}\~]+@((((([a-zA-Z0-9]{1}[a-zA-Z0-9\-]{0,62}[a-zA-Z0-9]{1})|[a-zA-Z])\.)+[a-zA-Z]{2,6})|(\d{1,3}\.){3}\d{1,3}(\:\d{1,5})?)$")
-                .WithErrorCode($"{ ValidatorErrorCode.Match}");
+                .WithErrorCode($"{ VALIDATOR_ERROR_CODE.Match}");
 
             RuleFor(user=>user.Name)
                 .NotEmpty()
-                .WithErrorCode($"{ValidatorErrorCode.NotEmpty}")
+                .WithErrorCode($"{VALIDATOR_ERROR_CODE.NotEmpty}")
                 .Length(1,50)
-                .WithErrorCode($"{ValidatorErrorCode.Length}");
+                .WithErrorCode($"{VALIDATOR_ERROR_CODE.Length}");
 
             RuleFor(user=>user.Token)
                 .NotEmpty()
-                .WithErrorCode($"{ValidatorErrorCode.NotEmpty}");
+                .WithErrorCode($"{VALIDATOR_ERROR_CODE.NotEmpty}");
         }
         public void ValidateAndThrowException(User user)
         {
@@ -50,7 +49,7 @@ namespace IW.Models.Entities
             ValidationResult results = Validate(instance);
             if (!results.IsValid)
             {
-                List<ValidateErrorDetail> validateErrors = new List<ValidateErrorDetail>();
+                List<ValidateErrorDetail> validateErrors = new();
                 foreach (var failure in results.Errors)
                 {
                     ValidateErrorDetail detail = new ValidateErrorDetail()

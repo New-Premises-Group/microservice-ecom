@@ -13,7 +13,7 @@ namespace IW.Models
         {
             modelBuilder.Entity<User>()
            .HasOne<Role>(s => s.Role)
-           .WithMany(g => g.User)
+           .WithMany(g => g.Users)
            .HasForeignKey(s => s.RoleId);
         }
         public DbSet<User> Users { get; set; }

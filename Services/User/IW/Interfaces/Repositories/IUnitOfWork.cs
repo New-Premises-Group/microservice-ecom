@@ -1,4 +1,4 @@
-﻿using IW.Repositories;
+﻿using IW.Interfaces.Repositories;
 
 namespace IW.Interfaces
 {
@@ -6,6 +6,7 @@ namespace IW.Interfaces
     {
         // Add your Repository here
         IUserRepository Users { get; }
+        IRoleRepository Roles { get; }
         Task<int> CompleteAsync();
     }
 }
