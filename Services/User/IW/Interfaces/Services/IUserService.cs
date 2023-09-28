@@ -1,17 +1,15 @@
-﻿using IW.Models.DTOs.User;
+﻿using IW.Models.DTOs;
 using IW.Models.Entities;
-using RestSharp;
 
 namespace IW.Interfaces
 {
     public interface IUserService
     {
-        Task<string> LogIn(CreateUser model);
-        Task<string> RenewToken(CreateUser model);
-        Task<string> UpdateUserRole(Guid userId,Role role);
-        Task<UserDto> GetUser(Guid id);
-        Task<IEnumerable<UserDto>> GetUsers(int offset, int amount);
-        Task<IEnumerable<UserDto>> GetUsers(GetUser query, int offset , int amount );
+        Task CreateUser(CreateUser model);
+        Task UpdateToken(Guid id, string token);
+        Task<User?> Authenticate(string tokens);
+        Task<User> GetUser(Guid id);
+        Task<IEnumerable<User>> GetUsers();
         Task UpdateUser(Guid id, UpdateUser model);
         Task DeleteUser(Guid id);
     }

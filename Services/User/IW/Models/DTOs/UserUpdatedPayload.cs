@@ -1,8 +1,7 @@
-﻿namespace IW.Models.DTOs.User
+﻿namespace IW.Models.DTOs
 {
     public class UserUpdatedPayload
     {
         public string Message { get; set; }
-        public string? ApiToken {  get; set; }
     }
 }

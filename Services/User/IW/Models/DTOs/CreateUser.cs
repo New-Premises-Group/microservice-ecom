@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace IW.Models.DTOs.User
+namespace IW.Models.DTOs
 {
     public class CreateUser
     {
@@ -11,6 +11,5 @@ namespace IW.Models.DTOs.User
         [Required]
         public string Token { get; set; }
         public string? ImageURL { get; set; }
-        public int RoleId { get; set; }
     }
 }

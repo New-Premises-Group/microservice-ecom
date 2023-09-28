@@ -1,5 +1,4 @@
 ﻿using IW.Interfaces;
-using IW.Interfaces.Repositories;
 using IW.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -10,14 +9,11 @@ namespace IW.Repository
     {
         private readonly AppDbContext _context;
         public IUserRepository Users { get; }
-
-        public IRoleRepository Roles { get; }
-
-        public UnitOfWork(AppDbContext context, IUserRepository userRepository,IRoleRepository roleRepository)
+        public UnitOfWork(AppDbContext context, IUserRepository userRepository)
         {
             _context = context;
             Users = userRepository;
-            Roles = roleRepository;
+
         }
 
         public async Task<int> CompleteAsync()

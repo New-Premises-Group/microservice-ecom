@@ -1,4 +1,4 @@
-﻿namespace IW.Models.DTOs.User
+﻿namespace IW.Models.DTOs
 {
     public class UserDeletedPayload
     {

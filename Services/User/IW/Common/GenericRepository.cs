@@ -1,7 +1,10 @@
 ﻿using IW.Interfaces;
 using IW.Models;
+using IW.Models.Entities;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Linq.Expressions;
+using System.Threading.Tasks;
 
 namespace IW.Common
 {
@@ -30,20 +33,20 @@ namespace IW.Common
             dbSet.Update(entity);
         }
 
-        public async Task<IEnumerable<TEntity>> FindByConditionToList(Expression<Func<TEntity, bool>> expression,int offset, int amount)
+        public async Task<IEnumerable<TEntity>> FindByConditionToList(Expression<Func<TEntity, bool>> expression)
         {
-            IEnumerable<TEntity> results= await dbSet.AsNoTracking().Where(expression).Skip(offset).Take(amount).ToListAsync();
+            IEnumerable<TEntity> results= await dbSet.AsNoTracking().Where(expression).ToListAsync();
             return results;
         }
 
-        public virtual async Task<TEntity?> FindByCondition(Expression<Func<TEntity, bool>> expression)
+        public IQueryable<TEntity> FindByCondition(Expression<Func<TEntity, bool>> expression)
         {
-            return await dbSet.Where(expression).FirstOrDefaultAsync();
+            return dbSet.Where(expression).AsTracking();
         }
 
-        public virtual async Task<IEnumerable<TEntity>> GetAll(int offset, int amount)
+        public async Task<IEnumerable<TEntity>> GetAll()
         {
-            return await dbSet.AsNoTracking().Skip(offset).Take(amount).ToListAsync();
+            return await dbSet.AsNoTracking().ToListAsync();
         }
 
         public async Task<TEntity?>GetById<T>(T id)

@@ -1,24 +1,22 @@
 ﻿using FluentValidation.Results;
-using IW.Common;
 using IW.Exceptions.CreateUserError;
 using IW.Exceptions.ReadUserError;
 using IW.Interfaces;
-using IW.Models.DTOs.User;
+using IW.Models.DTOs;
 using IW.Models.Entities;
-using Microsoft.OpenApi.Models;
-using RestSharp;
-using System.Collections.Generic;
 
 namespace IW.Services
 {
     public class UserService : IUserService
     {
-        public readonly IUnitOfWork _unitOfWork;
-        private readonly IJwtProvider _jwtProvider;
-        public UserService(IUnitOfWork unitOfWork, IJwtProvider jwtProvider)
+        public IUnitOfWork _unitOfWork;
+        public UserService(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
-            _jwtProvider = jwtProvider;
+        }
+        public Task<User?> Authenticate(string tokens)
+        {
+            throw new NotImplementedException();
         }
 
         public async Task DeleteUser(Guid id)
@@ -30,72 +28,45 @@ namespace IW.Services
             await _unitOfWork.CompleteAsync();
         }
 
-        public async Task<UserDto> GetUser(Guid id)
+        public async Task<User> GetUser(Guid id)
         {
             var user=await UserExist(id);
             if(Equals(user, null))
             {
                 throw new UserNotFoundException(id);
             }
-            UserDto result = new()
-            {
-                Email = user.Email,
-                Id = id,
-                ImageURL = user.ImageURL,
-                Name = user.Name,
-                RoleId = user.RoleId,
-            };
-            return result;
+            return user;
         }
 
-        public async Task<string> LogIn(CreateUser model)
+        public async Task CreateUser(CreateUser model)
         {
-            int defaultRole = 1;
-            var user = await _unitOfWork.Users.FindByCondition(u => u.Name == model.Name);
-            Role role = !Equals(user,null)? user.Role: await _unitOfWork.Roles.GetById(defaultRole); 
+            if(!Equals(model.Email, null)) {
+                if (await EmailExist(model.Email)) throw new UserEmailTakenException(model.Email);
+            }
 
             User newUser = new() {
                 Name = model.Name,
                 Email = model.Email,
                 ImageURL = model.ImageURL,
                 Token = model.Token,
-                RoleId = role.Id,
-                Role = role
+                RoleId = 1
             };
 
-            UserValidator validator = new();
+            UserValidator validator = new UserValidator();
             validator.ValidateAndThrowException(newUser);
 
-            if (Equals(user, null))
-            {
-                _unitOfWork.Users.Add(newUser);
-                await _unitOfWork.CompleteAsync();
-                string newToken = _jwtProvider.Generate(newUser);
-                return newToken;
-            }
-
-            string token = _jwtProvider.Generate(newUser);
-            return token;
+            _unitOfWork.Users.Add(newUser);
+            await _unitOfWork.CompleteAsync();
         }
 
-        public async Task<string> RenewToken(CreateUser model)
+        public async Task UpdateToken(Guid id,string token)
         {
-            var role= await _unitOfWork.Roles.GetById(model.RoleId);
-            User newUser = new()
-            {
-                Name = model.Name,
-                Email = model.Email,
-                ImageURL = model.ImageURL,
-                Token = model.Token,
-                RoleId = model.RoleId,
-                Role = role
-            };
+            var user = await UserExist(id);
+            if (Equals(user,null)) throw new UserNotFoundException(id);
 
-            UserValidator validator = new();
-            validator.ValidateAndThrowException(newUser);
-
-            string token = _jwtProvider.Generate(newUser);
-            return token;
+            user.Token = token;
+            _unitOfWork.Users.Update(user);
+            await _unitOfWork.CompleteAsync();
         }
 
         public async Task UpdateUser(Guid id, UpdateUser model)
@@ -119,29 +90,10 @@ namespace IW.Services
             await _unitOfWork.CompleteAsync();
         }
 
-        public async Task<string> UpdateUserRole(Guid userId, Role role)
-        {
-            var user = await UserExist(userId);
-            if (Equals(user, null)) throw new UserNotFoundException(userId);
-
-            await _unitOfWork.Users.UpdateUserRole(userId, role);
-            User newUser = new()
-            {
-                Name = user.Name,
-                Email = user.Email,
-                ImageURL = user.ImageURL,
-                Token = user.Token,
-                RoleId = role.Id,
-                Role = role
-            };
-            string token = _jwtProvider.Generate(newUser);
-            return token;
-        }
-
         private async Task<bool> EmailExist(string mail)
         {
             if(mail==String.Empty) return false;
-            var results=await _unitOfWork.Users.FindByConditionToList(u => u.Email== mail,0,1);
+            var results=await _unitOfWork.Users.FindByConditionToList(u => u.Email== mail);
             return results.Count() == 1;
         }
         private async Task<User?> UserExist(Guid id)
@@ -151,45 +103,10 @@ namespace IW.Services
             return user;
         }
 
-        public async Task<IEnumerable<UserDto>> GetUsers(int offset = 0, int amount = 10)
+        public async Task<IEnumerable<User>> GetUsers()
         {
-            var users=await _unitOfWork.Users.GetAll(offset,amount);
-            ICollection<UserDto> result = new List<UserDto>();
-            foreach (var user in users)
-            {
-                UserDto item = new()
-                {
-                    Email = user.Email,
-                    Id = user.Id,
-                    ImageURL = user.ImageURL,
-                    Name = user.Name,
-                    RoleId = user.RoleId,
-                };
-                result.Add(item);
-            }
-            return result;
-        }
-
-        public async Task<IEnumerable<UserDto>> GetUsers(GetUser query, int offset=((int)PAGINATING.OffsetDefault),int amount=((int)PAGINATING.AmountDefault))
-        {
-            var users = await _unitOfWork.Users.FindByConditionToList(
-                u=>u.Name==query.Name ||
-                u.Email == query.Email
-                , offset,amount);
-            ICollection<UserDto> result = new List<UserDto>();
-            foreach (var user in users)
-            {
-                UserDto item = new()
-                {
-                    Email = user.Email,
-                    Id = user.Id,
-                    ImageURL = user.ImageURL,
-                    Name = user.Name,
-                    RoleId = user.RoleId,
-                };
-                result.Add(item);
-            }
-            return result;
+            var users=await _unitOfWork.Users.GetAll();
+            return users;
         }
     }
 }

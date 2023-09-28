@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace IW.Models.DTOs.User
+namespace IW.Models.DTOs
 {
     public class UpdateUser
     {

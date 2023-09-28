@@ -3,17 +3,11 @@
     public class UserNotFoundException:Exception
     {
         public UserNotFoundException(Guid id)
-        : base($"The user with id {id} is not found.")
+        : base($"The user with {id} is not found.")
         {
             Id = id;
         }
-        public UserNotFoundException(string name)
-        : base($"The user with name {name} is not found.")
-        {
-            Name = name;
-        }
         public Guid Id { get; }
-        public string Name { get;  }
     }
     public class UserNotFoundError : IError
     {
@@ -76,6 +70,11 @@
             return this;
         }
 
+        public IError WithCode()
+        {
+            return this;
+        }
+
         public IError WithException(Exception? exception)
         {
             throw new NotImplementedException();
@@ -83,15 +82,7 @@
 
         public IError WithExtensions(IReadOnlyDictionary<string, object?> extensions)
         {
-           Extensions = extensions;
-            return this;
-        }
-        public IError WithExtensions()
-        {
-            Dictionary<string, object> extensions = new Dictionary<string, object>() { };
-            extensions.Add(nameof(Code), Code);
-            Extensions= extensions;
-            return this;
+            throw new NotImplementedException();
         }
 
         public IError WithLocations(IReadOnlyList<Location>? locations)
@@ -101,8 +92,7 @@
 
         public IError WithMessage(string message)
         {
-            Message=message;
-            return this;
+            throw new NotImplementedException();
         }
 
         public IError WithPath(HotChocolate.Path? path)
