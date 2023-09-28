@@ -1,15 +1,16 @@
-﻿
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.IdentityModel.Tokens;
-using System.Text;
-using IW.Controllers;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using IW.Models;
 using Microsoft.EntityFrameworkCore;
 using IW.Repository;
 using IW.Repositories;
 using IW.Interfaces;
 using IW.Services;
-using IW.Exceptions.ReadUserError;
+using IW.Authentication;
+using IW.Interfaces.Repositories;
+using IW.Interfaces.Services;
+using IW.Exceptions;
+using IW.Controllers.Queries;
+using IW.Controllers.Mutations;
 
 namespace IW.Extensions;
 
@@ -19,34 +20,22 @@ public static class ServicesExtension
     {
         builder.Services.AddCors();
         builder.Services.AddGraphQLServer()
-            .AddQueryType<Query>()
+             .AddQueryType(d => d.Name("Query"))
+                .AddTypeExtension<UserQuery>()
+                .AddTypeExtension<RoleQuery>()
             .AddErrorFilter<ErrorFilter>()
-            .AddMutationType<Mutation>()
-            .AddMutationConventions(applyToAllMutations: true);
+            .AddMutationType(m=>m.Name("Mutation"))
+                .AddTypeExtension<UserMutation>()
+                .AddTypeExtension<RoleMutation>()
+            .AddMutationConventions(applyToAllMutations: true)
+            .AddAuthorization();
         //Swagger
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
 
-        builder.Services.AddAuthentication(options =>
-        {
-            options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-            options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
-        }).AddJwtBearer(o =>
-        {
-            o.TokenValidationParameters = new TokenValidationParameters
-            {
-                ValidIssuer = Environment.GetEnvironmentVariable("ASPNETCORE_ISSUER"),
-                ValidAudience = Environment.GetEnvironmentVariable("ASPNETCORE_AUDIENCE"),
-                IssuerSigningKey = new SymmetricSecurityKey
-                (Encoding.UTF8.GetBytes(Environment.GetEnvironmentVariable("ASPNETCORE_JWTKEY") ?? 
-                throw new Exception("SECRET_TOKEN environment variable is not set."))),
-                ValidateIssuer = true,
-                ValidateAudience = true,
-                ValidateLifetime = false,
-                ValidateIssuerSigningKey = true,
-            };
-        });
+        builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer();
+        builder.Services.ConfigureOptions<JwtOptionSetup>();
+        builder.Services.ConfigureOptions<JwtBearerOptionsSetup>();
         builder.Services.AddAuthorization();
 
         // Application database context
@@ -59,5 +48,9 @@ public static class ServicesExtension
         builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
         builder.Services.AddScoped<IUserService,UserService>();
         builder.Services.AddScoped<IUserRepository, UserRepository>();
+        builder.Services.AddScoped<IRoleService, RoleService>();
+        builder.Services.AddScoped<IRoleRepository, RoleRepository>();
+
+        builder.Services.AddScoped<IJwtProvider, JwtProvider>();
     }
 }

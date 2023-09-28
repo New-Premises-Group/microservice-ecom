@@ -1,23 +1,23 @@
-﻿namespace IW.Exceptions.ReadUserError
+﻿namespace IW.Exceptions.ReadRoleError
 {
-    public class UserNotFoundException:Exception
+    public class RoleNotFoundException : Exception
     {
-        public UserNotFoundException(Guid id)
-        : base($"The user with id {id} is not found.")
+        public RoleNotFoundException(int id)
+        : base($"The role with id {id} is not found.")
         {
             Id = id;
         }
-        public UserNotFoundException(string name)
-        : base($"The user with name {name} is not found.")
+        public RoleNotFoundException(string name)
+        : base($"The role with name {name} is not found.")
         {
             Name = name;
         }
-        public Guid Id { get; }
-        public string Name { get;  }
+        public int Id { get; }
+        public string Name { get; }
     }
-    public class UserNotFoundError : IError
+    public class RoleNotFoundError : IError
     {
-        public UserNotFoundError(string message)
+        public RoleNotFoundError(string message)
         {
             Message = message;
             Code = StatusCodes.Status404NotFound.ToString();
@@ -83,14 +83,14 @@
 
         public IError WithExtensions(IReadOnlyDictionary<string, object?> extensions)
         {
-           Extensions = extensions;
+            Extensions = extensions;
             return this;
         }
         public IError WithExtensions()
         {
             Dictionary<string, object> extensions = new Dictionary<string, object>() { };
             extensions.Add(nameof(Code), Code);
-            Extensions= extensions;
+            Extensions = extensions;
             return this;
         }
 
@@ -101,7 +101,7 @@
 
         public IError WithMessage(string message)
         {
-            Message=message;
+            Message = message;
             return this;
         }
 
@@ -115,5 +115,4 @@
             throw new NotImplementedException();
         }
     }
-
 }

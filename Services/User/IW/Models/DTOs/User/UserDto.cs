@@ -1,11 +1,14 @@
-﻿namespace IW.Models.DTOs
+﻿using HotChocolate.Authorization;
+
+namespace IW.Models.DTOs.User
 {
     public class UserDto
     {
         public Guid Id { get; set; }
         public string Name { get; set; }
         public string? Email { get; set; }
-        public string Token { get; set; }
+        [Authorize]
+        public string? Token { get; set; }
         public string? ImageURL { get; set; }
         public int RoleId { get; set; }
     }
