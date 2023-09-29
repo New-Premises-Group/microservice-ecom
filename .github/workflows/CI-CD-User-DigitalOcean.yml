@@ -56,7 +56,7 @@ jobs:
       with:
           context: ./Services/User/IW
           file: ./Services/User/IW/Dockerfile
-          push: true
+          push: false
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
     - name: Install doctl
