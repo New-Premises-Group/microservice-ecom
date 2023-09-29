@@ -71,4 +71,4 @@ jobs:
       run: if [ ! -z "$(doctl registry repository list | grep "$(echo $IMAGE_NAME)")" ]; then doctl registry repository delete-manifest $(echo $IMAGE_NAME) $(doctl registry repository list-tags $(echo $IMAGE_NAME) | grep -o "sha.*") --force; else echo "No repository"; fi
 
     - name: Push image to DigitalOcean Container Registry
-      run: docker push $(echo $REGISTRY)/$(echo $IMAGE_NAME):${{ steps.meta.outputs.tags }}
+      run: docker push ${{ steps.meta.outputs.tags }}
