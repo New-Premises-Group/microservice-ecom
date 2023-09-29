@@ -60,8 +60,11 @@ jobs:
     #       tags: ${{ steps.meta.outputs.tags }}
     #       labels: ${{ steps.meta.outputs.labels }}
 
+    - name: Move to User/IW dir
+      run: cd ./Services/User/IW
+
     - name: Build container image
-      run: docker build --file ./Services/User/IW/Dockerfile -t $(echo $REGISTRY)/$(echo $IMAGE_NAME):$(echo $GITHUB_SHA | head -c7) .
+      run: docker build -t $(echo $REGISTRY)/$(echo $IMAGE_NAME):$(echo $GITHUB_SHA | head -c7) .
     
     - name: Install doctl
       uses: digitalocean/action-doctl@v2
