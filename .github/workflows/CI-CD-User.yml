@@ -5,11 +5,13 @@ env:
 on:
   push:
     branches: [ "main" ]
-    paths: "./Services/User"
+    paths: 
+    - Services/User/**
     
   pull_request:
     branches: [ "main" ]
-    paths: "./Services/User"
+    paths: 
+    - Services/User/**
 
 jobs:
 
