@@ -1,4 +1,4 @@
-name: Docker Image CI
+name: Order Docker Image CI
 
 env:
   DOTNET_VERSION: '6'   
