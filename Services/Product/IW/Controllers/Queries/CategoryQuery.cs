@@ -9,14 +9,14 @@ namespace IW.Controllers.Queries
     public class CategoryQuery
     {
         [Authorize(Roles = new[] { nameof(ROLE.Admin) })]
-        public async Task<IEnumerable<CategoryDto>> GetRoles([Service] ICategoryService categoryService)
+        public async Task<IEnumerable<CategoryDto>> GetCategories([Service] ICategoryService categoryService)
         {
             var results = await categoryService.GetCategories();
             return results;
         }
 
         [Authorize]
-        public async Task<CategoryDto> GetRole(int id, [Service] ICategoryService categoryService)
+        public async Task<CategoryDto> GetCategory(int id, [Service] ICategoryService categoryService)
         {
             var result = await categoryService.GetCategory(id);
             return result;

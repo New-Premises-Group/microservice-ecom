@@ -8,21 +8,21 @@ namespace IW.Controllers.Queries
     [ExtendObjectType("Query")]
     public class ProductQuery
     {
-        public async Task<ProductDto> GetUser(int id, [Service] IProductService productService)
+        public async Task<ProductDto> GetProduct(int id, [Service] IProductService productService)
         {
             var result = await productService.GetProduct(id);
             return result;
         }
 
-        public async Task<IEnumerable<ProductDto>> GetUsers([Service] IProductService productService)
+        public async Task<IEnumerable<ProductDto>> GetProducts([Service] IProductService productService, int offset = ((int)PAGINATING.OffsetDefault), int amount = ((int)PAGINATING.AmountDefault))
         {
-            var results = await productService.GetProducts(((int)PAGINATING.OffsetDefault), ((int)PAGINATING.AmountDefault));
+            var results = await productService.GetProducts(offset, amount);
             return results;
         }
 
-        public async Task<IEnumerable<ProductDto>> GetUsers(GetProduct query, [Service] IProductService productService)
+        public async Task<IEnumerable<ProductDto>> GetProducts(GetProduct query, [Service] IProductService productService, int offset = ((int)PAGINATING.OffsetDefault), int amount = ((int)PAGINATING.AmountDefault))
         {
-            var results = await productService.GetProducts(query, ((int)PAGINATING.OffsetDefault), ((int)PAGINATING.AmountDefault));
+            var results = await productService.GetProducts(query, offset, amount);
             return results;
         }
     }
