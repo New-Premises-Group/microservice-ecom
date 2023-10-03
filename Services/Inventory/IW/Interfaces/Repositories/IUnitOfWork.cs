@@ -5,8 +5,8 @@ namespace IW.Interfaces
     public interface IUnitOfWork : IDisposable
     {
         // Add your Repository here
-        IUserRepository Users { get; }
-        IRoleRepository Roles { get; }
+        IInventoryRepository Inventories { get; }
+        ITransactionRepository Transactions { get; }
         Task<int> CompleteAsync();
     }
 }

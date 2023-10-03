@@ -5,7 +5,7 @@ using System.Linq.Expressions;
 
 namespace IW.Common
 {
-    public abstract class GenericRepository<TEntity> : IBaseRepository<TEntity> where TEntity : class
+    internal abstract class GenericRepository<TEntity> : IBaseRepository<TEntity> where TEntity : class
     {
         protected readonly AppDbContext _context;
         internal DbSet<TEntity> dbSet;
@@ -46,7 +46,7 @@ namespace IW.Common
             return await dbSet.AsNoTracking().Skip(offset).Take(amount).ToListAsync();
         }
 
-        public async Task<TEntity?>GetById<T>(T id)
+        public virtual async Task<TEntity?>GetById<T>(T id)
         {
             return await dbSet.FindAsync(id);
         }

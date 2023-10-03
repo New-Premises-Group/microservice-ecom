@@ -11,12 +11,12 @@ namespace IW.Models
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<User>()
-           .HasOne<Role>(s => s.Role)
-           .WithMany(g => g.Users)
-           .HasForeignKey(s => s.RoleId);
+            modelBuilder.Entity<Transaction>()
+            .HasOne<Inventory>(s => s.Inventory)
+            .WithMany(g => g.Transactions)
+            .HasForeignKey(s => s.InventoryId);
         }
-        public DbSet<User> Users { get; set; }
-        public DbSet<Role> Roles { get; set; }
+        public DbSet<Inventory> Inventories { get; set; }
+        public DbSet<Transaction> Transactions { get; set; }
     }
 }

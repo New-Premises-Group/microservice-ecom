@@ -1,23 +1,22 @@
 ﻿using IW.Interfaces;
 using IW.Interfaces.Repositories;
 using IW.Models;
-using Microsoft.EntityFrameworkCore;
-using System;
 
 namespace IW.Repository
 {
-    public class UnitOfWork : IUnitOfWork
+    internal class UnitOfWork : IUnitOfWork
     {
         private readonly AppDbContext _context;
-        public IUserRepository Users { get; }
 
-        public IRoleRepository Roles { get; }
+        public IInventoryRepository Inventories { get; }
 
-        public UnitOfWork(AppDbContext context, IUserRepository userRepository,IRoleRepository roleRepository)
+        public ITransactionRepository Transactions { get; }
+
+        public UnitOfWork(AppDbContext context,IInventoryRepository inventoryRepository, ITransactionRepository transactionRepository)
         {
             _context = context;
-            Users = userRepository;
-            Roles = roleRepository;
+            Inventories= inventoryRepository;
+            Transactions= transactionRepository;
         }
 
         public async Task<int> CompleteAsync()

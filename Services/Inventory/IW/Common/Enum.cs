@@ -4,7 +4,13 @@
     {
         NotEmpty,
         Match,
-        Length
+        Length,
+        MaxLength,
+        GreaterThan,
+        BeAValidDate,
+        LessThanOrEqualTo,
+        IsInEnum,
+        MustBeBoolean
     }
     public enum PAGINATING
     {
@@ -16,5 +22,12 @@
         User,
         Admin,
         Seller
+    }
+    public enum TRANSACTION_TYPE
+    {
+        Sale,
+        Return,
+        Restock,
+        Adjustment
     }
 }

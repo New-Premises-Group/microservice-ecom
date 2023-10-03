@@ -21,12 +21,12 @@ public static class ServicesExtension
         builder.Services.AddCors();
         builder.Services.AddGraphQLServer()
              .AddQueryType(d => d.Name("Query"))
-                .AddTypeExtension<UserQuery>()
-                .AddTypeExtension<RoleQuery>()
+                .AddTypeExtension<InventoryQuery>()
+                .AddTypeExtension<TransactionQuery>()
             .AddErrorFilter<ErrorFilter>()
             .AddMutationType(m=>m.Name("Mutation"))
-                .AddTypeExtension<UserMutation>()
-                .AddTypeExtension<RoleMutation>()
+                .AddTypeExtension<InventoryMutation>()
+                .AddTypeExtension<TransactionMutation>()
             .AddMutationConventions(applyToAllMutations: true)
             .AddAuthorization();
         //Swagger
@@ -44,13 +44,12 @@ public static class ServicesExtension
             options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"));
         });
 
-        // DI for UserService
+        // DI for services
         builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
-        builder.Services.AddScoped<IUserService,UserService>();
-        builder.Services.AddScoped<IUserRepository, UserRepository>();
-        builder.Services.AddScoped<IRoleService, RoleService>();
-        builder.Services.AddScoped<IRoleRepository, RoleRepository>();
+        builder.Services.AddScoped<IInventoryService,InventoryService>();
+        builder.Services.AddScoped<IInventoryRepository, InventoryRepository>();
+        builder.Services.AddScoped<ITransactionService, TransactionService>();
+        builder.Services.AddScoped<ITransactionRepository, TransactionRepository>();
 
-        builder.Services.AddScoped<IJwtProvider, JwtProvider>();
     }
 }

@@ -1,4 +1,5 @@
-﻿using IW.Exceptions.ReadUserError;
+﻿using IW.Exceptions.ReadTransactionError;
+using IW.Exceptions.ReadInventoryError;
 
 namespace IW.Exceptions
 {
@@ -6,13 +7,12 @@ namespace IW.Exceptions
     {
         public IError OnError(IError error)
         {
-            switch (error.Exception)
+            return error.Exception switch
             {
-                case UserNotFoundException:
-                    return new ReadUserErrorFactory().CreateErrorFrom((UserNotFoundException)error.Exception).WithExtensions();
-                default:
-                    return error;
-            }
+                TransactionNotFoundException => new ReadTransactionErrorFactory().CreateErrorFrom((TransactionNotFoundException)error.Exception).WithExtensions(),
+                InventoryNotFoundException => new ReadInventoryErrorFactory().CreateErrorFrom((InventoryNotFoundException)error.Exception).WithExtensions(),
+                _ => error,
+            };
         }
     }
 }
