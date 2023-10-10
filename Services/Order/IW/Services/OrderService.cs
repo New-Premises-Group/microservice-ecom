@@ -53,21 +53,7 @@ namespace IW.Services
         public async Task<IEnumerable<OrderDto>> GetOrders(int offset,int amount )
         {
             var orders = await _unitOfWork.Orders.GetAll(offset,amount);
-            ICollection<OrderDto> result = new List<OrderDto>();
-            foreach (var order in orders)
-            {
-                OrderDto item = new()
-                {
-                    Id = order.Id,
-                    UserId = order.UserId,
-                    Status = order.Status,
-                    ShippingAddress= order.ShippingAddress,
-                    Date= order.Date,
-                    Items = order.Items
-                    
-                };
-                result.Add(item);
-            }
+            ICollection<OrderDto> result = _mapper.Map<List<OrderDto>>(orders);
             return result;
         }
 
@@ -78,15 +64,7 @@ namespace IW.Services
             {
                 throw new OrderNotFoundException(id);
             }
-            OrderDto result = new()
-            {
-                Id = id,
-                Date = order.Date,
-                Items= order.Items,
-                ShippingAddress = order.ShippingAddress,
-                Status = order.Status,
-                UserId = order.UserId
-            };
+            OrderDto result = _mapper.Map<OrderDto>(order);
             return result;
         }
 
@@ -98,21 +76,7 @@ namespace IW.Services
                 o.Date ==query.Date
                 , offset, amount);
 
-            ICollection<OrderDto> result = new List<OrderDto>();
-            foreach (var order in orders)
-            {
-                OrderDto item = new()
-                {
-                    Id = order.Id,
-                    UserId = order.UserId,
-                    Status = order.Status,
-                    ShippingAddress = order.ShippingAddress,
-                    Date = order.Date,
-                    Items = order.Items
-
-                };
-                result.Add(item);
-            }
+            ICollection<OrderDto> result = _mapper.Map<List<OrderDto>>(orders);
             return result;
         }
 

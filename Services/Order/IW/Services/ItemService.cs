@@ -57,41 +57,14 @@ namespace IW.Services
                 throw new ItemNotFoundException(id);
             }
             var order = await _unitOfWork.Orders.GetById(item.Id);
-            ItemDto result = new()
-            {
-                Id = id,
-                Name = item.Name,
-                Order = order,
-                OrderId = item.OrderId,
-                Price = item.Price,
-                ProductId = item.ProductId,
-                Quantity = item.Quantity,
-                SKU = item.SKU,
-                Subtotal = item.Subtotal
-            };
+            ItemDto result = _mapper.Map<ItemDto>(item);
             return result;
         }
 
         public async Task<IEnumerable<ItemDto>> GetItems(int offset, int amount)
         {
             var items = await _unitOfWork.Items.GetAll(offset, amount);
-            ICollection<ItemDto> result = new List<ItemDto>();
-            foreach (var item in items)
-            {
-                ItemDto newItem = new()
-                {
-                    Id = item.Id,
-                    Name = item.Name,
-                    Order = item.Order,
-                    OrderId = item.OrderId,
-                    Price = item.Price,
-                    ProductId = item.ProductId,
-                    Quantity = item.Quantity,
-                    SKU = item.SKU,
-                    Subtotal = item.Subtotal
-                };
-                result.Add(newItem);
-            }
+            ICollection<ItemDto> result = _mapper.Map<List<ItemDto>>(items);
             return result;
         }
 
@@ -103,23 +76,7 @@ namespace IW.Services
                 p.Price == query.Price ||
                 p.ProductId== query.ProductId
                 , offset, amount);
-            ICollection<ItemDto> result = new List<ItemDto>();
-            foreach (var item in items)
-            {
-                ItemDto newItem = new()
-                {
-                    Id = item.Id,
-                    Name = item.Name,
-                    Order = item.Order,
-                    OrderId = item.OrderId,
-                    Price = item.Price,
-                    ProductId = item.ProductId,
-                    Quantity = item.Quantity,
-                    SKU = item.SKU,
-                    Subtotal = item.Subtotal
-                };
-                result.Add(newItem);
-            }
+            ICollection<ItemDto> result = _mapper.Map<List<ItemDto>>(items);
             return result;
         }
 
