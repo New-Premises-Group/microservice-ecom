@@ -5,25 +5,23 @@ using IW.Models.DTOs;
 using IW.Models.DTOs.Inventory;
 using IW.Models.DTOs.InventoryDto;
 using IW.Models.Entities;
+using MapsterMapper;
 
 namespace IW.Services
 {
     public class InventoryService : IInventoryService
     {
         public readonly IUnitOfWork _unitOfWork;
-        public InventoryService(IUnitOfWork unitOfWork)
+        public readonly IMapper _mapper;
+        public InventoryService(IUnitOfWork unitOfWork,IMapper mapper)
         {
             _unitOfWork = unitOfWork;
+            _mapper = mapper;
         }
 
         public async Task CreateInventory(CreateInventory input)
         {
-            Inventory newInventory = new()
-            {
-                ProductId=input.ProductId,
-                Quantity=input.Quantity,
-                Availability=input.Availability,
-            };
+            Inventory newInventory = _mapper.Map<Inventory>(input);
 
             InventoryValidator validator = new();
             validator.ValidateAndThrowException(newInventory);
@@ -39,32 +37,14 @@ namespace IW.Services
             {
                 throw new InventoryNotFoundException(id);
             }
-            var order = await _unitOfWork.Transactions.GetById(inventory.Id);
-            InventoryDto result = new()
-            {
-                Id = id,
-                Availability= inventory.Availability,
-                Quantity = inventory.Quantity,
-                ProductId = inventory.ProductId
-            };
+            InventoryDto result = _mapper.Map<InventoryDto>(inventory);
             return result;
         }
 
         public async Task<IEnumerable<InventoryDto>> GetInventories(int offset, int amount)
         {
             var inventories = await _unitOfWork.Inventories.GetAll(offset, amount);
-            ICollection<InventoryDto> result = new List<InventoryDto>();
-            foreach (var inventory in inventories)
-            {
-                InventoryDto newInventory = new()
-                {
-                    Id = inventory.Id,
-                    Availability = inventory.Availability,
-                    Quantity = inventory.Quantity,
-                    ProductId = inventory.ProductId
-                };
-                result.Add(newInventory);
-            }
+            ICollection<InventoryDto> result = _mapper.Map<List<InventoryDto>>(inventories);
             return result;
         }
 
@@ -74,18 +54,7 @@ namespace IW.Services
                 p => p.Availability == query.Availability ||
                 p.ProductId == query.ProductId
                 , offset, amount);
-            ICollection<InventoryDto> result = new List<InventoryDto>();
-            foreach (var inventory in inventories)
-            {
-                InventoryDto newInventory = new()
-                {
-                    Id = inventory.Id,
-                    Availability = inventory.Availability,
-                    Quantity = inventory.Quantity,
-                    ProductId = inventory.ProductId
-                };
-                result.Add(newInventory);
-            }
+            ICollection<InventoryDto> result = _mapper.Map<List<InventoryDto>>(inventories);
             return result;
         }
 
