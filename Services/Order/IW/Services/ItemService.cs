@@ -5,38 +5,47 @@ using IW.Models.DTOs;
 using IW.Models.DTOs.Item;
 using IW.Models.DTOs.ItemDto;
 using IW.Models.Entities;
+using MapsterMapper;
 
 namespace IW.Services
 {
     public class ItemService : IItemService
     {
         public readonly IUnitOfWork _unitOfWork;
-        public ItemService(IUnitOfWork unitOfWork)
+        private readonly IMapper _mapper;
+        public ItemService(IUnitOfWork unitOfWork, IMapper mapper)
         {
             _unitOfWork = unitOfWork;
+            _mapper = mapper;
         }
 
-        public async Task CreateItem(CreateItem input)
+        public async Task CreateItem(int orderId,CreateItem input)
         {
-            var item = await _unitOfWork.Items.FindByCondition(u => u.Name == input.Name);
-            Order order = await _unitOfWork.Orders.GetById(input.OrderId);
-
-            OrderItem newProduct = new()
-            {
-                Name = input.Name,
-                Order= order,
-                OrderId= input.OrderId,
-                Price= input.Price,
-                ProductId= input.ProductId,
-                Quantity= input.Quantity,
-                SKU= input.SKU,
-                Subtotal= input.Price*input.Quantity
-            };
+            OrderItem newProduct = _mapper.Map<OrderItem>(input);
+            newProduct.OrderId = orderId;
 
             ItemValidator validator = new();
             validator.ValidateAndThrowException(newProduct);
 
             _unitOfWork.Items.Add(newProduct);
+            await _unitOfWork.CompleteAsync();
+        }
+
+        public async Task CreateItems(int orderId,IEnumerable<CreateItem> inputs)
+        {
+            ICollection<OrderItem> items=new List<OrderItem>();
+            ItemValidator validator = new();
+
+            foreach (var input in inputs)
+            {
+                OrderItem newProduct = _mapper.Map<OrderItem>(input);
+                newProduct.OrderId = orderId;
+
+                validator.ValidateAndThrowException(newProduct);
+                items.Add(newProduct);
+            }
+
+            _unitOfWork.Items.AddRange(items);
             await _unitOfWork.CompleteAsync();
         }
 

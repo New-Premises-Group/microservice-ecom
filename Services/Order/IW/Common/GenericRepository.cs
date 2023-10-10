@@ -15,7 +15,7 @@ namespace IW.Common
             dbSet = context.Set<TEntity>();
         }
 
-        public void Add(TEntity entity)
+        public virtual void Add(TEntity entity)
         {
             dbSet.Add(entity);
         }

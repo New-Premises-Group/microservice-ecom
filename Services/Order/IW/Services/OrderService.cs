@@ -1,36 +1,44 @@
 ﻿using IW.Common;
+using IW.MessageBroker;
 using IW.Exceptions.ReadOrderError;
 using IW.Interfaces;
 using IW.Interfaces.Services;
 using IW.Models.DTOs.OrderDto;
 using IW.Models.Entities;
+using MapsterMapper;
+using Mapster;
+using IW.Models.DTOs.Item;
+using IW.Models;
 
 namespace IW.Services
 {
     public class OrderService : IOrderService
     {
         public readonly IUnitOfWork _unitOfWork;
-        public OrderService(IUnitOfWork unitOfWork)
+        private readonly IRabbitMqProducer<OrderCreatedMessage> _producer;
+        private readonly IMapper _mapper;
+        public OrderService(IUnitOfWork unitOfWork, IRabbitMqProducer<OrderCreatedMessage> producer,IMapper mapper)
         {
             _unitOfWork = unitOfWork;
+            _producer = producer;
+            _mapper = mapper;
         }
 
-        public async Task CreateOrder(CreateOrder input)
+        public async Task<int> CreateOrder(CreateOrder input)
         {
-            Order newOrder = new()
-            {
-                Items = input.Items,
-                Date= DateTime.Now,
-                ShippingAddress = input.ShippingAddress,
-                Status=ORDER_STATUS.Confirm,
-                UserId=input.UserId,
-            };
+            Order newOrder = _mapper.Map<Order>(input);
+            newOrder.Date = DateTime.Now.ToUniversalTime();
+            newOrder.Status = ORDER_STATUS.Confirm;
 
             OrderValidator validator = new();
             validator.ValidateAndThrowException(newOrder);
 
             _unitOfWork.Orders.Add(newOrder);
+            _unitOfWork.Items.AddRange(newOrder.Items);
+            var message = newOrder.Adapt<OrderCreatedMessage>();
             await _unitOfWork.CompleteAsync();
+            _producer.Send(nameof(QUEUE_NAME.Order_Placed),message);
+            return newOrder.Id;
         }
 
         public async Task DeleteOrder(int id)
