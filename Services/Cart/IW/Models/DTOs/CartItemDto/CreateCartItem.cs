@@ -18,7 +18,5 @@ namespace IW.Models.DTOs.CartItemDto
 
         [Required]
         public int Quantity { get; set; }
-
-        public decimal Subtotal => Price * Quantity;
     }
 }

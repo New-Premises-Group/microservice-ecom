@@ -1,5 +1,6 @@
 ﻿using FluentValidation;
 using IW.Common;
+using IW.Exceptions.CreateCartError;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using ValidationResult = FluentValidation.Results.ValidationResult;
@@ -16,7 +17,7 @@ namespace IW.Models.Entities
         public ICollection<CartItem>? CartItems { get; set; }
     }
 
-    internal class CartValidator
+    internal class CartValidator : GenericValidator<Cart>
     {
         public CartValidator()
         {
@@ -47,7 +48,7 @@ namespace IW.Models.Entities
                     };
                     validateErrors.Add(detail);
                 }
-                throw new ValidateItemException(validateErrors);
+                throw new ValidateCartException(validateErrors);
             }
         }
     }

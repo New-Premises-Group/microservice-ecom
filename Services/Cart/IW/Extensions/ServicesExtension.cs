@@ -9,6 +9,7 @@ using IW.Models;
 using IW.Repositories;
 using IW.Repository;
 using IW.Services;
+using Mapster;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 
@@ -45,6 +46,7 @@ public static class ServicesExtension
         });
 
         // DI for services
+        builder.Services.AddMapster();
         builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
         builder.Services.AddScoped<ICartService, CartService>();
         builder.Services.AddScoped<ICartRepository, CartRepository>();

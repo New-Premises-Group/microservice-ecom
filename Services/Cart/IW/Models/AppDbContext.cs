@@ -11,13 +11,13 @@ namespace IW.Models
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Cart>()
-            .HasOne<Cart>(s => s.CartId)
+            modelBuilder.Entity<CartItem>()
+            .HasOne<Cart>(s => s.Cart)
             .WithMany(g => g.CartItems)
-            .HasForeignKey(s => s.CartId);
+            .HasForeignKey(s => s.Id);
         }
 
-        public DbSet<Inventory> Inventories { get; set; }
-        public DbSet<Transaction> Transactions { get; set; }
+        public DbSet<Cart> Carts { get; set; }
+        public DbSet<CartItem> CartItems { get; set; }
     }
 }

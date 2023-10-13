@@ -17,7 +17,9 @@ namespace IW.Models.Entities
         public string Description { get; set; }
         public decimal Price { get; set; }
         public int Quantity { get; set; }
-        public decimal Subtotal => Price * Quantity;
+        public int CartId { get; set; }
+        public Cart Cart { get; set; }
+        public decimal Subtotal { get; set; }
     }
 
     internal class CartItemValidator : GenericValidator<CartItem>

@@ -3,29 +3,25 @@ using IW.Interfaces;
 using IW.Interfaces.Services;
 using IW.Models.DTOs.CartItemDto;
 using IW.Models.Entities;
+using MapsterMapper;
 
 namespace IW.Services
 {
     public class CartItemService : ICartItemService
     {
         public readonly IUnitOfWork _unitOfWork;
+        public readonly IMapper _mapper;
 
-        public CartItemService(IUnitOfWork unitOfWork)
+        public CartItemService(IUnitOfWork unitOfWork, IMapper mapper)
         {
             _unitOfWork = unitOfWork;
+            _mapper = mapper;
         }
 
         public async Task CreateCartItem(CreateCartItem input)
         {
             var cart = await _unitOfWork.Carts.GetById(input.Id);
-            CartItem newCartItem = new()
-            {
-                Id = input.Id,
-                Name = input.Name,
-                Description = input.Description,
-                Price = input.Price,
-                Quantity = input.Quantity
-            };
+            CartItem newCartItem = _mapper.Map<CartItem>(cart);
 
             CartItemValidator validator = new();
             validator.ValidateAndThrowException(newCartItem);
@@ -46,19 +42,7 @@ namespace IW.Services
         public async Task<IEnumerable<CartItemDto>> GetCartItems(int offset, int amount)
         {
             var cartItems = await _unitOfWork.CartItems.GetAll(offset, amount);
-            ICollection<CartItemDto> result = new List<CartItemDto>();
-            foreach (var cartItem in cartItems)
-            {
-                CartItemDto item = new()
-                {
-                    Id = cartItem.Id,
-                    Name = cartItem.Name,
-                    Description = cartItem.Description,
-                    Price = cartItem.Price,
-                    Quantity = cartItem.Quantity
-                };
-                result.Add(item);
-            }
+            ICollection<CartItemDto> result = _mapper.Map<List<CartItemDto>>(cartItems);
             return result;
         }
 
@@ -69,14 +53,7 @@ namespace IW.Services
             {
                 throw new CartItemNotFoundException(id);
             }
-            CartItemDto result = new()
-            {
-                Id = cartItem.Id,
-                Name = cartItem.Name,
-                Description = cartItem.Description,
-                Price = cartItem.Price,
-                Quantity = cartItem.Quantity
-            };
+            CartItemDto result = _mapper.Map<CartItemDto>(cartItem);
             return result;
         }
 
@@ -86,19 +63,7 @@ namespace IW.Services
                 c => c.Id == query.Id
                 , offset, amount);
 
-            ICollection<CartItemDto> result = new List<CartItemDto>();
-            foreach (var cartItem in cartItems)
-            {
-                CartItemDto item = new()
-                {
-                    Id = cartItem.Id,
-                    Name = cartItem.Name,
-                    Description = cartItem.Description,
-                    Price = cartItem.Price,
-                    Quantity = cartItem.Quantity
-                };
-                result.Add(item);
-            }
+            ICollection<CartItemDto> result = _mapper.Map<List<CartItemDto>>(cartItems);
             return result;
         }
 
