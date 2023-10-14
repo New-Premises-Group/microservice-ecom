@@ -1,6 +1,5 @@
 ﻿using IW.Configurations;
 using IW.Interfaces;
-using IW.Repository;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using RabbitMQ.Client;
@@ -10,7 +9,7 @@ namespace IW.MessageBroker
 {
     public class RabbitMqProducer<T> : IRabbitMqProducer<T> where T : class
     {
-        ConnectionFactory _connectionFactory;
+        readonly ConnectionFactory _connectionFactory;
         private readonly RabbitMqOptions _options;
         public RabbitMqProducer(IOptions<RabbitMqOptions> options)
         {

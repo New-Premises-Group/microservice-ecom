@@ -2,11 +2,7 @@
 using RabbitMQ.Client;
 using IW.Interfaces;
 using Newtonsoft.Json;
-using IW.Repository;
 using IW.Common;
-using Mapster;
-using IW.Models.Entities;
-using GreenDonut;
 
 namespace IW.MessageBroker
 {
