@@ -44,7 +44,7 @@ namespace IW.Services
             await _unitOfWork.CompleteAsync();
             CreateTransaction transactionDto = _mapper.Map<CreateTransaction>(newInventory);
             transactionDto.Type = TRANSACTION_TYPE.Restock;
-            transactionDto.Inventories = newInventory;
+            transactionDto.Inventory = newInventory;
             transactionDto.InventoryId = newInventory.Id;
             await _transactionService.CreateTransaction(transactionDto);
         }
