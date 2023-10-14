@@ -14,6 +14,7 @@ using IW.Controllers.Mutations;
 using Mapster;
 using MapsterMapper;
 using System.Reflection;
+using IW.MessageBroker;
 
 namespace IW.Extensions;
 
@@ -59,6 +60,6 @@ public static class ServicesExtension
         builder.Services.AddScoped<IInventoryRepository, InventoryRepository>();
         builder.Services.AddScoped<ITransactionService, TransactionService>();
         builder.Services.AddScoped<ITransactionRepository, TransactionRepository>();
-
+        builder.Services.AddScoped<IRabbitMqProducer<OrderConfirmedMessage>, RabbitMqProducer<OrderConfirmedMessage>>();
     }
 }
