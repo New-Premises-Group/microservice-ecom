@@ -10,5 +10,6 @@ namespace IW.Interfaces.Services
         Task UpdateTransaction(int id, UpdateTransaction input);
         Task DeleteTransaction(int id);
         Task CreateTransaction(CreateTransaction input);
+        Task CreateTransactions(ICollection<CreateTransaction> inputs);
     }
 }

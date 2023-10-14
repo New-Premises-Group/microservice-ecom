@@ -61,5 +61,15 @@ namespace IW.Common
             dbSet.RemoveRange(entities);
         }
 
+        public void UpdateRange(ICollection<TEntity> entities)
+        {
+            dbSet.UpdateRange(entities);
+        }
+
+        public virtual void Upsert(TEntity entity)
+        {
+           
+        }
+
     }
 }

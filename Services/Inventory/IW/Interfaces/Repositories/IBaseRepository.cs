@@ -10,6 +10,7 @@ public interface IBaseRepository<TEntity> where TEntity : class
     Task<IEnumerable<TEntity>> FindByConditionToList(Expression<Func<TEntity, bool>> expression, int offset , int amount );
     Task<TEntity?> FindByCondition(Expression<Func<TEntity, bool>> expression);
     void Update(TEntity entity);
+    void UpdateRange(ICollection<TEntity> entities);
     void Add(TEntity entity);
     void AddRange(IEnumerable<TEntity> entities);
     void Remove(TEntity entity);

@@ -3,6 +3,7 @@ using IW.Interfaces;
 using IW.Interfaces.Services;
 using IW.Models.DTOs.TransactionDto;
 using IW.Models.Entities;
+using Mapster;
 using MapsterMapper;
 
 namespace IW.Services
@@ -91,6 +92,12 @@ namespace IW.Services
             if (id.ToString() == String.Empty) return null;
             var Order = await _unitOfWork.Transactions.GetById(id);
             return Order;
+        }
+
+        public async Task CreateTransactions(ICollection<CreateTransaction> inputs)
+        {
+            _unitOfWork.Transactions.AddRange(inputs.Adapt<IEnumerable<Transaction>>());
+            await _unitOfWork.CompleteAsync();
         }
     }
 }
