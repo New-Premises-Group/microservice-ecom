@@ -30,9 +30,9 @@ namespace IW.Common
             dbSet.Update(entity);
         }
 
-        public async Task<IEnumerable<TEntity>> FindByConditionToList(Expression<Func<TEntity, bool>> expression,int offset, int amount)
+        public async Task<ICollection<TEntity>> FindByConditionToList(Expression<Func<TEntity, bool>> expression,int offset, int amount)
         {
-            IEnumerable<TEntity> results= await dbSet.AsNoTracking().Where(expression).Skip(offset).Take(amount).ToListAsync();
+            ICollection<TEntity> results= await dbSet.AsNoTracking().Where(expression).Skip(offset).Take(amount).ToListAsync();
             return results;
         }
 

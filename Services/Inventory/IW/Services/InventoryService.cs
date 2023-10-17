@@ -26,11 +26,13 @@ namespace IW.Services
 
             TypeAdapterConfig<InventoryDto, CreateTransaction>
                 .NewConfig()
-                .Map(dest => dest.Date, _ => DateTime.Now.ToUniversalTime());
+                .Map(dest => dest.Date, _ => DateTime.Now.ToUniversalTime())
+                .Map(dest => dest.InventoryId, src => src.Id);
 
             TypeAdapterConfig<Inventory, CreateTransaction>
                 .NewConfig()
-                .Map(dest => dest.Date, _ => DateTime.Now.ToUniversalTime());
+                .Map(dest => dest.Date, _ => DateTime.Now.ToUniversalTime())
+                .Map(dest => dest.InventoryId, src => src.Id);
         }
 
         public async Task CreateInventory(CreateInventory input)
@@ -42,11 +44,8 @@ namespace IW.Services
 
             _unitOfWork.Inventories.Add(newInventory);
             await _unitOfWork.CompleteAsync();
-            CreateTransaction transactionDto = _mapper.Map<CreateTransaction>(newInventory);
-            transactionDto.Type = TRANSACTION_TYPE.Restock;
-            transactionDto.Inventory = newInventory;
-            transactionDto.InventoryId = newInventory.Id;
-            await _transactionService.CreateTransaction(transactionDto);
+
+            await AttachTransaction(newInventory, TRANSACTION_TYPE.Restock);
         }
 
         public async Task<InventoryDto> GetInventory(int id)
@@ -91,9 +90,7 @@ namespace IW.Services
             _unitOfWork.Inventories.Update(inventory);
             await _unitOfWork.CompleteAsync();
 
-            CreateTransaction transactionDto = _mapper.Map<CreateTransaction>(inventory);
-            transactionDto.Type = TRANSACTION_TYPE.Adjustment;
-            await _transactionService.CreateTransaction(transactionDto);
+            await AttachTransaction(inventory, TRANSACTION_TYPE.Adjustment);
         }
 
         public async Task DeleteInventory(int id)
@@ -117,28 +114,45 @@ namespace IW.Services
             _unitOfWork.Inventories.UpdateRange(inventories.Adapt<ICollection<Inventory>>());
             await _unitOfWork.CompleteAsync();
 
-            TypeAdapterConfig<InventoryDto,CreateTransaction>
-                .NewConfig()
-                .Map(dest=>dest.Type,_=>TRANSACTION_TYPE.Adjustment);
-
-            ICollection<CreateTransaction> transactionDto = _mapper.Map<ICollection<CreateTransaction>>(inventories);
-            await _transactionService.CreateTransactions(transactionDto);
+            await AttachTransaction(inventories, TRANSACTION_TYPE.Adjustment);
         }
 
         public async Task UpdateStocks(ICollection<InventoryDto> inventoryDto,TRANSACTION_TYPE type)
         {
+
             foreach (var item in inventoryDto)
             {
+                _unitOfWork.Inventories.GetId(out int temp, item.Adapt<Inventory>());
+                item.Id = temp;
                 _unitOfWork.Inventories.UpdateQuantity(item.Adapt<Inventory>());
             }
             await _unitOfWork.CompleteAsync();
 
+            await AttachTransaction(inventoryDto, type);
+        }
+
+        private async Task AttachTransaction(ICollection<InventoryDto> inventoryDtos, TRANSACTION_TYPE type)
+        {
             TypeAdapterConfig<InventoryDto, CreateTransaction>
-                .NewConfig()
+                .ForType()
                 .Map(dest => dest.Type, _ => type);
 
-            ICollection<CreateTransaction> transactionDto = _mapper.Map<ICollection<CreateTransaction>>(inventoryDto);
+            ICollection<CreateTransaction> transactionDto = _mapper.Map<ICollection<CreateTransaction>>(inventoryDtos);
             await _transactionService.CreateTransactions(transactionDto);
+        }
+
+        private async Task AttachTransaction(InventoryDto inventoryDto, TRANSACTION_TYPE type)
+        {
+            CreateTransaction transactionDto = _mapper.Map<CreateTransaction>(inventoryDto);
+            transactionDto.Type = type;
+            await _transactionService.CreateTransaction(transactionDto);
+        }
+
+        private async Task AttachTransaction(Inventory inventory, TRANSACTION_TYPE type)
+        {
+            CreateTransaction transactionDto = _mapper.Map<CreateTransaction>(inventory);
+            transactionDto.Type = type;
+            await _transactionService.CreateTransaction(transactionDto);
         }
     }
 }

@@ -28,5 +28,13 @@ namespace IW.Repositories
                         i=>i.Quantity,
                         i=>i.Quantity-inventory.Quantity));
         }
+
+        public void GetId(out int id,Inventory inventory)
+        {
+            id = dbSet
+                .Where(i => i.ProductId == inventory.ProductId)
+                .Select(i => i.Id)
+                .First();
+        }
     }
 }

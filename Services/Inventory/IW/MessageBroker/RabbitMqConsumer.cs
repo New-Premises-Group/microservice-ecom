@@ -5,7 +5,7 @@ using RabbitMQ.Client;
 
 namespace IW.MessageBroker
 {
-    internal sealed class RabbitMqConsumer<T> : IRabbitMqConsumer where T : class
+    internal sealed class RabbitMqConsumer : IRabbitMqConsumer 
     {
         private readonly RabbitMqOptions _options;
         public RabbitMqConsumer(IOptions<RabbitMqOptions> options)

@@ -67,10 +67,10 @@ public static class ServicesExtension
         builder.Services.AddScoped<IItemRepository, ItemRepository>();
         builder.Services.AddScoped<IOrderService, OrderService>();
         builder.Services.AddScoped<IOrderRepository, OrderRepository>();
-        //builder.Services.AddScoped<IRabbitMqConsumer<Order>,RabbitMqConsumer<Order>>();
-        builder.Services.AddSingleton<IRabbitMqConsumer, RabbitMqConsumer<Order>>();
-        builder.Services.AddSingleton<IConsumerService, ConsumerService<Order>>();
-        builder.Services.AddHostedService<ConsumerHostedService>();
+        ////builder.Services.AddScoped<IRabbitMqConsumer<Order>,RabbitMqConsumer<Order>>();
+        //builder.Services.AddSingleton<IRabbitMqConsumer, RabbitMqConsumer<Order>>();
+        //builder.Services.AddSingleton<IConsumerService, ConsumerService<Order>>();
+        //builder.Services.AddHostedService<ConsumerHostedService>();
         builder.Services.AddScoped<IRabbitMqProducer<OrderCreatedMessage>,RabbitMqProducer<OrderCreatedMessage>>();
         builder.Services.AddScoped<IRabbitMqProducer<ItemDto>,RabbitMqProducer<ItemDto>>();
 

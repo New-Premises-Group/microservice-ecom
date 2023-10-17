@@ -15,6 +15,7 @@ using Mapster;
 using MapsterMapper;
 using System.Reflection;
 using IW.MessageBroker;
+using IW.Configurations;
 
 namespace IW.Extensions;
 
@@ -40,6 +41,8 @@ public static class ServicesExtension
         builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer();
         builder.Services.ConfigureOptions<JwtOptionSetup>();
         builder.Services.ConfigureOptions<JwtBearerOptionsSetup>();
+        //Config options for services
+        builder.Services.ConfigureOptions<RabbitMqOptionSetup>();
         builder.Services.AddAuthorization();
 
         // Application database context
@@ -61,5 +64,9 @@ public static class ServicesExtension
         builder.Services.AddScoped<ITransactionService, TransactionService>();
         builder.Services.AddScoped<ITransactionRepository, TransactionRepository>();
         builder.Services.AddScoped<IRabbitMqProducer<OrderConfirmedMessage>, RabbitMqProducer<OrderConfirmedMessage>>();
+        //builder.Services.AddScoped<IRabbitMqConsumer<Order>,RabbitMqConsumer<Order>>()
+        builder.Services.AddSingleton<IRabbitMqConsumer, RabbitMqConsumer>();
+        builder.Services.AddSingleton<IConsumerService, ConsumerService>();
+        builder.Services.AddHostedService<ConsumerHostedService>();
     }
 }
