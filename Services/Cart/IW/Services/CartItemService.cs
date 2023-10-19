@@ -73,6 +73,7 @@ namespace IW.Services
             if (Equals(cartItem, null)) throw new CartItemNotFoundException(id);
 
             cartItem.Id = input.Id;
+            cartItem.Quantity = input.Quantity;
 
             CartItemValidator validator = new();
             validator.ValidateAndThrowException(cartItem);

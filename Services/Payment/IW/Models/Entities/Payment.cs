@@ -1,67 +1,61 @@
 ﻿using FluentValidation;
 using IW.Common;
-using IW.Exceptions.CreateCartItemError;
+using IW.Exceptions.CreatePaymentError;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using ValidationResult = FluentValidation.Results.ValidationResult;
 
 namespace IW.Models.Entities
 {
-    public class CartItem
+    public class Payment
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Id { get; set; }
-        public string Name { get; set; }
-        public string Description { get; set; }
-        public decimal Price { get; set; }
-        public int Quantity { get; set; }
-        public int CartId { get; set; }
-        public Cart Cart { get; set; }
-        public decimal Subtotal { get; set; }
+        public int ID { get; set; }
+
+        public int OrderID { get; set; }
+        public Guid UserID { get; set; }
+        public DateTime Date { get; set; }
+        public PAYMENT_STATUS Status { get; set; }
+        public decimal Amount { get; set; }
+
+        //default is VND
+        public CURRENCY Currency { get; set; }
     }
 
-    internal class CartItemValidator : GenericValidator<CartItem>
+    internal class PaymentValidator : GenericValidator<Payment>
     {
-        public CartItemValidator()
+        public PaymentValidator()
         {
-            RuleFor(x => x.Id)
+            RuleFor(x => x.ID)
                 .NotEmpty()
                 .WithErrorCode($"{VALIDATOR_ERROR_CODE.NotEmpty}")
                 .GreaterThan(0)
                 .WithErrorCode($"{VALIDATOR_ERROR_CODE.GreaterThan}");
-            RuleFor(x => x.Name)
-                .NotEmpty()
-                .WithErrorCode($"{VALIDATOR_ERROR_CODE.NotEmpty}")
-                .Length(1, 100)
-                .WithErrorCode($"{VALIDATOR_ERROR_CODE.Length}")
-                .Matches("^[A-Za-z0-9\\s\\-]*$")
-                .WithErrorCode($"{VALIDATOR_ERROR_CODE.Match}");
-            RuleFor(x => x.Description)
-                .NotEmpty()
-                .WithErrorCode($"{VALIDATOR_ERROR_CODE.NotEmpty}")
-                .Length(1, 100)
-                .WithErrorCode($"{VALIDATOR_ERROR_CODE.Length}")
-                .Matches("^[A-Za-z0-9\\s\\-]*$")
-                .WithErrorCode($"{VALIDATOR_ERROR_CODE.Match}");
-            RuleFor(x => x.Price)
+            RuleFor(x => x.OrderID)
                 .NotEmpty()
                 .WithErrorCode($"{VALIDATOR_ERROR_CODE.NotEmpty}")
                 .GreaterThan(0)
                 .WithErrorCode($"{VALIDATOR_ERROR_CODE.GreaterThan}");
-            RuleFor(x => x.Quantity)
+            RuleFor(x => x.Status)
+                .NotEmpty()
+                .WithErrorCode($"{VALIDATOR_ERROR_CODE.NotEmpty}");
+            RuleFor(x => x.Amount)
                 .NotEmpty()
                 .WithErrorCode($"{VALIDATOR_ERROR_CODE.NotEmpty}")
                 .GreaterThan(0)
                 .WithErrorCode($"{VALIDATOR_ERROR_CODE.GreaterThan}");
+            RuleFor(x => x.Currency)
+                .NotEmpty()
+                .WithErrorCode($"{VALIDATOR_ERROR_CODE.NotEmpty}");
         }
 
-        public void ValidateAndThrowException(CartItem instance)
+        public void ValidateAndThrowException(Payment instance)
         {
             HandleValidateException(instance);
         }
 
-        protected override void HandleValidateException(CartItem instance)
+        protected override void HandleValidateException(Payment instance)
         {
             ValidationResult results = Validate(instance);
             if (!results.IsValid)
@@ -76,7 +70,7 @@ namespace IW.Models.Entities
                     };
                     validateErrors.Add(detail);
                 }
-                throw new ValidateCartItemException(validateErrors);
+                throw new ValidatePaymentException(validateErrors);
             }
         }
     }
