@@ -16,6 +16,12 @@ if (app.Environment.IsDevelopment())
 app.UseAuthentication();
 app.UseAuthorization();
 
+app.UseCors(builder => builder
+.WithOrigins("https://studio.apollographql.com/")
+.AllowAnyMethod()
+.AllowAnyHeader()
+.AllowCredentials());
+
 //app.UseMiddleware<ErrorHandlerMiddleware>();
 
 app.MapGraphQL();
