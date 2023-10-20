@@ -5,7 +5,6 @@ namespace IW.Models.DTOs.PaymentDto
 {
     public class CreatePayment
     {
-        [Required]
         public int ID { get; set; }
         [Required]
         public int OrderID { get; set; }

@@ -39,7 +39,9 @@ namespace IW.Models.Entities
                 .WithErrorCode($"{VALIDATOR_ERROR_CODE.GreaterThan}");
             RuleFor(x => x.Status)
                 .NotEmpty()
-                .WithErrorCode($"{VALIDATOR_ERROR_CODE.NotEmpty}");
+                .WithErrorCode($"{VALIDATOR_ERROR_CODE.NotEmpty}")
+                .IsInEnum()
+                .WithErrorCode($"{VALIDATOR_ERROR_CODE.IsInEnum}");
             RuleFor(x => x.Amount)
                 .NotEmpty()
                 .WithErrorCode($"{VALIDATOR_ERROR_CODE.NotEmpty}")
@@ -47,7 +49,9 @@ namespace IW.Models.Entities
                 .WithErrorCode($"{VALIDATOR_ERROR_CODE.GreaterThan}");
             RuleFor(x => x.Currency)
                 .NotEmpty()
-                .WithErrorCode($"{VALIDATOR_ERROR_CODE.NotEmpty}");
+                .WithErrorCode($"{VALIDATOR_ERROR_CODE.NotEmpty}")
+                .IsInEnum()
+                .WithErrorCode($"{VALIDATOR_ERROR_CODE.IsInEnum}");
         }
 
         public void ValidateAndThrowException(Payment instance)

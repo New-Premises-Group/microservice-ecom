@@ -17,10 +17,10 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.UseCors(builder => builder
-.WithOrigins("https://studio.apollographql.com/")
-.AllowAnyMethod()
-.AllowAnyHeader()
-.AllowCredentials());
+    .WithOrigins("https://studio.apollographql.com", "http://localhost:3000") // Add your allowed origins here
+    .AllowAnyMethod()
+    .AllowAnyHeader()
+    .AllowCredentials());
 
 //app.UseMiddleware<ErrorHandlerMiddleware>();
 
