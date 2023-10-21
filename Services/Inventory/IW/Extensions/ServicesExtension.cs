@@ -34,6 +34,7 @@ public static class ServicesExtension
                 .AddTypeExtension<TransactionMutation>()
             .AddMutationConventions(applyToAllMutations: true)
             .AddAuthorization();
+
         //Swagger
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
@@ -58,6 +59,7 @@ public static class ServicesExtension
         // register the mapper as Singleton service 
         var mapperConfig = new Mapper(typeAdapterConfig);
         builder.Services.AddSingleton<IMapper>(mapperConfig);
+
         builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
         builder.Services.AddScoped<IInventoryService,InventoryService>();
         builder.Services.AddScoped<IInventoryRepository, InventoryRepository>();
