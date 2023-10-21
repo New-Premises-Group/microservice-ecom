@@ -56,7 +56,7 @@ namespace IW.Models.Entities
                 List<ValidateErrorDetail> validateErrors = new();
                 foreach (var failure in results.Errors)
                 {
-                    ValidateErrorDetail detail = new ValidateErrorDetail()
+                    ValidateErrorDetail detail = new ()
                     {
                         Property = failure.PropertyName,
                         Error = failure.ErrorMessage
