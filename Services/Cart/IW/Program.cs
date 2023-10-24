@@ -16,6 +16,11 @@ if (app.Environment.IsDevelopment())
 app.UseAuthentication();
 app.UseAuthorization();
 
+app.UseCors(builder => builder
+    .WithOrigins("https://studio.apollographql.com", "http://localhost:3000", "http://localhost:8080") // Add your allowed origins here
+    .AllowAnyMethod()
+    .AllowAnyHeader()
+    .AllowCredentials());
 //app.UseMiddleware<ErrorHandlerMiddleware>();
 
 app.MapGraphQL();
