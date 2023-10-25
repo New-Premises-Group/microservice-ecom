@@ -38,8 +38,6 @@ namespace IW.Models.Entities
                 .GreaterThan(0)
                 .WithErrorCode($"{VALIDATOR_ERROR_CODE.GreaterThan}");
             RuleFor(x => x.Status)
-                .NotEmpty()
-                .WithErrorCode($"{VALIDATOR_ERROR_CODE.NotEmpty}")
                 .IsInEnum()
                 .WithErrorCode($"{VALIDATOR_ERROR_CODE.IsInEnum}");
             RuleFor(x => x.Amount)
@@ -48,8 +46,6 @@ namespace IW.Models.Entities
                 .GreaterThan(0)
                 .WithErrorCode($"{VALIDATOR_ERROR_CODE.GreaterThan}");
             RuleFor(x => x.Currency)
-                .NotEmpty()
-                .WithErrorCode($"{VALIDATOR_ERROR_CODE.NotEmpty}")
                 .IsInEnum()
                 .WithErrorCode($"{VALIDATOR_ERROR_CODE.IsInEnum}");
         }

@@ -1,4 +1,5 @@
-﻿using IW.Exceptions.ReadPaymentError;
+﻿using IW.Common;
+using IW.Exceptions.ReadPaymentError;
 using IW.Interfaces;
 using IW.Interfaces.Services;
 using IW.Models.DTOs.PaymentDto;
@@ -21,6 +22,10 @@ namespace IW.Services
         public async Task CreatePayment(CreatePayment input)
         {
             Payment payment = _mapper.Map<Payment>(input);
+            Enum.TryParse(input.Status.ToString(), out PAYMENT_STATUS status);
+            payment.Status = status;
+            Enum.TryParse(input.Currency.ToString(), out CURRENCY currency);
+            payment.Currency = currency;
 
             PaymentValidator validator = new();
             validator.ValidateAndThrowException(payment);
