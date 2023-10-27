@@ -1,0 +1,59 @@
+[
+  {
+    'name': 'Order',
+    'definition':
+      {
+        'url': 'http://host.docker.internal:32772/graphql',
+        'timeout_seconds': 60,
+        'customization': { 'type_names': { 'mapping': {}, 'prefix': 'order' } },
+        'forward_client_headers': true,
+      },
+    'comment': '',
+  },
+  {
+    'name': 'Product',
+    'definition':
+      {
+        'url': 'http://host.docker.internal:32774/graphql',
+        'timeout_seconds': 60,
+        'customization':
+          { 'type_names': { 'mapping': {}, 'prefix': 'product' } },
+        'forward_client_headers': true,
+      },
+    'comment': '',
+  },
+  {
+    'name': 'User',
+    'definition':
+      {
+        'url': 'http://host.docker.internal:32770/graphql',
+        'timeout_seconds': 60,
+        'customization': { 'type_names': { 'mapping': {}, 'prefix': 'user' } },
+        'forward_client_headers': true,
+      },
+    'comment': '',
+  },
+  {
+    'name': 'Inventory',
+    'definition':
+      {
+        'url': 'http://host.docker.internal:32776/graphql',
+        'timeout_seconds': 60,
+        'customization':
+          { 'type_names': { 'mapping': {}, 'prefix': 'inventory' } },
+        'forward_client_headers': true,
+      },
+    'comment': '',
+  },
+  {
+    'name': 'Cart',
+    'definition':
+      {
+        'url': 'http://host.docker.internal:32778/graphql',
+        'timeout_seconds': 60,
+        'customization': { 'type_names': { 'mapping': {}, 'prefix': 'cart' } },
+        'forward_client_headers': true,
+      },
+    'comment': '',
+  },
+]
