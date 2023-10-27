@@ -9,8 +9,16 @@ using IW.Authentication;
 using IW.Interfaces.Repositories;
 using IW.Interfaces.Services;
 using IW.Exceptions;
-using IW.Controllers.Queries;
-using IW.Controllers.Mutations;
+using IW.MessageBroker.Queries;
+using IW.MessageBroker.Mutations;
+using IW.Configurations;
+using IW.MessageBroker;
+using Mapster;
+using IW.Models.DTOs.OrderDto;
+using IW.Models.DTOs.Item;
+using MapsterMapper;
+using System.Reflection;
+using IW.Models.Entities;
 
 namespace IW.Extensions;
 
@@ -34,7 +42,10 @@ public static class ServicesExtension
         builder.Services.AddSwaggerGen();
 
         builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer();
+
+        //Config options for services
         builder.Services.ConfigureOptions<JwtOptionSetup>();
+        builder.Services.ConfigureOptions<RabbitMqOptionSetup>();
         builder.Services.ConfigureOptions<JwtBearerOptionsSetup>();
         builder.Services.AddAuthorization();
 
@@ -45,11 +56,23 @@ public static class ServicesExtension
         });
 
         // DI for services
+        var typeAdapterConfig = TypeAdapterConfig.GlobalSettings;
+        // scans the assembly and gets the IRegister, adding the registration to the TypeAdapterConfig
+        typeAdapterConfig.Scan(Assembly.GetExecutingAssembly());
+        // register the mapper as Singleton service 
+        var mapperConfig = new Mapper(typeAdapterConfig);
+        builder.Services.AddSingleton<IMapper>(mapperConfig);
         builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
         builder.Services.AddScoped<IItemService,ItemService>();
         builder.Services.AddScoped<IItemRepository, ItemRepository>();
         builder.Services.AddScoped<IOrderService, OrderService>();
         builder.Services.AddScoped<IOrderRepository, OrderRepository>();
+        ////builder.Services.AddScoped<IRabbitMqConsumer<Order>,RabbitMqConsumer<Order>>();
+        //builder.Services.AddSingleton<IRabbitMqConsumer, RabbitMqConsumer<Order>>();
+        //builder.Services.AddSingleton<IConsumerService, ConsumerService<Order>>();
+        //builder.Services.AddHostedService<ConsumerHostedService>();
+        builder.Services.AddScoped<IRabbitMqProducer<OrderCreatedMessage>,RabbitMqProducer<OrderCreatedMessage>>();
+        builder.Services.AddScoped<IRabbitMqProducer<ItemDto>,RabbitMqProducer<ItemDto>>();
 
     }
 }

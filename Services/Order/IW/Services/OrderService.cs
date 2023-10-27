@@ -1,36 +1,44 @@
 ﻿using IW.Common;
+using IW.MessageBroker;
 using IW.Exceptions.ReadOrderError;
 using IW.Interfaces;
 using IW.Interfaces.Services;
 using IW.Models.DTOs.OrderDto;
 using IW.Models.Entities;
+using MapsterMapper;
+using Mapster;
+using IW.Models.DTOs.Item;
+using IW.Models;
 
 namespace IW.Services
 {
     public class OrderService : IOrderService
     {
         public readonly IUnitOfWork _unitOfWork;
-        public OrderService(IUnitOfWork unitOfWork)
+        private readonly IRabbitMqProducer<OrderCreatedMessage> _producer;
+        private readonly IMapper _mapper;
+        public OrderService(IUnitOfWork unitOfWork, IRabbitMqProducer<OrderCreatedMessage> producer,IMapper mapper)
         {
             _unitOfWork = unitOfWork;
+            _producer = producer;
+            _mapper = mapper;
         }
 
-        public async Task CreateOrder(CreateOrder input)
+        public async Task<int> CreateOrder(CreateOrder input)
         {
-            Order newOrder = new()
-            {
-                Items = input.Items,
-                Date= DateTime.Now,
-                ShippingAddress = input.ShippingAddress,
-                Status=ORDER_STATUS.Confirm,
-                UserId=input.UserId,
-            };
+            Order newOrder = _mapper.Map<Order>(input);
+            newOrder.Date = DateTime.Now.ToUniversalTime();
+            newOrder.Status = ORDER_STATUS.Confirm;
 
             OrderValidator validator = new();
             validator.ValidateAndThrowException(newOrder);
 
             _unitOfWork.Orders.Add(newOrder);
+            _unitOfWork.Items.AddRange(newOrder.Items);
+            var message = newOrder.Adapt<OrderCreatedMessage>();
             await _unitOfWork.CompleteAsync();
+            _producer.Send(nameof(QUEUE_NAME.Order_Placed),message);
+            return newOrder.Id;
         }
 
         public async Task DeleteOrder(int id)
@@ -45,21 +53,7 @@ namespace IW.Services
         public async Task<IEnumerable<OrderDto>> GetOrders(int offset,int amount )
         {
             var orders = await _unitOfWork.Orders.GetAll(offset,amount);
-            ICollection<OrderDto> result = new List<OrderDto>();
-            foreach (var order in orders)
-            {
-                OrderDto item = new()
-                {
-                    Id = order.Id,
-                    UserId = order.UserId,
-                    Status = order.Status,
-                    ShippingAddress= order.ShippingAddress,
-                    Date= order.Date,
-                    Items = order.Items
-                    
-                };
-                result.Add(item);
-            }
+            ICollection<OrderDto> result = _mapper.Map<List<OrderDto>>(orders);
             return result;
         }
 
@@ -70,15 +64,7 @@ namespace IW.Services
             {
                 throw new OrderNotFoundException(id);
             }
-            OrderDto result = new()
-            {
-                Id = id,
-                Date = order.Date,
-                Items= order.Items,
-                ShippingAddress = order.ShippingAddress,
-                Status = order.Status,
-                UserId = order.UserId
-            };
+            OrderDto result = _mapper.Map<OrderDto>(order);
             return result;
         }
 
@@ -90,21 +76,7 @@ namespace IW.Services
                 o.Date ==query.Date
                 , offset, amount);
 
-            ICollection<OrderDto> result = new List<OrderDto>();
-            foreach (var order in orders)
-            {
-                OrderDto item = new()
-                {
-                    Id = order.Id,
-                    UserId = order.UserId,
-                    Status = order.Status,
-                    ShippingAddress = order.ShippingAddress,
-                    Date = order.Date,
-                    Items = order.Items
-
-                };
-                result.Add(item);
-            }
+            ICollection<OrderDto> result = _mapper.Map<List<OrderDto>>(orders);
             return result;
         }
 

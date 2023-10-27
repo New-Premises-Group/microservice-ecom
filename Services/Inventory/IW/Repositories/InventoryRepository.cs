@@ -1,7 +1,9 @@
 ﻿using IW.Common;
 using IW.Interfaces;
 using IW.Models;
+using IW.Models.DTOs.Inventory;
 using IW.Models.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace IW.Repositories
 {
@@ -11,9 +13,28 @@ namespace IW.Repositories
         {
         }
 
-        //public override async Task<OrderItem?> FindByCondition(Expression<Func<OrderItem, bool>> expression)
-        //{
-        //    return await dbSet.Where(expression).Include(u=>u.Category).FirstOrDefaultAsync();
-        //}
+        public override void Upsert(Inventory inventory)
+        {
+            dbSet.Entry(inventory).State=inventory.Id==0?EntityState.Added:EntityState.Modified;
+        }
+
+        public void UpdateQuantity(Inventory inventory)
+        {
+            dbSet
+                .Where(
+                    i=>i.ProductId==inventory.ProductId)
+                .ExecuteUpdate(
+                    i=>i.SetProperty(
+                        i=>i.Quantity,
+                        i=>i.Quantity-inventory.Quantity));
+        }
+
+        public void GetId(out int id,Inventory inventory)
+        {
+            id = dbSet
+                .Where(i => i.ProductId == inventory.ProductId)
+                .Select(i => i.Id)
+                .First();
+        }
     }
 }

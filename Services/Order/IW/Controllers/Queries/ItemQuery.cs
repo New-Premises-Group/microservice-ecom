@@ -4,7 +4,7 @@ using IW.Interfaces;
 using IW.Models.DTOs.Item;
 using IW.Models.DTOs.ItemDto;
 
-namespace IW.Controllers.Queries
+namespace IW.MessageBroker.Queries
 {
     [ExtendObjectType("Query")]
     [Authorize]

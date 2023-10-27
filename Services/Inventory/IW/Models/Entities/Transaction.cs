@@ -18,7 +18,7 @@ namespace IW.Models.Entities
         [Column(TypeName = "varchar(15)")]
         public TRANSACTION_TYPE Type { get; set; }
         public int Quantity { get; set; }
-        public string Note { get; set; }
+        public string? Note { get; set; }
     }
 
     internal class TransactionValidator : GenericValidator<Transaction>
@@ -44,8 +44,6 @@ namespace IW.Models.Entities
                 .NotEmpty()
                 .WithErrorCode($"{VALIDATOR_ERROR_CODE.NotEmpty}");
             RuleFor(x => x.Note)
-                .NotEmpty()
-                .WithErrorCode($"{VALIDATOR_ERROR_CODE.NotEmpty}")
                 .MaximumLength(200)
                 .WithErrorCode($"{VALIDATOR_ERROR_CODE.MaxLength}");
         }

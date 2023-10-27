@@ -1,10 +1,11 @@
 ﻿using HotChocolate.Authorization;
 using IW.Common;
 using IW.Exceptions.CreateOrderError;
+using IW.Interfaces;
 using IW.Interfaces.Services;
 using IW.Models.DTOs.OrderDto;
 
-namespace IW.Controllers.Mutations
+namespace IW.MessageBroker.Mutations
 {
     [ExtendObjectType("Mutation")]
     [Authorize]
@@ -13,7 +14,7 @@ namespace IW.Controllers.Mutations
         [Error(typeof(CreateOrderErrorFactory))]
         public async Task<OrderCreatedPayload> CreateOrder(CreateOrder input, [Service] IOrderService orderService)
         {
-            await orderService.CreateOrder(input);
+            int orderId=await orderService.CreateOrder(input);
             var payload = new OrderCreatedPayload()
             {
                 Message = "Order successfully created"

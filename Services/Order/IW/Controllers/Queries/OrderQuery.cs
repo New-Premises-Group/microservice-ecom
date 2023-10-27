@@ -3,7 +3,7 @@ using IW.Common;
 using IW.Interfaces.Services;
 using IW.Models.DTOs.OrderDto;
 
-namespace IW.Controllers.Queries
+namespace IW.MessageBroker.Queries
 {
     [ExtendObjectType("Query")]
     [Authorize]

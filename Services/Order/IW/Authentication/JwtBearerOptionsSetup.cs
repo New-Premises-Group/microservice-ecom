@@ -33,7 +33,6 @@ namespace IW.Authentication
         {
             options.TokenValidationParameters = new()
             {
-
                 ValidateIssuer = true,
                 ValidateAudience = true,
                 ValidateLifetime = true,

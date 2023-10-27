@@ -8,9 +8,8 @@ namespace IW.Models.DTOs.OrderDto
         [Required]
         public Guid UserId { get; set; }
         [Required]
-        public DateTime Date { get; set; }
-        [Required]
         public string ShippingAddress { get; set; }
-        public ICollection<OrderItem>? Items { get; set; }
+        [Required]
+        public IEnumerable<CreateItem> Items { get; set; }
     }
 }
