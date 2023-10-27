@@ -1,9 +1,11 @@
 ﻿using IW.Exceptions.ReadProductError;
 using IW.Interfaces;
 using IW.Models.DTOs;
+using IW.Models.DTOs.CategoryDto;
 using IW.Models.DTOs.Product;
 using IW.Models.DTOs.ProductDto;
 using IW.Models.Entities;
+using Mapster;
 
 namespace IW.Services
 {
@@ -20,16 +22,8 @@ namespace IW.Services
             var product = await _unitOfWork.Products.FindByCondition(u => u.Name == input.Name);
             Category category =  await _unitOfWork.Categories.GetById(input.CategoryId);
 
-            Product newProduct = new()
-            {
-                Name = input.Name,
-                Description = input.Description,
-                Images = input.Images,
-                Price = input.Price,
-                SKU = input.SKU,
-                CategoryId= input.CategoryId,
-                Category= category
-            };
+            Product newProduct = input.Adapt<Product>();
+            newProduct.Category = category;
 
             ProductValidator validator = new();
             validator.ValidateAndThrowException(newProduct);
@@ -38,47 +32,23 @@ namespace IW.Services
             await _unitOfWork.CompleteAsync();
         }
 
-        public async Task<ProductDto> GetProduct(int id)
+        public async Task<ProductDto?> GetProduct(int id)
         {
             var product = await ProductExist(id);
             if (Equals(product, null))
             {
                 throw new ProductNotFoundException(id);
             }
-            var category = await _unitOfWork.Categories.GetById(product.Id);
-            ProductDto result = new()
-            {
-                Id = id,
-                Name = product.Name,
-                Category=category,
-                CategoryId = product.CategoryId,
-                Description = product.Description,
-                Images= product.Images,
-                Price= product.Price,
-                SKU = product.SKU,
-            };
+            var category = await _unitOfWork.Categories.GetById(product.CategoryId);
+            ProductDto result = product.Adapt<ProductDto>();
+            result.Category = category.Adapt<CategoryDto>();
             return result;
         }
 
         public async Task<IEnumerable<ProductDto>> GetProducts(int offset, int amount)
         {
             var products = await _unitOfWork.Products.GetAll(offset, amount);
-            ICollection<ProductDto> result = new List<ProductDto>();
-            foreach (var product in products)
-            {
-                ProductDto item = new()
-                {
-                    Id= product.Id,
-                    Name = product.Name,
-                    Description = product.Description,
-                    Images= product.Images,
-                    Price= product.Price,
-                    SKU= product.SKU,
-                    Category=product.Category,
-                    CategoryId= product.CategoryId,
-                };
-                result.Add(item);
-            }
+            ICollection<ProductDto> result = products.Adapt<ICollection<ProductDto>>();
             return result;
         }
 
@@ -88,22 +58,7 @@ namespace IW.Services
                 p => p.Name == query.Name ||
                 p.CategoryId==query.CategoryId
                 , offset, amount);
-            ICollection<ProductDto> result = new List<ProductDto>();
-            foreach (var product in products)
-            {
-                ProductDto item = new()
-                {
-                    Id = product.Id,
-                    Images = product.Images,
-                    CategoryId = product.CategoryId,
-                    Description = product.Description,
-                    Category = product.Category,
-                    Price= product.Price,
-                    SKU= product.SKU,
-                    Name = product.Name
-                };
-                result.Add(item);
-            }
+            ICollection<ProductDto> result = products.Adapt<ICollection<ProductDto>>();
             return result;
         }
 

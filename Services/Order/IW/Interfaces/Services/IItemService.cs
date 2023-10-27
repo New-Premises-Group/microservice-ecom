@@ -6,7 +6,8 @@ namespace IW.Interfaces
 {
     public interface IItemService
     {
-        Task CreateItem(CreateItem input);
+        Task CreateItem(int orderId, CreateItem input);
+        Task CreateItems(int orderId,IEnumerable<CreateItem> items);
         Task<ItemDto> GetItem(int id);
         Task<IEnumerable<ItemDto>> GetItems(int offset, int amount);
         Task<IEnumerable<ItemDto>> GetItems(GetItem query, int offset , int amount );

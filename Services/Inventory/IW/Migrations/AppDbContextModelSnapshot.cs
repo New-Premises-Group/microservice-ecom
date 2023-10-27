@@ -59,7 +59,6 @@ namespace IW.Migrations
                         .HasColumnType("integer");
 
                     b.Property<string>("Note")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<int>("Quantity")

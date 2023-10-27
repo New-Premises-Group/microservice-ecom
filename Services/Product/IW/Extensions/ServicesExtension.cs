@@ -11,6 +11,9 @@ using IW.Interfaces.Services;
 using IW.Exceptions;
 using IW.Controllers.Queries;
 using IW.Controllers.Mutations;
+using Mapster;
+using MapsterMapper;
+using System.Reflection;
 
 namespace IW.Extensions;
 
@@ -44,9 +47,24 @@ public static class ServicesExtension
             options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"));
         });
 
+        // Redis cache database
+        builder.Services.AddStackExchangeRedisCache(redisOptions =>
+        {
+            string connection = builder.Configuration.GetConnectionString("Redis");
+            redisOptions.Configuration = connection;
+        });
+
         // DI for services
+        var typeAdapterConfig = TypeAdapterConfig.GlobalSettings;
+        // scans the assembly and gets the IRegister, adding the registration to the TypeAdapterConfig
+        typeAdapterConfig.Scan(Assembly.GetExecutingAssembly());
+        // register the mapper as Singleton service 
+        var mapperConfig = new Mapper(typeAdapterConfig);
+        builder.Services.AddSingleton<IMapper>(mapperConfig);
+
         builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
-        builder.Services.AddScoped<IProductService,ProductService>();
+        builder.Services.AddScoped<ProductService>();
+        builder.Services.AddScoped<IProductService,CachedProductService>();
         builder.Services.AddScoped<IProductRepository, ProductRepository>();
         builder.Services.AddScoped<ICategoryService, CategoryService>();
         builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();

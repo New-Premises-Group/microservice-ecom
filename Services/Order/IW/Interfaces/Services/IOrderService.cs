@@ -9,6 +9,6 @@ namespace IW.Interfaces.Services
         Task<IEnumerable<OrderDto>> GetOrders(GetOrder query, int offset, int amount);
         Task UpdateOrder(int id, UpdateOrder input);
         Task DeleteOrder(int id);
-        Task CreateOrder(CreateOrder input);
+        Task<int> CreateOrder(CreateOrder input);
     }
 }

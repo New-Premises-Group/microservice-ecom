@@ -11,6 +11,11 @@ using IW.Interfaces.Services;
 using IW.Exceptions;
 using IW.Controllers.Queries;
 using IW.Controllers.Mutations;
+using Mapster;
+using MapsterMapper;
+using System.Reflection;
+using IW.MessageBroker;
+using IW.Configurations;
 
 namespace IW.Extensions;
 
@@ -29,6 +34,7 @@ public static class ServicesExtension
                 .AddTypeExtension<TransactionMutation>()
             .AddMutationConventions(applyToAllMutations: true)
             .AddAuthorization();
+
         //Swagger
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
@@ -36,6 +42,8 @@ public static class ServicesExtension
         builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer();
         builder.Services.ConfigureOptions<JwtOptionSetup>();
         builder.Services.ConfigureOptions<JwtBearerOptionsSetup>();
+        //Config options for services
+        builder.Services.ConfigureOptions<RabbitMqOptionSetup>();
         builder.Services.AddAuthorization();
 
         // Application database context
@@ -45,11 +53,22 @@ public static class ServicesExtension
         });
 
         // DI for services
+        var typeAdapterConfig = TypeAdapterConfig.GlobalSettings;
+        // scans the assembly and gets the IRegister, adding the registration to the TypeAdapterConfig
+        typeAdapterConfig.Scan(Assembly.GetExecutingAssembly());
+        // register the mapper as Singleton service 
+        var mapperConfig = new Mapper(typeAdapterConfig);
+        builder.Services.AddSingleton<IMapper>(mapperConfig);
+
         builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
         builder.Services.AddScoped<IInventoryService,InventoryService>();
         builder.Services.AddScoped<IInventoryRepository, InventoryRepository>();
         builder.Services.AddScoped<ITransactionService, TransactionService>();
         builder.Services.AddScoped<ITransactionRepository, TransactionRepository>();
-
+        builder.Services.AddScoped<IRabbitMqProducer<OrderConfirmedMessage>, RabbitMqProducer<OrderConfirmedMessage>>();
+        //builder.Services.AddScoped<IRabbitMqConsumer<Order>,RabbitMqConsumer<Order>>()
+        builder.Services.AddSingleton<IRabbitMqConsumer, RabbitMqConsumer>();
+        builder.Services.AddSingleton<IConsumerService, ConsumerService>();
+        builder.Services.AddHostedService<ConsumerHostedService>();
     }
 }

@@ -5,16 +5,16 @@ using IW.Exceptions.CreateItemError;
 using IW.Models.DTOs.Item;
 using IW.Models.DTOs;
 
-namespace IW.Controllers.Mutations
+namespace IW.MessageBroker.Mutations
 {
     [ExtendObjectType("Mutation")]
     [Authorize]
     public class ItemMutation
     {
         [Error(typeof(CreateItemErrorFactory))]
-        public async Task<ItemCreatedPayload> CreateItem(CreateItem input, [Service] IItemService itemService)
+        public async Task<ItemCreatedPayload> CreateItem(int orderId,CreateItem input, [Service] IItemService itemService)
         {
-            await itemService.CreateItem(input);
+            await itemService.CreateItem(orderId,input);
             var payload = new ItemCreatedPayload()
             {
                 Message = "Item successfully created"

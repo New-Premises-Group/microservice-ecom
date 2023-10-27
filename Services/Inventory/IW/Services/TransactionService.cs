@@ -3,34 +3,33 @@ using IW.Interfaces;
 using IW.Interfaces.Services;
 using IW.Models.DTOs.TransactionDto;
 using IW.Models.Entities;
+using Mapster;
+using MapsterMapper;
 
 namespace IW.Services
 {
     public class TransactionService : ITransactionService
     {
         public readonly IUnitOfWork _unitOfWork;
-        public TransactionService(IUnitOfWork unitOfWork)
+        public readonly IMapper _mapper;
+        public TransactionService(IUnitOfWork unitOfWork,IMapper mapper)
         {
             _unitOfWork = unitOfWork;
+            _mapper = mapper;
         }
 
         public async Task CreateTransaction(CreateTransaction input)
         {
             var inventory = await _unitOfWork.Inventories.GetById(input.InventoryId);
-            Transaction newTransaction = new()
-            {
-                InventoryId = input.InventoryId,
-                Note = input.Note,
-                Quantity = input.Quantity,
-                Type = input.Type,
-                Date= DateTime.Now,
-                Inventory= inventory
-            };
+
+            Transaction transaction= _mapper.Map<Transaction>(input);
+            transaction.Date= DateTime.Now.ToUniversalTime();
+            transaction.Inventory = inventory;
 
             TransactionValidator validator = new();
-            validator.ValidateAndThrowException(newTransaction);
+            validator.ValidateAndThrowException(transaction);
 
-            _unitOfWork.Transactions.Add(newTransaction);
+            _unitOfWork.Transactions.Add(transaction);
             await _unitOfWork.CompleteAsync();
         }
 
@@ -46,21 +45,7 @@ namespace IW.Services
         public async Task<IEnumerable<TransactionDto>> GetTransactions(int offset,int amount )
         {
             var transactions = await _unitOfWork.Transactions.GetAll(offset,amount);
-            ICollection<TransactionDto> result = new List<TransactionDto>();
-            foreach (var transaction in transactions)
-            {
-                TransactionDto item = new()
-                {
-                    Id = transaction.Id,
-                    InventoryId = transaction.InventoryId,
-                    Date= transaction.Date,
-                    Note = transaction.Note,
-                    Quantity= transaction.Quantity,
-                    Type = transaction.Type,
-                    
-                };
-                result.Add(item);
-            }
+            ICollection<TransactionDto> result = _mapper.Map<List<TransactionDto>>(transactions);
             return result;
         }
 
@@ -71,15 +56,7 @@ namespace IW.Services
             {
                 throw new TransactionNotFoundException(id);
             }
-            TransactionDto result = new()
-            {
-                Id = id,
-                InventoryId = transaction.InventoryId,
-                Date = transaction.Date,
-                Note = transaction.Note,
-                Quantity = transaction.Quantity,
-                Type = transaction.Type,
-            };
+            TransactionDto result = _mapper.Map<TransactionDto>(transaction);
             return result;
         }
 
@@ -91,21 +68,7 @@ namespace IW.Services
                 o.Type ==query.Type
                 , offset, amount);
 
-            ICollection<TransactionDto> result = new List<TransactionDto>();
-            foreach (var transaction in transactions)
-            {
-                TransactionDto item = new()
-                {
-                    Id = transaction.Id,
-                    InventoryId = transaction.InventoryId,
-                    Date = transaction.Date,
-                    Note = transaction.Note,
-                    Quantity = transaction.Quantity,
-                    Type = transaction.Type,
-
-                };
-                result.Add(item);
-            }
+            ICollection<TransactionDto> result = _mapper.Map<List<TransactionDto>>(transactions);
             return result;
         }
 
@@ -129,6 +92,12 @@ namespace IW.Services
             if (id.ToString() == String.Empty) return null;
             var Order = await _unitOfWork.Transactions.GetById(id);
             return Order;
+        }
+
+        public async Task CreateTransactions(ICollection<CreateTransaction> inputs)
+        {
+            _unitOfWork.Transactions.AddRange(inputs.Adapt<IEnumerable<Transaction>>());
+            await _unitOfWork.CompleteAsync();
         }
     }
 }

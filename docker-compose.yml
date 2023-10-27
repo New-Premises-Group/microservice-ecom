@@ -1,0 +1,37 @@
+version: '3.8'
+
+services:
+  user:
+    restart: unless-stopped
+    image: hifam/user-service:main
+    ports:
+      - 32770:80
+      - 32771:403
+
+  order:
+    restart: unless-stopped
+    image: hifam/order-service:main
+    ports:
+      - 32772:80
+      - 32773:403
+
+  product:
+    restart: unless-stopped
+    image: hifam/product-service:main
+    ports:
+      - 32774:80
+      - 32775:403
+
+  inventory:
+    restart: unless-stopped
+    image: hifam/inventory-service:main
+    ports:
+      - 32776:80
+      - 32777:403
+
+  cart:
+    restart: unless-stopped
+    image: hifam/cart-service:main
+    ports:
+      - 32778:80
+      - 32779:403
