@@ -11,5 +11,7 @@ namespace IW.Models.DTOs.PaymentDto
         public PAYMENT_STATUS? Status { get; set; }
         public decimal? Amount { get; set; }
         public CURRENCY? Currency { get; set; }
+        public PAYMENT_TYPE? PaymentMethod { get; set; }
+        public string? TransactionsReference { get; set; }
     }
 }

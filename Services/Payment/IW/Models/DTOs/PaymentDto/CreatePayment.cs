@@ -23,5 +23,11 @@ namespace IW.Models.DTOs.PaymentDto
 
         [DefaultValue("VND")]
         public CURRENCY Currency { get; set; }
+
+        [DefaultValue("Cash")]
+        public PAYMENT_TYPE PaymentMethod { get; set; }
+
+        [Required]
+        public string TransactionsReference { get; set; }
     }
 }

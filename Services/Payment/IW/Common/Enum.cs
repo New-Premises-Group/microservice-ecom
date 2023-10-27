@@ -42,4 +42,10 @@
         VND,
         USD
     }
+
+    public enum PAYMENT_TYPE
+    {
+        Transactions,
+        Cash
+    }
 }

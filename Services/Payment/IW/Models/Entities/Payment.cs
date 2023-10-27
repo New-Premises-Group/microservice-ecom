@@ -12,15 +12,16 @@ namespace IW.Models.Entities
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int ID { get; set; }
-
         public int OrderID { get; set; }
         public Guid UserID { get; set; }
         public DateTime Date { get; set; }
         public PAYMENT_STATUS Status { get; set; }
         public decimal Amount { get; set; }
-
         //default is VND
         public CURRENCY Currency { get; set; }
+        public PAYMENT_TYPE PaymentMethod { get; set; }
+        public string TransactionsReference { get; set; }
+
     }
 
     internal class PaymentValidator : GenericValidator<Payment>
@@ -48,6 +49,12 @@ namespace IW.Models.Entities
             RuleFor(x => x.Currency)
                 .IsInEnum()
                 .WithErrorCode($"{VALIDATOR_ERROR_CODE.IsInEnum}");
+            RuleFor(x => x.PaymentMethod)
+                .IsInEnum()
+                .WithErrorCode($"{VALIDATOR_ERROR_CODE.IsInEnum}");
+            RuleFor(x => x.TransactionsReference)
+                .NotEmpty()
+                .WithErrorCode($"{VALIDATOR_ERROR_CODE.NotEmpty}");
         }
 
         public void ValidateAndThrowException(Payment instance)
