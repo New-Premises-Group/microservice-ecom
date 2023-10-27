@@ -35,6 +35,14 @@ services:
     ports:
       - 32778:80
       - 32779:403
+
+  payment:
+    restart: unless-stopped
+    image: hifam/payment-service:main
+    ports:
+      - 32780:80
+      - 32781:403
+
   postgres:
     image: postgres:15
     restart: always
@@ -72,6 +80,7 @@ services:
       - inventory
       - cart
       - data-connector-agent
+      - payment
   data-connector-agent:
     image: hasura/graphql-data-connector:v2.33.0
     restart: always
