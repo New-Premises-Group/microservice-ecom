@@ -12,12 +12,17 @@ namespace IW.Repository
         public IUserRepository Users { get; }
 
         public IRoleRepository Roles { get; }
+        public IAddressRepository Addresses { get; }
 
-        public UnitOfWork(AppDbContext context, IUserRepository userRepository,IRoleRepository roleRepository)
+        public UnitOfWork(AppDbContext context, 
+            IUserRepository userRepository,
+            IRoleRepository roleRepository, 
+            IAddressRepository addresses)
         {
             _context = context;
             Users = userRepository;
             Roles = roleRepository;
+            Addresses = addresses;
         }
 
         public async Task<int> CompleteAsync()

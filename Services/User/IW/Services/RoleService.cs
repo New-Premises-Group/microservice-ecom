@@ -3,6 +3,7 @@ using IW.Interfaces;
 using IW.Interfaces.Services;
 using IW.Models.DTOs.Role;
 using IW.Models.Entities;
+using Mapster;
 
 namespace IW.Services
 {
@@ -16,13 +17,9 @@ namespace IW.Services
 
         public async Task CreateRole(CreateRole role)
         {
-            Role newRole = new()
-            {
-                Name = role.Name,
-                Description = role.Description,
-            };
+            Role newRole = role.Adapt<Role>();
 
-            RoleValidator validator = new RoleValidator();
+            RoleValidator validator = new ();
             validator.ValidateAndThrowException(newRole);
 
             _unitOfWork.Roles.Add(newRole);
@@ -79,7 +76,7 @@ namespace IW.Services
             role.Name = model.Name ?? role.Name;
             role.Description = model.Description ?? role.Description;
 
-            RoleValidator validator = new RoleValidator();
+            RoleValidator validator = new ();
             validator.ValidateAndThrowException(role);
 
             _unitOfWork.Roles.Update(role);
