@@ -56,4 +56,16 @@
       },
     'comment': '',
   },
+  {
+    'name': 'Payment',
+    'definition':
+      {
+        'url': 'http://host.docker.internal:32780/graphql',
+        'timeout_seconds': 60,
+        'customization':
+          { 'type_names': { 'mapping': {}, 'prefix': 'payment' } },
+        'forward_client_headers': true,
+      },
+    'comment': '',
+  },
 ]
