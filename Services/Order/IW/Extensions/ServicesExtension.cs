@@ -14,11 +14,11 @@ using IW.MessageBroker.Mutations;
 using IW.Configurations;
 using IW.MessageBroker;
 using Mapster;
-using IW.Models.DTOs.OrderDto;
 using IW.Models.DTOs.Item;
 using MapsterMapper;
 using System.Reflection;
-using IW.Models.Entities;
+using IW.Notifications;
+using System.Net.Mail;
 
 namespace IW.Extensions;
 
@@ -74,5 +74,18 @@ public static class ServicesExtension
         builder.Services.AddScoped<IRabbitMqProducer<OrderCreatedMessage>,RabbitMqProducer<OrderCreatedMessage>>();
         builder.Services.AddScoped<IRabbitMqProducer<ItemDto>,RabbitMqProducer<ItemDto>>();
 
+        //Email Service
+        builder.Services.AddScoped<IMailService,EmailService>();
+        builder.Services
+            .AddFluentEmail("npg-ecom@gmail.com")
+            .AddRazorRenderer(Directory.GetCurrentDirectory())
+            .AddSmtpSender(new SmtpClient() 
+            { 
+                Host = "smtp.mailgun.org", 
+                Port = 587, 
+                Credentials = new System.Net.NetworkCredential(
+                    "postmaster@newpremisesgroup.tech",
+                    "ecomnpg") 
+            });
     }
 }

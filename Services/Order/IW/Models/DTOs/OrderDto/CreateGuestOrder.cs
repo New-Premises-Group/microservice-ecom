@@ -1,14 +1,13 @@
-﻿using IW.Models.Entities;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace IW.Models.DTOs.OrderDto
 {
-    public class CreateOrder
+    public class CreateGuestOrder
     {
         [Required]
-        public Guid UserId { get; set; }
+        public string Email{ get; set; }
         [Required]
-        public string Email { get; set; }
+        public string Phone{ get; set; }
         public decimal Total { get; set; }
         [Required]
         public string ShippingAddress { get; set; }

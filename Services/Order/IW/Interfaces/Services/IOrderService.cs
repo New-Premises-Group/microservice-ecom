@@ -10,5 +10,6 @@ namespace IW.Interfaces.Services
         Task UpdateOrder(int id, UpdateOrder input);
         Task DeleteOrder(int id);
         Task<int> CreateOrder(CreateOrder input);
+        Task<int> CreateGuestOrder(CreateGuestOrder input);
     }
 }

@@ -17,11 +17,13 @@ namespace IW.Services
         public readonly IUnitOfWork _unitOfWork;
         private readonly IRabbitMqProducer<OrderCreatedMessage> _producer;
         private readonly IMapper _mapper;
-        public OrderService(IUnitOfWork unitOfWork, IRabbitMqProducer<OrderCreatedMessage> producer,IMapper mapper)
+        private readonly IMailService _mailService;
+        public OrderService(IUnitOfWork unitOfWork, IRabbitMqProducer<OrderCreatedMessage> producer,IMapper mapper, IMailService mailService)
         {
             _unitOfWork = unitOfWork;
             _producer = producer;
             _mapper = mapper;
+            _mailService = mailService;
         }
 
         public async Task<int> CreateOrder(CreateOrder input)
@@ -37,7 +39,9 @@ namespace IW.Services
             _unitOfWork.Items.AddRange(newOrder.Items);
             var message = newOrder.Adapt<OrderCreatedMessage>();
             await _unitOfWork.CompleteAsync();
+
             _producer.Send(nameof(QUEUE_NAME.Order_Placed),message);
+            await _mailService.Send(input.Email, input.Email, newOrder.Items.Adapt<ICollection<ItemDto>>(), input.Total);
             return newOrder.Id;
         }
 
@@ -85,7 +89,8 @@ namespace IW.Services
             var order = await OrderExist(id);
             if (Equals(order, null)) throw new OrderNotFoundException(id);
 
-            order.Status = input.Status;
+            order.CancelReason = input.CancelReason;
+            order.Status = input.Status ?? order.Status;
             order.ShippingAddress = input.ShippingAddress ?? order.ShippingAddress;
 
             OrderValidator validator = new ();
@@ -100,6 +105,27 @@ namespace IW.Services
             if (id.ToString() == String.Empty) return null;
             var Order = await _unitOfWork.Orders.GetById(id);
             return Order;
+        }
+
+        public async Task<int> CreateGuestOrder(CreateGuestOrder input)
+        {
+            Order newOrder = _mapper.Map<Order>(input);
+            newOrder.Date = DateTime.Now.ToUniversalTime();
+            newOrder.Status = ORDER_STATUS.Confirm;
+            newOrder.UserId= Guid.NewGuid();
+
+            OrderValidator validator = new();
+            validator.ValidateAndThrowException(newOrder);
+
+            _unitOfWork.Orders.Add(newOrder);
+            _unitOfWork.Items.AddRange(newOrder.Items);
+            var message = newOrder.Adapt<OrderCreatedMessage>();
+
+            await _unitOfWork.CompleteAsync();
+
+            _producer.Send(nameof(QUEUE_NAME.Order_Placed), message);
+            await _mailService.Send(input.Email, input.Email, newOrder.Items.Adapt<ICollection<ItemDto>>(), input.Total);
+            return newOrder.Id;
         }
     }
 }
