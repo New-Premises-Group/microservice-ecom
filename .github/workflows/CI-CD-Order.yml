@@ -49,5 +49,5 @@ jobs:
           context: ./Services/Order/IW
           file: ./Services/Order/IW/Dockerfile
           push: true
-          tags: ${{ github.sha }}
+          tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
