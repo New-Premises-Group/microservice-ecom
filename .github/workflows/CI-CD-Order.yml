@@ -1,52 +1,51 @@
 name: Order Docker Image CI
 
 env:
-  DOTNET_VERSION: '6'   
+  DOTNET_VERSION: '6'
 on:
   push:
-    branches: [ "main" ]
-    paths: 
-    - Services/Order/**
-    
+    branches: ['main']
+    paths:
+      - Services/Order/**
+
   pull_request:
-    branches: [ "main" ]
-    paths: 
-    - Services/Order/**
+    branches: ['main']
+    paths:
+      - Services/Order/**
 
 jobs:
-
   build-image:
     environment: production
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout
-      uses: actions/checkout@v3
-    - name: Log in to Docker Hub
-      uses: docker/login-action@f4ef78c080cd8ba55a85445d5b36e214a81df20a
-      with:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Log in to Docker Hub
+        uses: docker/login-action@f4ef78c080cd8ba55a85445d5b36e214a81df20a
+        with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-      
-    - name: Extract metadata (tags, labels) for Docker
-      id: meta
-      uses: docker/metadata-action@9ec57ed1fcdbf14dcef7dfbe97b2010124a938b7
-      with:
+
+      - name: Extract metadata (tags, labels) for Docker
+        id: meta
+        uses: docker/metadata-action@9ec57ed1fcdbf14dcef7dfbe97b2010124a938b7
+        with:
           images: ${{ secrets.DOCKERHUB_USERNAME }}/order-service
-    # - name: Set up .NET Core
-    #   uses: actions/setup-dotnet@v2
-    #   with:
-    #       dotnet-version: ${{ env.DOTNET_VERSION }}
-    # - name: Restore dependencies
-    #   run: dotnet restore
-    # - name: Build
-    #   run: dotnet build --no-restore
-    # - name: Test
-    #   run: dotnet test --no-build --verbosity normal
-    
-    - name: Build and push backend Docker image
-      uses: docker/build-push-action@3b5e8027fcad23fda98b2e3ac259d8d67585f671
-      with:
+      # - name: Set up .NET Core
+      #   uses: actions/setup-dotnet@v2
+      #   with:
+      #       dotnet-version: ${{ env.DOTNET_VERSION }}
+      # - name: Restore dependencies
+      #   run: dotnet restore
+      # - name: Build
+      #   run: dotnet build --no-restore
+      # - name: Test
+      #   run: dotnet test --no-build --verbosity normal
+
+      - name: Build and push backend Docker image
+        uses: docker/build-push-action@v5
+        with:
           context: ./Services/Order/IW
           file: ./Services/Order/IW/Dockerfile
           push: true
