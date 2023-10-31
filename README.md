@@ -1,1 +1,7 @@
 [![Order Docker Image CI](https://github.com/New-Premises-Group/if-what/actions/workflows/CI-CD-Order.yml/badge.svg)](https://github.com/New-Premises-Group/if-what/actions/workflows/CI-CD-Order.yml)
+[![Cart Docker Image CI](https://github.com/New-Premises-Group/if-what/actions/workflows/CI-CD-Cart.yml/badge.svg)](https://github.com/New-Premises-Group/if-what/actions/workflows/CI-CD-Cart.yml)
+[![Inventory Docker Image CI](https://github.com/New-Premises-Group/if-what/actions/workflows/CI-CD-Inventory.yml/badge.svg)](https://github.com/New-Premises-Group/if-what/actions/workflows/CI-CD-Inventory.yml)
+[![Payment Docker Image CI](https://github.com/New-Premises-Group/if-what/actions/workflows/CI-CD-Payment.yml/badge.svg)](https://github.com/New-Premises-Group/if-what/actions/workflows/CI-CD-Payment.yml)
+[![Product Docker Image CI](https://github.com/New-Premises-Group/if-what/actions/workflows/CI-CD-Product.yml/badge.svg)](https://github.com/New-Premises-Group/if-what/actions/workflows/CI-CD-Product.yml)
+[![Shipment Docker Image CI](https://github.com/New-Premises-Group/if-what/actions/workflows/CI-CD-Shipment.yml/badge.svg)](https://github.com/New-Premises-Group/if-what/actions/workflows/CI-CD-Shipment.yml)
+[![User Docker Image CI](https://github.com/New-Premises-Group/if-what/actions/workflows/CI-CD-User.yml/badge.svg)](https://github.com/New-Premises-Group/if-what/actions/workflows/CI-CD-User.yml)
