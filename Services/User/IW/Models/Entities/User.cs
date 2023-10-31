@@ -44,7 +44,7 @@ namespace IW.Models.Entities
             RuleFor(user => user.PhoneNumber)
                 .NotEmpty()
                 .WithErrorCode($"{VALIDATOR_ERROR_CODE.NotEmpty}")
-                .Matches("0?\\W*([1-9][0-9]{2})\\W*([0-9]{2,3})\\W*?([0-9]{3})(\\se?x?t?(\\d*))?")
+                .Matches("^0([1-9][0-9]{2})([0-9]{2,3})([0-9]{3})$")
                 .WithErrorCode($"{VALIDATOR_ERROR_CODE.Match}");
         }
         public void ValidateAndThrowException(User user)
