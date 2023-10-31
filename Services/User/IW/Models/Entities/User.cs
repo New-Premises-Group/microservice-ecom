@@ -28,7 +28,7 @@ namespace IW.Models.Entities
         public UserValidator()
         {
             RuleFor(user=>user.Email)
-                .Matches(@"^([\w\!\#$\%\&\'*\+\-\/\=\?\^`{\|\}\~]+\.)*[\w\!\#$\%\&\'*\+\-\/\=\?\^`{\|\}\~]+@((((([a-zA-Z0-9]{1}[a-zA-Z0-9\-]{0,62}[a-zA-Z0-9]{1})|[a-zA-Z])\.)+[a-zA-Z]{2,6})|(\d{1,3}\.){3}\d{1,3}(\:\d{1,5})?)$")
+                .Matches("^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$")
                 .WithErrorCode($"{ VALIDATOR_ERROR_CODE.Match}");
 
             RuleFor(user=>user.Name)
