@@ -9,6 +9,6 @@ namespace IW.Models.DTOs.User
         public string? Email { get; set; }
         public string? Token { get; set; }
         public string? ImageURL { get; set; }
-        public string Phone { get; set; }
+        public string PhoneNumber { get; set; }
     }
 }
