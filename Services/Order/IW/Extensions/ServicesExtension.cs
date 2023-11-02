@@ -5,9 +5,13 @@ using IW.Interfaces;
 using IW.Interfaces.Repositories;
 using IW.Interfaces.Services;
 using IW.MessageBroker;
+
 using IW.MessageBroker.Mutations;
 using IW.MessageBroker.Queries;
 using IW.Models;
+
+using Mapster;
+
 using IW.Models.DTOs.Item;
 using IW.Repositories;
 using IW.Repository;
@@ -17,6 +21,11 @@ using MapsterMapper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
+
+
+using IW.Notifications;
+using System.Net.Mail;
+
 
 namespace IW.Extensions;
 
