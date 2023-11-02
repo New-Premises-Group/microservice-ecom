@@ -126,6 +126,20 @@ namespace IW.Services
                 });
         }
 
+        public async Task<int> CreateGuestOrder(CreateGuestOrder input)
+        {
+            var GuestEmail = await _orderService.CreateGuestOrder(input);
+
+            string key = input.Email.ToString();
+            await _distributedCache.SetStringAsync(key,
+                JsonConvert.SerializeObject(input),
+                new DistributedCacheEntryOptions()
+                {
+                    SlidingExpiration = TimeSpan.FromSeconds(30),
+                });
+            return GuestEmail;
+        }
+
         /// <summary>
         /// Create a string key for the key - value pair store values in Redis.
         /// </summary>
@@ -139,10 +153,6 @@ namespace IW.Services
         private static string CreateKey(string key)
         {
             return $"order-{key}";
-        }
-
-        public Task<int> CreateGuestOrder(CreateGuestOrder input)
-        {
         }
     }
 }
