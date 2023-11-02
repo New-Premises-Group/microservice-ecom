@@ -1,13 +1,10 @@
-﻿using FluentValidation.Results;
-using IW.Common;
+﻿using IW.Common;
 using IW.Exceptions.CreateUserError;
 using IW.Exceptions.ReadUserError;
 using IW.Interfaces;
 using IW.Models.DTOs.User;
 using IW.Models.Entities;
-using Microsoft.OpenApi.Models;
-using RestSharp;
-using System.Collections.Generic;
+using Mapster;
 
 namespace IW.Services
 {
@@ -37,31 +34,18 @@ namespace IW.Services
             {
                 throw new UserNotFoundException(id);
             }
-            UserDto result = new()
-            {
-                Email = user.Email,
-                Id = id,
-                ImageURL = user.ImageURL,
-                Name = user.Name,
-                RoleId = user.RoleId,
-            };
+            UserDto result = user.Adapt<UserDto>();
             return result;
         }
 
         public async Task<string> LogIn(CreateUser model)
         {
-            int defaultRole = 1;
             var user = await _unitOfWork.Users.FindByCondition(u => u.Name == model.Name);
-            Role role = !Equals(user,null)? user.Role: await _unitOfWork.Roles.GetById(defaultRole); 
+            Role? role = !Equals(user,null)? user.Role: await _unitOfWork.Roles.GetById(ROLE.User); 
 
-            User newUser = new() {
-                Name = model.Name,
-                Email = model.Email,
-                ImageURL = model.ImageURL,
-                Token = model.Token,
-                RoleId = role.Id,
-                Role = role
-            };
+            User newUser = model.Adapt<User>();
+            newUser.RoleId = role.Id;
+            newUser.Role = role;
 
             UserValidator validator = new();
             validator.ValidateAndThrowException(newUser);
@@ -81,15 +65,8 @@ namespace IW.Services
         public async Task<string> RenewToken(CreateUser model)
         {
             var role= await _unitOfWork.Roles.GetById(model.RoleId);
-            User newUser = new()
-            {
-                Name = model.Name,
-                Email = model.Email,
-                ImageURL = model.ImageURL,
-                Token = model.Token,
-                RoleId = model.RoleId,
-                Role = role
-            };
+            User newUser = model.Adapt<User>();
+            newUser.Role = role;
 
             UserValidator validator = new();
             validator.ValidateAndThrowException(newUser);
@@ -100,7 +77,7 @@ namespace IW.Services
 
         public async Task UpdateUser(Guid id, UpdateUser model)
         {
-            var user=await UserExist(id);
+            User? user=await UserExist(id);
             if (Equals(user,null)) throw new UserNotFoundException(id);
             if (!Equals(model.Email, null))
             {
@@ -121,20 +98,13 @@ namespace IW.Services
 
         public async Task<string> UpdateUserRole(Guid userId, Role role)
         {
-            var user = await UserExist(userId);
+            User? user = await UserExist(userId);
             if (Equals(user, null)) throw new UserNotFoundException(userId);
 
             await _unitOfWork.Users.UpdateUserRole(userId, role);
-            User newUser = new()
-            {
-                Name = user.Name,
-                Email = user.Email,
-                ImageURL = user.ImageURL,
-                Token = user.Token,
-                RoleId = role.Id,
-                Role = role
-            };
-            string token = _jwtProvider.Generate(newUser);
+            user.Role = role;
+            user.RoleId=role.Id;
+            string token = _jwtProvider.Generate(user);
             return token;
         }
 
@@ -153,20 +123,9 @@ namespace IW.Services
 
         public async Task<IEnumerable<UserDto>> GetUsers(int offset = 0, int amount = 10)
         {
-            var users=await _unitOfWork.Users.GetAll(offset,amount);
-            ICollection<UserDto> result = new List<UserDto>();
-            foreach (var user in users)
-            {
-                UserDto item = new()
-                {
-                    Email = user.Email,
-                    Id = user.Id,
-                    ImageURL = user.ImageURL,
-                    Name = user.Name,
-                    RoleId = user.RoleId,
-                };
-                result.Add(item);
-            }
+            ICollection<User> users =await _unitOfWork.Users.GetAll(offset,amount);
+            ICollection<UserDto> result = users.Adapt<ICollection<UserDto>>();
+            
             return result;
         }
 
@@ -176,19 +135,8 @@ namespace IW.Services
                 u=>u.Name==query.Name ||
                 u.Email == query.Email
                 , offset,amount);
-            ICollection<UserDto> result = new List<UserDto>();
-            foreach (var user in users)
-            {
-                UserDto item = new()
-                {
-                    Email = user.Email,
-                    Id = user.Id,
-                    ImageURL = user.ImageURL,
-                    Name = user.Name,
-                    RoleId = user.RoleId,
-                };
-                result.Add(item);
-            }
+            ICollection<UserDto> result = users.Adapt<ICollection<UserDto>>();
+
             return result;
         }
     }

@@ -4,24 +4,24 @@ using IW.Interfaces.Services;
 using IW.Models.DTOs;
 using IW.Models.DTOs.Cart;
 using IW.Models.Entities;
+using MapsterMapper;
 
 namespace IW.Services
 {
     public class CartService : ICartService
     {
         public readonly IUnitOfWork _unitOfWork;
+        public readonly IMapper _mapper;
 
-        public CartService(IUnitOfWork unitOfWork)
+        public CartService(IUnitOfWork unitOfWork, IMapper mapper)
         {
             _unitOfWork = unitOfWork;
+            _mapper = mapper;
         }
 
         public async Task CreateCart(CreateCart input)
         {
-            Cart newCart = new()
-            {
-                UserId = input.UserId
-            };
+            Cart newCart = _mapper.Map<Cart>(input);
 
             CartValidator validator = new();
             validator.ValidateAndThrowException(newCart);
@@ -38,25 +38,14 @@ namespace IW.Services
                 throw new CartNotFoundException(id);
             }
             var order = await _unitOfWork.CartItems.GetById(cart.Id);
-            CartDto result = new()
-            {
-                UserId = cart.UserId
-            };
+            CartDto result = _mapper.Map<CartDto>(cart);
             return result;
         }
 
         public async Task<IEnumerable<CartDto>> GetCarts(int offset, int amount)
         {
             var carts = await _unitOfWork.Carts.GetAll(offset, amount);
-            ICollection<CartDto> result = new List<CartDto>();
-            foreach (var cart in carts)
-            {
-                CartDto newCart = new()
-                {
-                    UserId = cart.UserId,
-                };
-                result.Add(newCart);
-            }
+            ICollection<CartDto> result = _mapper.Map<List<CartDto>>(carts);
             return result;
         }
 
@@ -65,15 +54,7 @@ namespace IW.Services
             var carts = await _unitOfWork.Carts.FindByConditionToList(
                 p => p.UserId == query.UserId
                 , offset, amount);
-            ICollection<CartDto> result = new List<CartDto>();
-            foreach (var cart in carts)
-            {
-                CartDto newCart = new()
-                {
-                    UserId = cart.UserId,
-                };
-                result.Add(newCart);
-            }
+            ICollection<CartDto> result = _mapper.Map<List<CartDto>>(carts);
             return result;
         }
 

@@ -11,6 +11,8 @@ namespace IW.Models.DTOs.OrderDto
         public DateTime? Date { get; set; }
         public ORDER_STATUS? Status { get; set; }
         public string? ShippingAddress { get; set; }
+        public string? CancelReason { get; set; }
+        public decimal Total { get; set; }
         public ICollection<OrderItem>? Items { get; set; }
     }
 }

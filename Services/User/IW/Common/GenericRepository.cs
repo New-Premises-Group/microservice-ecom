@@ -20,7 +20,7 @@ namespace IW.Common
             dbSet.Add(entity);
         }
 
-        public void AddRange(IEnumerable<TEntity> entities)
+        public void AddRange(ICollection<TEntity> entities)
         {
             dbSet.AddRange(entities);
         }
@@ -30,9 +30,9 @@ namespace IW.Common
             dbSet.Update(entity);
         }
 
-        public async Task<IEnumerable<TEntity>> FindByConditionToList(Expression<Func<TEntity, bool>> expression,int offset, int amount)
+        public async Task<ICollection<TEntity>> FindByConditionToList(Expression<Func<TEntity, bool>> expression,int offset, int amount)
         {
-            IEnumerable<TEntity> results= await dbSet.AsNoTracking().Where(expression).Skip(offset).Take(amount).ToListAsync();
+            ICollection<TEntity> results= await dbSet.AsNoTracking().Where(expression).Skip(offset).Take(amount).ToListAsync();
             return results;
         }
 
@@ -41,7 +41,7 @@ namespace IW.Common
             return await dbSet.Where(expression).FirstOrDefaultAsync();
         }
 
-        public virtual async Task<IEnumerable<TEntity>> GetAll(int offset, int amount)
+        public virtual async Task<ICollection<TEntity>> GetAll(int offset, int amount)
         {
             return await dbSet.AsNoTracking().Skip(offset).Take(amount).ToListAsync();
         }
@@ -56,7 +56,7 @@ namespace IW.Common
             dbSet.Remove(entity);
         }
 
-        public void RemoveRange(IEnumerable<TEntity> entities)
+        public void RemoveRange(ICollection<TEntity> entities)
         {
             dbSet.RemoveRange(entities);
         }

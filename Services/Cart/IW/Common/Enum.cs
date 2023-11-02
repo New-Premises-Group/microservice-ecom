@@ -12,17 +12,20 @@
         IsInEnum,
         MustBeBoolean
     }
+
     public enum PAGINATING
     {
-        OffsetDefault=0,
-        AmountDefault=10
+        OffsetDefault = 0,
+        AmountDefault = 10
     }
+
     public enum ROLE
     {
         User,
         Admin,
         Seller
     }
+
     public enum TRANSACTION_TYPE
     {
         Sale,

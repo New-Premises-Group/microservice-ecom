@@ -1,24 +1,22 @@
-﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
-using IW.Models;
-using Microsoft.EntityFrameworkCore;
-using IW.Repository;
-using IW.Repositories;
-using IW.Interfaces;
-using IW.Services;
 using IW.Authentication;
+using IW.Configurations;
+using IW.Exceptions;
+using IW.Interfaces;
 using IW.Interfaces.Repositories;
 using IW.Interfaces.Services;
-using IW.Exceptions;
-using IW.MessageBroker.Queries;
-using IW.MessageBroker.Mutations;
-using IW.Configurations;
 using IW.MessageBroker;
-using Mapster;
-using IW.Models.DTOs.OrderDto;
+using IW.MessageBroker.Mutations;
+using IW.MessageBroker.Queries;
+using IW.Models;
 using IW.Models.DTOs.Item;
+using IW.Repositories;
+using IW.Repository;
+using IW.Services;
+using Mapster;
 using MapsterMapper;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.EntityFrameworkCore;
 using System.Reflection;
-using IW.Models.Entities;
 
 namespace IW.Extensions;
 
@@ -32,7 +30,7 @@ public static class ServicesExtension
                 .AddTypeExtension<ItemQuery>()
                 .AddTypeExtension<OrderQuery>()
             .AddErrorFilter<ErrorFilter>()
-            .AddMutationType(m=>m.Name("Mutation"))
+            .AddMutationType(m => m.Name("Mutation"))
                 .AddTypeExtension<ItemMutation>()
                 .AddTypeExtension<OrderMutation>()
             .AddMutationConventions(applyToAllMutations: true)
@@ -55,24 +53,45 @@ public static class ServicesExtension
             options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"));
         });
 
+        // Redis cache database
+        builder.Services.AddStackExchangeRedisCache(redisOptions =>
+        {
+            string connection = builder.Configuration.GetConnectionString("Redis");
+            redisOptions.Configuration = connection;
+        });
+
         // DI for services
         var typeAdapterConfig = TypeAdapterConfig.GlobalSettings;
         // scans the assembly and gets the IRegister, adding the registration to the TypeAdapterConfig
         typeAdapterConfig.Scan(Assembly.GetExecutingAssembly());
-        // register the mapper as Singleton service 
+        // register the mapper as Singleton service
         var mapperConfig = new Mapper(typeAdapterConfig);
         builder.Services.AddSingleton<IMapper>(mapperConfig);
         builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
-        builder.Services.AddScoped<IItemService,ItemService>();
+        builder.Services.AddScoped<IItemService, ItemService>();
         builder.Services.AddScoped<IItemRepository, ItemRepository>();
-        builder.Services.AddScoped<IOrderService, OrderService>();
+        builder.Services.AddScoped<OrderService>();
+        builder.Services.AddScoped<IOrderService, CachedOrderService>();
         builder.Services.AddScoped<IOrderRepository, OrderRepository>();
         ////builder.Services.AddScoped<IRabbitMqConsumer<Order>,RabbitMqConsumer<Order>>();
         //builder.Services.AddSingleton<IRabbitMqConsumer, RabbitMqConsumer<Order>>();
         //builder.Services.AddSingleton<IConsumerService, ConsumerService<Order>>();
         //builder.Services.AddHostedService<ConsumerHostedService>();
-        builder.Services.AddScoped<IRabbitMqProducer<OrderCreatedMessage>,RabbitMqProducer<OrderCreatedMessage>>();
-        builder.Services.AddScoped<IRabbitMqProducer<ItemDto>,RabbitMqProducer<ItemDto>>();
+        builder.Services.AddScoped<IRabbitMqProducer<OrderCreatedMessage>, RabbitMqProducer<OrderCreatedMessage>>();
+        builder.Services.AddScoped<IRabbitMqProducer<ItemDto>, RabbitMqProducer<ItemDto>>();
 
+        //Email Service
+        builder.Services.AddScoped<IMailService,EmailService>();
+        builder.Services
+            .AddFluentEmail("npg-ecom@gmail.com")
+            .AddRazorRenderer(Directory.GetCurrentDirectory())
+            .AddSmtpSender(new SmtpClient() 
+            { 
+                Host = "smtp.mailgun.org", 
+                Port = 587, 
+                Credentials = new System.Net.NetworkCredential(
+                    "postmaster@newpremisesgroup.tech",
+                    "ecomnpg") 
+            });
     }
 }

@@ -23,6 +23,18 @@ namespace IW.MessageBroker.Mutations
         }
 
         [Error(typeof(CreateOrderErrorFactory))]
+        [AllowAnonymous]
+        public async Task<OrderCreatedPayload> CreateGuestOrder(CreateGuestOrder input, [Service] IOrderService orderService)
+        {
+            int orderId = await orderService.CreateGuestOrder(input);
+            var payload = new OrderCreatedPayload()
+            {
+                Message = "Order successfully created"
+            };
+            return payload;
+        }
+
+        [Error(typeof(CreateOrderErrorFactory))]
         [Authorize(Roles = new[] { nameof(ROLE.Admin) })]
         public async Task<OrderCreatedPayload> UpdateOrder(int id, UpdateOrder input, [Service] IOrderService orderService)
         {

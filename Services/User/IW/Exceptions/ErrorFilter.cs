@@ -1,4 +1,6 @@
-﻿using IW.Exceptions.ReadUserError;
+﻿using IW.Exceptions.ReadAddressError;
+using IW.Exceptions.ReadRoleError;
+using IW.Exceptions.ReadUserError;
 
 namespace IW.Exceptions
 {
@@ -6,13 +8,13 @@ namespace IW.Exceptions
     {
         public IError OnError(IError error)
         {
-            switch (error.Exception)
+            return error.Exception switch
             {
-                case UserNotFoundException:
-                    return new ReadUserErrorFactory().CreateErrorFrom((UserNotFoundException)error.Exception).WithExtensions();
-                default:
-                    return error;
-            }
+                UserNotFoundException => new ReadUserErrorFactory().CreateErrorFrom((UserNotFoundException)error.Exception).WithExtensions(),
+                RoleNotFoundException => new ReadRoleErrorFactory().CreateErrorFrom((RoleNotFoundException)error.Exception).WithExtensions(),
+                AddressNotFoundException => new ReadAddressErrorFactory().CreateErrorFrom((AddressNotFoundException)error.Exception).WithExtensions(),
+                _ => error,
+            };
         }
     }
 }

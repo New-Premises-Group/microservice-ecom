@@ -1,4 +1,4 @@
-﻿namespace IW.Models.DTOs.User
+﻿namespace IW.Models.DTOs.Role
 {
     public class RoleCreatedPayload
     {
