@@ -30,6 +30,9 @@ namespace IW.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
+                    b.Property<string>("CancelReason")
+                        .HasColumnType("text");
+
                     b.Property<DateTime>("Date")
                         .HasColumnType("timestamp with time zone");
 
@@ -40,6 +43,9 @@ namespace IW.Migrations
                     b.Property<string>("Status")
                         .IsRequired()
                         .HasColumnType("varchar(15)");
+
+                    b.Property<decimal>("Total")
+                        .HasColumnType("numeric");
 
                     b.Property<Guid>("UserId")
                         .HasColumnType("uuid");

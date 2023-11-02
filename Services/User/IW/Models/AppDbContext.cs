@@ -15,8 +15,15 @@ namespace IW.Models
            .HasOne<Role>(s => s.Role)
            .WithMany(g => g.Users)
            .HasForeignKey(s => s.RoleId);
+
+            modelBuilder.Entity<Address>()
+                .HasOne(s => s.User)
+                .WithMany(a => a.Addresses)
+                .HasForeignKey(s=>s.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
         }
         public DbSet<User> Users { get; set; }
         public DbSet<Role> Roles { get; set; }
+        public DbSet<Address> Addresses { get; set; }
     }
 }

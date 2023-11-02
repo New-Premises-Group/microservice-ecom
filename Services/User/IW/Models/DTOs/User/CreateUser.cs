@@ -12,5 +12,6 @@ namespace IW.Models.DTOs.User
         public string Token { get; set; }
         public string? ImageURL { get; set; }
         public int RoleId { get; set; }
+        public string PhoneNumber {  get; set; }
     }
 }

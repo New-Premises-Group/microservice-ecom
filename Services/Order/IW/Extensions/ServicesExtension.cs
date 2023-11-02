@@ -1,4 +1,4 @@
-﻿using IW.Authentication;
+using IW.Authentication;
 using IW.Configurations;
 using IW.Exceptions;
 using IW.Interfaces;
@@ -79,5 +79,19 @@ public static class ServicesExtension
         //builder.Services.AddHostedService<ConsumerHostedService>();
         builder.Services.AddScoped<IRabbitMqProducer<OrderCreatedMessage>, RabbitMqProducer<OrderCreatedMessage>>();
         builder.Services.AddScoped<IRabbitMqProducer<ItemDto>, RabbitMqProducer<ItemDto>>();
+
+        //Email Service
+        builder.Services.AddScoped<IMailService,EmailService>();
+        builder.Services
+            .AddFluentEmail("npg-ecom@gmail.com")
+            .AddRazorRenderer(Directory.GetCurrentDirectory())
+            .AddSmtpSender(new SmtpClient() 
+            { 
+                Host = "smtp.mailgun.org", 
+                Port = 587, 
+                Credentials = new System.Net.NetworkCredential(
+                    "postmaster@newpremisesgroup.tech",
+                    "ecomnpg") 
+            });
     }
 }

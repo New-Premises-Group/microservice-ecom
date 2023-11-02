@@ -22,6 +22,40 @@ namespace IW.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
+            modelBuilder.Entity("IW.Models.Entities.Address", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("City")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Detail")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("District")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Ward")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Addresses");
+                });
+
             modelBuilder.Entity("IW.Models.Entities.Role", b =>
                 {
                     b.Property<int>("Id")
@@ -58,6 +92,10 @@ namespace IW.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<string>("PhoneNumber")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<int>("RoleId")
                         .HasColumnType("integer");
 
@@ -70,6 +108,17 @@ namespace IW.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("IW.Models.Entities.Address", b =>
+                {
+                    b.HasOne("IW.Models.Entities.User", "User")
+                        .WithMany("Addresses")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("IW.Models.Entities.User", b =>
@@ -86,6 +135,11 @@ namespace IW.Migrations
             modelBuilder.Entity("IW.Models.Entities.Role", b =>
                 {
                     b.Navigation("Users");
+                });
+
+            modelBuilder.Entity("IW.Models.Entities.User", b =>
+                {
+                    b.Navigation("Addresses");
                 });
 #pragma warning restore 612, 618
         }

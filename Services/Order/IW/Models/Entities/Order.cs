@@ -17,6 +17,8 @@ namespace IW.Models.Entities
         [Column(TypeName = "varchar(15)")]
         public ORDER_STATUS Status { get; set; }
         public string ShippingAddress { get; set; }
+        public string? CancelReason { get; set; }
+        public decimal Total{ get; set; }
         public ICollection<OrderItem>? Items { get; set; }
     }
 
@@ -44,6 +46,14 @@ namespace IW.Models.Entities
                 .WithErrorCode($"{VALIDATOR_ERROR_CODE.NotEmpty}")
                 .Length(1,200)
                 .WithErrorCode($"{VALIDATOR_ERROR_CODE.Length}");
+            RuleFor(x => x.CancelReason)
+                .Length(1, 200)
+                .WithErrorCode($"{VALIDATOR_ERROR_CODE.Length}");
+            RuleFor(x => x.Total)
+                .NotEmpty()
+                .WithErrorCode($"{VALIDATOR_ERROR_CODE.NotEmpty}")
+                .GreaterThan(0)
+                .WithErrorCode($"{VALIDATOR_ERROR_CODE.GreaterThan}");
         }
         public void ValidateAndThrowException(Order instance)
         {

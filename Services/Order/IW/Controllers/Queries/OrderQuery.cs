@@ -22,6 +22,7 @@ namespace IW.MessageBroker.Queries
             return results;
         }
 
+        [AllowAnonymous]
         public async Task<OrderDto> GetOrder(int id, [Service] IOrderService orderService)
         {
             var result = await orderService.GetOrder(id);

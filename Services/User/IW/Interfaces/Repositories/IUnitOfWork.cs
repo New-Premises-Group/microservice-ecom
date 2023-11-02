@@ -7,6 +7,7 @@ namespace IW.Interfaces
         // Add your Repository here
         IUserRepository Users { get; }
         IRoleRepository Roles { get; }
+        IAddressRepository Addresses { get; }
         Task<int> CompleteAsync();
     }
 }
