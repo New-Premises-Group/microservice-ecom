@@ -4,7 +4,7 @@ using IW.Models;
 
 namespace IW.Repository
 {
-    internal class UnitOfWork : IUnitOfWork
+    public class UnitOfWork : IUnitOfWork
     {
         private readonly AppDbContext _context;
 
@@ -12,11 +12,11 @@ namespace IW.Repository
 
         public IOrderRepository Orders { get; }
 
-        public UnitOfWork(AppDbContext context,IItemRepository productRepository, IOrderRepository categoryRepository)
+        public UnitOfWork(AppDbContext context,IItemRepository itemRepository, IOrderRepository orderRepository)
         {
             _context = context;
-            Items= productRepository;
-            Orders= categoryRepository;
+            Items= itemRepository;
+            Orders= orderRepository;
         }
 
         public async Task<int> CompleteAsync()

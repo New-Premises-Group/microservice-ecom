@@ -46,7 +46,12 @@ namespace IW.Common
             return await dbSet.AsNoTracking().Skip(offset).Take(amount).ToListAsync();
         }
 
-        public virtual async Task<TEntity?>GetById<T>(T id)
+        public virtual async Task<TEntity?> GetById <T>(T id)
+        {
+            return await dbSet.FindAsync(id);
+        }
+
+        public virtual async Task<TEntity?> GetById (int id)
         {
             return await dbSet.FindAsync(id);
         }

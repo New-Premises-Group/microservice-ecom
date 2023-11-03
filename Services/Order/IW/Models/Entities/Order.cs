@@ -22,7 +22,7 @@ namespace IW.Models.Entities
         public ICollection<OrderItem>? Items { get; set; }
     }
 
-    internal class OrderValidator : GenericValidator<Order>
+    public class OrderValidator : GenericValidator<Order>
     {
         public OrderValidator()
         {
@@ -47,11 +47,9 @@ namespace IW.Models.Entities
                 .Length(1,200)
                 .WithErrorCode($"{VALIDATOR_ERROR_CODE.Length}");
             RuleFor(x => x.CancelReason)
-                .Length(1, 200)
+                .Length(0, 200)
                 .WithErrorCode($"{VALIDATOR_ERROR_CODE.Length}");
             RuleFor(x => x.Total)
-                .NotEmpty()
-                .WithErrorCode($"{VALIDATOR_ERROR_CODE.NotEmpty}")
                 .GreaterThan(0)
                 .WithErrorCode($"{VALIDATOR_ERROR_CODE.GreaterThan}");
         }

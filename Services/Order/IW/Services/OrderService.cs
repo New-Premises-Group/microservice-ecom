@@ -41,7 +41,11 @@ namespace IW.Services
             await _unitOfWork.CompleteAsync();
 
             _producer.Send(nameof(QUEUE_NAME.Order_Placed),message);
-            await _mailService.Send(input.Email, input.Email, newOrder.Items.Adapt<ICollection<ItemDto>>(), input.Total);
+            await _mailService.Send(
+                input.Email, 
+                input.Email, 
+                newOrder.Items.Adapt<ICollection<ItemDto>>(), 
+                input.Total);
             return newOrder.Id;
         }
 

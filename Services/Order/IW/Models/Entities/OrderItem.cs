@@ -22,7 +22,7 @@ namespace IW.Models.Entities
         public decimal Subtotal {  get; set; }
     }
 
-    internal class ItemValidator : GenericValidator<OrderItem>
+    public sealed class ItemValidator : GenericValidator<OrderItem>
     {
         public ItemValidator()
         {

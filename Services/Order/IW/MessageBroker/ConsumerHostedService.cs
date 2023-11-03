@@ -1,6 +1,4 @@
-﻿using IW.Common;
-using IW.Interfaces;
-
+﻿
 namespace IW.MessageBroker
 {
     public class ConsumerHostedService : BackgroundService

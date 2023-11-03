@@ -4,6 +4,7 @@ using IW.Exceptions.CreateOrderError;
 using IW.Interfaces;
 using IW.Interfaces.Services;
 using IW.Models.DTOs.OrderDto;
+using IW.Services;
 
 namespace IW.MessageBroker.Mutations
 {
@@ -42,6 +43,16 @@ namespace IW.MessageBroker.Mutations
             var payload = new OrderCreatedPayload()
             {
                 Message = "Order successfully updated"
+            };
+            return payload;
+        }
+
+        public async Task<OrderDeletedPayload> DeleteOrder(int id, [Service] IOrderService orderService)
+        {
+            await orderService.DeleteOrder(id);
+            var payload = new OrderDeletedPayload()
+            {
+                Message = "Order successfully deleted"
             };
             return payload;
         }

@@ -2,7 +2,7 @@
 
 namespace IW.Common
 {
-    internal abstract class GenericValidator<T>: AbstractValidator<T>
+    public abstract class GenericValidator<T>: AbstractValidator<T>
     {
         public GenericValidator() {
 

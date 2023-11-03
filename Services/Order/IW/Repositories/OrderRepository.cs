@@ -15,7 +15,12 @@ namespace IW.Repositories
 
         public override async Task<IEnumerable<Order>> GetAll(int offset, int amount)
         {
-            return await dbSet.AsNoTracking().ToListAsync();
+            return await dbSet.Include(u=>u.Items).AsNoTracking().ToListAsync();
+        }
+
+        public override async Task<Order?> GetById (int id)
+        {
+            return await dbSet.Include(u=>u.Items).Where(o => o.Id==id).FirstAsync();
         }
 
         public override async Task<Order?> FindByCondition(Expression<Func<Order, bool>> expression)
