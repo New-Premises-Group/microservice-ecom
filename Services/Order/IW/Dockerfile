@@ -19,4 +19,5 @@ RUN dotnet publish "IW.csproj" -c Release -o /app/publish /p:UseAppHost=false
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
+ENV ASPNETCORE_ENVIRONMENT = "Development"
 ENTRYPOINT ["dotnet", "IW.dll"]
