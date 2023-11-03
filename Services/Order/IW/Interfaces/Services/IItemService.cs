@@ -9,8 +9,8 @@ namespace IW.Interfaces
         Task CreateItem(int orderId, CreateItem input);
         Task CreateItems(int orderId,IEnumerable<CreateItem> items);
         Task<ItemDto> GetItem(int id);
-        Task<IEnumerable<ItemDto>> GetItems(int offset, int amount);
-        Task<IEnumerable<ItemDto>> GetItems(GetItem query, int offset , int amount );
+        Task<IEnumerable<ItemDto>> GetItems(int page, int amount);
+        Task<IEnumerable<ItemDto>> GetItems(GetItem query, int page , int amount );
         Task UpdateItem(int id, UpdateItem model);
         Task DeleteItem(int id);
     }

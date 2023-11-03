@@ -61,21 +61,21 @@ namespace IW.Services
             return result;
         }
 
-        public async Task<IEnumerable<ItemDto>> GetItems(int offset, int amount)
+        public async Task<IEnumerable<ItemDto>> GetItems(int page, int amount)
         {
-            var items = await _unitOfWork.Items.GetAll(offset, amount);
+            var items = await _unitOfWork.Items.GetAll(page, amount);
             ICollection<ItemDto> result = _mapper.Map<List<ItemDto>>(items);
             return result;
         }
 
-        public async Task<IEnumerable<ItemDto>> GetItems(GetItem query, int offset , int amount )
+        public async Task<IEnumerable<ItemDto>> GetItems(GetItem query, int page , int amount )
         {
             var items = await _unitOfWork.Items.FindByConditionToList(
                 p => p.Name == query.Name ||
                 p.OrderId == query.OrderId ||
                 p.Price == query.Price ||
                 p.ProductId== query.ProductId
-                , offset, amount);
+                , page, amount);
             ICollection<ItemDto> result = _mapper.Map<List<ItemDto>>(items);
             return result;
         }

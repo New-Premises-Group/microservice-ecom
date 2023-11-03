@@ -13,9 +13,9 @@ namespace IW.Repositories
         {
         }
 
-        public override async Task<IEnumerable<Order>> GetAll(int offset, int amount)
+        public override async Task<IEnumerable<Order>> GetAll(int page, int amount)
         {
-            return await dbSet.Include(u=>u.Items).AsNoTracking().ToListAsync();
+            return await dbSet.Include(u=>u.Items).AsNoTracking().Skip((page - 1) * amount).Take(amount).ToListAsync();
         }
 
         public override async Task<Order?> GetById (int id)

@@ -58,9 +58,9 @@ namespace IW.Services
             await _unitOfWork.CompleteAsync();
         }
 
-        public async Task<IEnumerable<OrderDto>> GetOrders(int offset,int amount )
+        public async Task<IEnumerable<OrderDto>> GetOrders(int page,int amount )
         {
-            var orders = await _unitOfWork.Orders.GetAll(offset,amount);
+            var orders = await _unitOfWork.Orders.GetAll(page,amount);
             ICollection<OrderDto> result = _mapper.Map<List<OrderDto>>(orders);
             return result;
         }
@@ -76,13 +76,13 @@ namespace IW.Services
             return result;
         }
 
-        public async Task<IEnumerable<OrderDto>> GetOrders(GetOrder query, int offset, int amount)
+        public async Task<IEnumerable<OrderDto>> GetOrders(GetOrder query, int page, int amount)
         {
             var orders = await _unitOfWork.Orders.FindByConditionToList(
                 o => o.UserId==query.UserId ||
                 o.Status==query.Status ||
                 o.Date ==query.Date
-                , offset, amount);
+                , page, amount);
 
             ICollection<OrderDto> result = _mapper.Map<List<OrderDto>>(orders);
             return result;

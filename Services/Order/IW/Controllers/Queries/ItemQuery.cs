@@ -16,15 +16,15 @@ namespace IW.MessageBroker.Queries
             return result;
         }
 
-        public async Task<IEnumerable<ItemDto>> GetItems([Service] IItemService itemService,int offset = ((int)PAGINATING.OffsetDefault), int amount = ((int)PAGINATING.AmountDefault))
+        public async Task<IEnumerable<ItemDto>> GetItems([Service] IItemService itemService,int page = ((int)PAGINATING.OffsetDefault), int amount = ((int)PAGINATING.AmountDefault))
         {
-            var results = await itemService.GetItems(offset, amount);
+            var results = await itemService.GetItems(page, amount);
             return results;
         }
 
-        public async Task<IEnumerable<ItemDto>> GetItems(GetItem query, [Service] IItemService itemService, int offset = ((int)PAGINATING.OffsetDefault), int amount = ((int)PAGINATING.AmountDefault))
+        public async Task<IEnumerable<ItemDto>> GetItems(GetItem query, [Service] IItemService itemService, int page = ((int)PAGINATING.OffsetDefault), int amount = ((int)PAGINATING.AmountDefault))
         {
-            var results = await itemService.GetItems(query,offset,amount);
+            var results = await itemService.GetItems(query,page,amount);
             return results;
         }
     }
