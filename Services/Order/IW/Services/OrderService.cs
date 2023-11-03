@@ -30,7 +30,7 @@ namespace IW.Services
         {
             Order newOrder = _mapper.Map<Order>(input);
             newOrder.Date = DateTime.Now.ToUniversalTime();
-            newOrder.Status = ORDER_STATUS.Confirm;
+            newOrder.Status = input.Status;
 
             OrderValidator validator = new();
             validator.ValidateAndThrowException(newOrder);
@@ -115,7 +115,7 @@ namespace IW.Services
         {
             Order newOrder = _mapper.Map<Order>(input);
             newOrder.Date = DateTime.Now.ToUniversalTime();
-            newOrder.Status = ORDER_STATUS.Confirm;
+            newOrder.Status = ORDER_STATUS.Confirmed;
             newOrder.UserId= Guid.NewGuid();
 
             OrderValidator validator = new();

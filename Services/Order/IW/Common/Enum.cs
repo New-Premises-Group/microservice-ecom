@@ -27,7 +27,8 @@
         Proccessing,
         Shipping,
         Delivered,
-        Confirm
+        Confirmed,
+        Created
     }
     public enum QUEUE_NAME
     {

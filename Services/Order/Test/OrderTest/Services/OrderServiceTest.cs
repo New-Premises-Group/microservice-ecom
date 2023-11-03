@@ -24,7 +24,7 @@ namespace Test.OrderTest.Services
                 Date = new DateTime(),
                 Id = 1,
                 ShippingAddress = "123 Tan Phu, HCM",
-                Status = ORDER_STATUS.Confirm,
+                Status = ORDER_STATUS.Confirmed,
                 Total = 10000,
                 UserId = new Guid(),
             };

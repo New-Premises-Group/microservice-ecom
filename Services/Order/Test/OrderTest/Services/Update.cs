@@ -37,7 +37,7 @@ namespace Test.OrderTest.Services
                 Date = DateTime.Now,
                 Id = 0,
                 ShippingAddress = "123 Tan Phu, HCM",
-                Status = ORDER_STATUS.Confirm,
+                Status = ORDER_STATUS.Confirmed,
                 Total = 10000,
                 UserId = Guid.Parse("89fc34a2-a6b3-44de-8f17-b27340b904e6"),
             };
@@ -46,7 +46,7 @@ namespace Test.OrderTest.Services
             {
                 CancelReason="",
                 ShippingAddress="123 Tan Phu",
-                Status = ORDER_STATUS.Confirm,
+                Status = ORDER_STATUS.Confirmed,
             };
         }
 
