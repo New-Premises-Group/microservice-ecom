@@ -14,25 +14,28 @@ on:
       - Services/Order/**
 
 jobs:
-  unit-testing:
+  Testing:
     environment: development
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        dotnet-version: [ '6.0.x' ]
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
-      - name: Move to solution
-        run: cd IW
+        uses: actions/checkout@v4
       - name: Setup dotnet
         uses: actions/setup-dotnet@v3
       - name: Restore dependencies
         run: dotnet restore
+      - name: Build
+        run: dotnet build
       - name: Unit Testing
         run: dotnet test --no-build --verbosity normal
       
-  build-image:
+  Build-image:
     environment: production
     runs-on: ubuntu-latest
-    needs: [unit-testing]
+    needs: [Testing]
     steps:
       - name: Checkout
         uses: actions/checkout@v3
