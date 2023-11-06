@@ -1,4 +1,5 @@
 ﻿using FakeItEasy;
+using IW.Common;
 using IW.Interfaces;
 using IW.Models;
 using IW.Models.DTOs.Item;
@@ -22,7 +23,8 @@ namespace Test.OrderTest.Services
                 UserId = Guid.Parse("89fc34a2-a6b3-44de-8f17-b27340b904e6"),
                 Total = 10000,
                 Email = "hai123@gmail.com",
-                ShippingAddress = "123 Tan Phu, HCM"
+                ShippingAddress = "123 Tan Phu, HCM",
+                Status= ORDER_STATUS.Created
             };
         }
 
