@@ -14,10 +14,20 @@ on:
       - Services/Order/**
 
 jobs:
+  unit-testing:
+    environment: development
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Setup dotnet
+        uses: actions/setup-dotnet@v3
+      - name: Unit Testing
+      - run: dotnet test
+      
   build-image:
     environment: production
     runs-on: ubuntu-latest
-
+    needs: [unit-testing]
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -32,16 +42,16 @@ jobs:
         uses: docker/metadata-action@9ec57ed1fcdbf14dcef7dfbe97b2010124a938b7
         with:
           images: ${{ secrets.DOCKERHUB_USERNAME }}/order-service
-      - name: Set up .NET Core
-        uses: actions/setup-dotnet@v2
-        with:
-            dotnet-version: ${{ env.DOTNET_VERSION }}
-      - name: Restore dependencies
-        run: dotnet restore
-      # - name: Build
-      #   run: dotnet build --no-restore
-      - name: Test
-        run: dotnet test --no-build --verbosity normal
+      # - name: Set up .NET Core
+      #   uses: actions/setup-dotnet@v2
+      #   with:
+      #       dotnet-version: ${{ env.DOTNET_VERSION }}
+      # - name: Restore dependencies
+      #   run: dotnet restore
+      # # - name: Build
+      # #   run: dotnet build --no-restore
+      # - name: Test
+      #   run: dotnet test --no-build --verbosity normal
 
       - name: Build and push backend Docker image
         uses: docker/build-push-action@v5
