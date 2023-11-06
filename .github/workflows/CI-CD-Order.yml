@@ -20,12 +20,14 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+      - name: Move to solution
+        run: cd IW
       - name: Setup dotnet
         uses: actions/setup-dotnet@v3
       - name: Restore dependencies
         run: dotnet restore
       - name: Unit Testing
-        run: dotnet test
+        run: dotnet test --no-build --verbosity normal
       
   build-image:
     environment: production
