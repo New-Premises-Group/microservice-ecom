@@ -32,16 +32,16 @@ jobs:
         uses: docker/metadata-action@9ec57ed1fcdbf14dcef7dfbe97b2010124a938b7
         with:
           images: ${{ secrets.DOCKERHUB_USERNAME }}/order-service
-      # - name: Set up .NET Core
-      #   uses: actions/setup-dotnet@v2
-      #   with:
-      #       dotnet-version: ${{ env.DOTNET_VERSION }}
-      # - name: Restore dependencies
-      #   run: dotnet restore
+      - name: Set up .NET Core
+        uses: actions/setup-dotnet@v2
+        with:
+            dotnet-version: ${{ env.DOTNET_VERSION }}
+      - name: Restore dependencies
+        run: dotnet restore
       # - name: Build
       #   run: dotnet build --no-restore
-      # - name: Test
-      #   run: dotnet test --no-build --verbosity normal
+      - name: Test
+        run: dotnet test --no-build --verbosity normal
 
       - name: Build and push backend Docker image
         uses: docker/build-push-action@v5
