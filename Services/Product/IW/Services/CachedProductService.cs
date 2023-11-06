@@ -75,12 +75,12 @@ namespace IW.Services
             return product;
         }
 
-        public async Task<IEnumerable<ProductDto>> GetProducts(int offset, int amount)
+        public async Task<IEnumerable<ProductDto>> GetProducts(int page, int amount)
         {
-            return await _decorated.GetProducts(offset, amount);
+            return await _decorated.GetProducts(page, amount);
         }
 
-        public async Task<IEnumerable<ProductDto>> GetProducts(GetProduct query, int offset, int amount)
+        public async Task<IEnumerable<ProductDto>> GetProducts(GetProduct query, int page, int amount)
         {
             string key = "";
             if (!string.IsNullOrEmpty(query.Name)){
@@ -94,7 +94,7 @@ namespace IW.Services
 
             if(string.IsNullOrEmpty(cachedProducts))
             {
-                IEnumerable<ProductDto> newProducts = await _decorated.GetProducts(query, offset, amount);
+                IEnumerable<ProductDto> newProducts = await _decorated.GetProducts(query, page, amount);
                 
                 return newProducts;
             }

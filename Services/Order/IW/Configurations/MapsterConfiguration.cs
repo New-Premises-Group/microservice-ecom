@@ -1,4 +1,5 @@
 ﻿using IW.Models;
+using IW.Models.DTOs;
 using IW.Models.DTOs.Item;
 using IW.Models.Entities;
 using Mapster;
@@ -27,9 +28,15 @@ namespace IW.Configurations
                 .PreserveReference(true);
             config
                 .NewConfig<ItemDto,OrderItem>()
-                .Map(dst => dst.Subtotal,src=>src.Price*src.Quantity);
+                .Map(dst => dst.Subtotal,src=>src.Price *src.Quantity);
             config
                 .NewConfig<ItemDto, OrderItem>()
+                .Map(dst => dst.Subtotal, src => src.Price * src.Quantity);
+            config
+                .NewConfig<CreateItem, OrderItem>()
+                .Map(dst => dst.Subtotal, src => src.Price * src.Quantity);
+            config
+                .NewConfig<CreateItem, OrderItem>()
                 .Map(dst => dst.Subtotal, src => src.Price * src.Quantity);
         }
     }

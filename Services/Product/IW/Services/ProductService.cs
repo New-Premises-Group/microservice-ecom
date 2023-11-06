@@ -45,19 +45,19 @@ namespace IW.Services
             return result;
         }
 
-        public async Task<IEnumerable<ProductDto>> GetProducts(int offset, int amount)
+        public async Task<IEnumerable<ProductDto>> GetProducts(int page, int amount)
         {
-            var products = await _unitOfWork.Products.GetAll(offset, amount);
+            var products = await _unitOfWork.Products.GetAll(page, amount);
             ICollection<ProductDto> result = products.Adapt<ICollection<ProductDto>>();
             return result;
         }
 
-        public async Task<IEnumerable<ProductDto>> GetProducts(GetProduct query, int offset, int amount)
+        public async Task<IEnumerable<ProductDto>> GetProducts(GetProduct query, int page, int amount)
         {
             var products = await _unitOfWork.Products.FindByConditionToList(
                 p => p.Name == query.Name ||
                 p.CategoryId==query.CategoryId
-                , offset, amount);
+                , page, amount);
             ICollection<ProductDto> result = products.Adapt<ICollection<ProductDto>>();
             return result;
         }

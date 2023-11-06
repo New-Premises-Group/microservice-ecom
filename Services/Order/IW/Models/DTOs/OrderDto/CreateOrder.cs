@@ -15,6 +15,6 @@ namespace IW.Models.DTOs.OrderDto
         [Required]
         public string ShippingAddress { get; set; }
         [Required]
-        public IEnumerable<CreateItem> Items { get; set; }
+        public ICollection<CreateItem> Items { get; set; }
     }
 }

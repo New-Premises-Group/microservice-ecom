@@ -14,15 +14,15 @@ namespace IW.Controllers.Queries
             return result;
         }
 
-        public async Task<IEnumerable<ProductDto>> GetProducts([Service] IProductService productService, int offset = ((int)PAGINATING.OffsetDefault), int amount = ((int)PAGINATING.AmountDefault))
+        public async Task<IEnumerable<ProductDto>> GetProducts([Service] IProductService productService, int page = ((int)PAGINATING.OffsetDefault), int amount = ((int)PAGINATING.AmountDefault))
         {
-            var results = await productService.GetProducts(offset, amount);
+            var results = await productService.GetProducts(page, amount);
             return results;
         }
 
-        public async Task<IEnumerable<ProductDto>> GetProducts(GetProduct query, [Service] IProductService productService, int offset = ((int)PAGINATING.OffsetDefault), int amount = ((int)PAGINATING.AmountDefault))
+        public async Task<IEnumerable<ProductDto>> GetProducts(GetProduct query, [Service] IProductService productService, int page = ((int)PAGINATING.OffsetDefault), int amount = ((int)PAGINATING.AmountDefault))
         {
-            var results = await productService.GetProducts(query, offset, amount);
+            var results = await productService.GetProducts(query, page, amount);
             return results;
         }
     }

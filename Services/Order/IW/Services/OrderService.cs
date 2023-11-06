@@ -9,6 +9,7 @@ using MapsterMapper;
 using Mapster;
 using IW.Models.DTOs.Item;
 using IW.Models;
+using FluentEmail.Core;
 
 namespace IW.Services
 {
@@ -115,7 +116,7 @@ namespace IW.Services
         {
             Order newOrder = _mapper.Map<Order>(input);
             newOrder.Date = DateTime.Now.ToUniversalTime();
-            newOrder.Status = ORDER_STATUS.Confirmed;
+            newOrder.Status = input.Status;
             newOrder.UserId= Guid.NewGuid();
 
             OrderValidator validator = new();
