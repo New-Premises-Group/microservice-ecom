@@ -37,8 +37,6 @@ namespace IW.Models.Entities
                 .LessThanOrEqualTo(DateTime.Now)
                 .WithErrorCode($"{VALIDATOR_ERROR_CODE.LessThanOrEqualTo}");
             RuleFor(x=>x.Status)
-                .NotEmpty()
-                .WithErrorCode($"{VALIDATOR_ERROR_CODE.NotEmpty}")
                 .IsInEnum()
                 .WithErrorCode($"{VALIDATOR_ERROR_CODE.IsInEnum}");
             RuleFor(x=>x.ShippingAddress)

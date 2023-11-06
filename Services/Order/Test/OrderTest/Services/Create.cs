@@ -72,7 +72,8 @@ namespace Test.OrderTest.Services
                 Phone = "0987654321",
                 Total = 10000,
                 Email = "hai123@gmail.com",
-                ShippingAddress = "123 Tan Phu, HCM"
+                ShippingAddress = "123 Tan Phu, HCM",
+                Status= ORDER_STATUS.Created,
             };
         }
 
