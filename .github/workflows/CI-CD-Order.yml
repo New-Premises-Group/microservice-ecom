@@ -14,10 +14,34 @@ on:
       - Services/Order/**
 
 jobs:
-  build-image:
+  Testing:
+    environment: development
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        dotnet-version: [ '6.0.x' ]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: List Folder
+        run: ls
+        working-directory: ./Services/Order/IW
+      - name: Setup dotnet
+        uses: actions/setup-dotnet@v3
+      - name: Restore dependencies
+        run: dotnet restore
+        working-directory: ./Services/Order/IW
+      - name: Build
+        run: dotnet build
+        working-directory: ./Services/Order/IW
+      - name: Unit Testing
+        run: dotnet test --no-build --verbosity normal
+        working-directory: ./Services/Order/IW
+      
+  Build-image:
     environment: production
     runs-on: ubuntu-latest
-
+    needs: [Testing]
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -38,8 +62,8 @@ jobs:
       #       dotnet-version: ${{ env.DOTNET_VERSION }}
       # - name: Restore dependencies
       #   run: dotnet restore
-      # - name: Build
-      #   run: dotnet build --no-restore
+      # # - name: Build
+      # #   run: dotnet build --no-restore
       # - name: Test
       #   run: dotnet test --no-build --verbosity normal
 
