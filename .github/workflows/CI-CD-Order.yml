@@ -25,18 +25,18 @@ jobs:
         uses: actions/checkout@v4
       - name: List Folder
         run: ls
-        working-directory: ./IW
+        working-directory: ./Services/Order/IW
       - name: Setup dotnet
         uses: actions/setup-dotnet@v3
       - name: Restore dependencies
         run: dotnet restore
-        working-directory: ./IW
+        working-directory: ./Services/Order/IW
       - name: Build
         run: dotnet build
-        working-directory: ./IW
+        working-directory: ./Services/Order/IW
       - name: Unit Testing
         run: dotnet test --no-build --verbosity normal
-        working-directory: ./IW
+        working-directory: ./Services/Order/IW
       
   Build-image:
     environment: production
