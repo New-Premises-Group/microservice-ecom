@@ -29,8 +29,10 @@ jobs:
         run: dotnet restore
       - name: Build
         run: dotnet build
+        working-directory: ./IW
       - name: Unit Testing
         run: dotnet test --no-build --verbosity normal
+        working-directory: ./IW
       
   Build-image:
     environment: production
