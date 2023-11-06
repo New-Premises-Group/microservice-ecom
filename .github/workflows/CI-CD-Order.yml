@@ -18,11 +18,14 @@ jobs:
     environment: development
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout
+        uses: actions/checkout@v3
       - name: Setup dotnet
         uses: actions/setup-dotnet@v3
+      - name: Restore dependencies
+        run: dotnet restore
       - name: Unit Testing
-      - run: dotnet test
+        run: dotnet test
       
   build-image:
     environment: production
