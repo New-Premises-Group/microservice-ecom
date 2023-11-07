@@ -59,20 +59,20 @@ public static class ServicesExtension
         // Application database context
         builder.Services.AddDbContext<AppDbContext>(options =>
         {
-            //if (builder.Environment.IsDevelopment())
-            //{
-            //    options.UseNpgsql(builder.Configuration.GetConnectionString("DevConnection"), builder =>
-            //    {
-            //        builder.EnableRetryOnFailure(5, TimeSpan.FromSeconds(10), null);
-            //    });
-            //    Console.WriteLine("Development Evironment");
-            //}
-            //if (builder.Environment.IsProduction())
-            //{
-            //    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"));
-            //    Console.WriteLine("Production Evironment");
-            //}
-            options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"));
+            if (builder.Environment.IsDevelopment())
+            {
+                options.UseNpgsql(builder.Configuration.GetConnectionString("DevConnection"), builder =>
+                {
+                    builder.EnableRetryOnFailure(5, TimeSpan.FromSeconds(10), null);
+                });
+                Console.WriteLine("Development Evironment");
+            }
+            if (builder.Environment.IsProduction())
+            {
+                options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"));
+                Console.WriteLine("Production Evironment");
+            }
+            //options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"));
         });
 
         // Redis cache database
