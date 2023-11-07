@@ -28,7 +28,8 @@
         Shipping,
         Delivered,
         Confirmed,
-        Created
+        Created,
+        Cancelled,
     }
     public enum QUEUE_NAME
     {
