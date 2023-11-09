@@ -60,8 +60,8 @@ public class Mutation
         };
         return payload;
     }
-
-    public async Task<UserCreatedPayload> RenewToken(CreateUser input, [Service] IUserService userService)
+    [AllowAnonymous]
+    public async Task<UserCreatedPayload> RenewToken(Guid input, [Service] IUserService userService)
     {
         var token = await userService.RenewToken(input);
         var payload = new UserCreatedPayload()

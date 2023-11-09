@@ -62,16 +62,11 @@ namespace IW.Services
             return token;
         }
 
-        public async Task<string> RenewToken(CreateUser model)
+        public async Task<string> RenewToken(Guid id)
         {
-            var role= await _unitOfWork.Roles.GetById(model.RoleId);
-            User newUser = model.Adapt<User>();
-            newUser.Role = role;
+            var user = await UserExist(id);
 
-            UserValidator validator = new();
-            validator.ValidateAndThrowException(newUser);
-
-            string token = _jwtProvider.Generate(newUser);
+            string token = _jwtProvider.Generate(user);
             return token;
         }
 

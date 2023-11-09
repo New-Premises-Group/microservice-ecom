@@ -24,10 +24,10 @@ namespace IW.Controllers.Mutations
             };
             return payload;
         }
-
-        public async Task<UserCreatedPayload> RenewToken(CreateUser input, [Service] IUserService userService)
+        [AllowAnonymous]
+        public async Task<UserCreatedPayload> RenewToken(Guid id, [Service] IUserService userService)
         {
-            var token = await userService.RenewToken(input);
+            var token = await userService.RenewToken(id);
             var payload = new UserCreatedPayload()
             {
                 Message = "Renew token successful",
