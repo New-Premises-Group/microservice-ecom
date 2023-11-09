@@ -88,6 +88,7 @@ namespace IW.Services
             user.Email = model.Email ?? user.Email;
             user.ImageURL = model.ImageURL ?? user.ImageURL;
             user.Token = model.Token ?? user.Token;
+            user.PhoneNumber= model.PhoneNumber ?? user.PhoneNumber;
 
             UserValidator validator = new UserValidator();
             validator.ValidateAndThrowException(user);

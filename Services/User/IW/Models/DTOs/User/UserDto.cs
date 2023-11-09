@@ -1,4 +1,6 @@
 ﻿using HotChocolate.Authorization;
+using IW.Models.DTOs.Address;
+using IW.Models.DTOs.Role;
 
 namespace IW.Models.DTOs.User
 {
@@ -10,7 +12,8 @@ namespace IW.Models.DTOs.User
         [Authorize]
         public string? Token { get; set; }
         public string? ImageURL { get; set; }
-        public int RoleId { get; set; }
+        public RoleDto Role { get; set; }
         public string PhoneNumber { get; set; }
+        public AddressDto? Address { get; set; }
     }
 }

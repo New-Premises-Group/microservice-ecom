@@ -3,6 +3,7 @@ using IW.Interfaces;
 using IW.Models;
 using IW.Models.Entities;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Query.SqlExpressions;
 using System.Linq.Expressions;
 
 namespace IW.Repositories
@@ -21,9 +22,25 @@ namespace IW.Repositories
                 .SetProperty(u=>u.RoleId,role.Id));
         }
 
-        public virtual async Task<User?> FindByCondition(Expression<Func<User, bool>> expression)
+        public override async Task<User?> FindByCondition(Expression<Func<User, bool>> expression)
         {
-            return await dbSet.Where(expression).Include(u=>u.Role).FirstOrDefaultAsync();
+            return await dbSet.Where(expression)
+                .Include(u=>u.Role)
+                .Include(u=>u.Addresses).FirstOrDefaultAsync();
+        }
+        public override async Task<User?> GetById <Guid>(Guid id)
+        {
+            return await dbSet.Where(u=>u.Id.Equals(id))
+                .Include(u => u.Role)
+                .Include(u => u.Addresses)
+                .FirstAsync();
+        }
+        public override async Task<ICollection<User>> GetAll(int offset, int amount)
+        {
+            return await dbSet
+                .Include(u => u.Role)
+                .Include(u => u.Addresses)
+                .AsNoTracking().Skip(offset).Take(amount).ToListAsync();
         }
     }
 }
