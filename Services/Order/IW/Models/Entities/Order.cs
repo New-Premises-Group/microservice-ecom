@@ -13,6 +13,8 @@ namespace IW.Models.Entities
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
         public Guid UserId { get; set; }
+        public string UserName {  get; set; }
+        public string Phone { get; set; }
         public DateTime Date { get; set; }
         [Column(TypeName = "varchar(15)")]
         public ORDER_STATUS Status { get; set; }

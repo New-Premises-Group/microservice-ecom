@@ -97,6 +97,8 @@ namespace IW.Services
             order.CancelReason = input.CancelReason;
             order.Status = input.Status ?? order.Status;
             order.ShippingAddress = input.ShippingAddress ?? order.ShippingAddress;
+            order.UserName=input.UserName;
+            order.Phone= input.Phone;
 
             OrderValidator validator = new ();
             validator.ValidateAndThrowException(order);
