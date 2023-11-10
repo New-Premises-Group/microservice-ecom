@@ -1,4 +1,5 @@
-﻿using IW.Models.Entities;
+﻿using IW.Models.DTOs.OrderDtos;
+using IW.Models.Entities;
 
 namespace IW.Models.DTOs.Item
 { 
@@ -6,7 +7,7 @@ namespace IW.Models.DTOs.Item
     {
         public int? Id { get; set; }
         public int? OrderId { get; set; }
-        public Order? Order { get; set; }
+        public OrderDto? Order { get; set; }
         public int? ProductId { get; set; }
         public string? Name { get; set; }
         public decimal? Price { get; set; }

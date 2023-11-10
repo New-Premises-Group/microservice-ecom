@@ -3,7 +3,7 @@ using IW.Common;
 using IW.Exceptions.CreateOrderError;
 using IW.Interfaces;
 using IW.Interfaces.Services;
-using IW.Models.DTOs.OrderDto;
+using IW.Models.DTOs.OrderDtos;
 using IW.Services;
 
 namespace IW.MessageBroker.Mutations

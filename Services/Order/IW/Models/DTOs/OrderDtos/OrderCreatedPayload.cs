@@ -1,4 +1,4 @@
-﻿namespace IW.Models.DTOs.OrderDto
+﻿namespace IW.Models.DTOs.OrderDtos
 {
     public class OrderCreatedPayload
     {

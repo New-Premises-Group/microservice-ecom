@@ -1,7 +1,7 @@
 ﻿using IW.Common;
 using IW.Models.Entities;
 
-namespace IW.Models.DTOs.OrderDto
+namespace IW.Models.DTOs.OrderDtos
 {
     public class GetOrder
     {

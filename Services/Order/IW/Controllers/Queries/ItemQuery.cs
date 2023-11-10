@@ -2,7 +2,7 @@
 using IW.Common;
 using IW.Interfaces;
 using IW.Models.DTOs.Item;
-using IW.Models.DTOs.ItemDto;
+using IW.Models.DTOs.ItemDtos;
 
 namespace IW.MessageBroker.Queries
 {

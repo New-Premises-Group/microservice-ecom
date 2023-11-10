@@ -1,4 +1,4 @@
-﻿using IW.Models.DTOs.OrderDto;
+﻿using IW.Models.DTOs.OrderDtos;
 
 namespace IW.Interfaces.Services
 {

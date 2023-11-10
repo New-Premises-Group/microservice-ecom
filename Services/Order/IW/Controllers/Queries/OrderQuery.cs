@@ -1,7 +1,7 @@
 ﻿using HotChocolate.Authorization;
 using IW.Common;
 using IW.Interfaces.Services;
-using IW.Models.DTOs.OrderDto;
+using IW.Models.DTOs.OrderDtos;
 
 namespace IW.MessageBroker.Queries
 {

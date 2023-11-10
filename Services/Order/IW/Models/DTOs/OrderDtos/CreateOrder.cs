@@ -1,7 +1,7 @@
 ﻿using IW.Common;
 using System.ComponentModel.DataAnnotations;
 
-namespace IW.Models.DTOs.OrderDto
+namespace IW.Models.DTOs.OrderDtos
 {
     public class CreateOrder
     {

@@ -2,7 +2,7 @@ using IW.Interfaces;
 using IW.Models;
 using IW.Models.DTOs;
 using IW.Models.DTOs.Item;
-using IW.Models.DTOs.ItemDto;
+using IW.Models.DTOs.ItemDtos;
 using Microsoft.Extensions.Caching.Distributed;
 
 namespace IW.Services

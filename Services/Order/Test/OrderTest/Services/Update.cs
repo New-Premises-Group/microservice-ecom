@@ -1,6 +1,6 @@
 ﻿using FakeItEasy;
 using IW.Interfaces;
-using IW.Models.DTOs.OrderDto;
+using IW.Models.DTOs.OrderDtos;
 using IW.Models;
 using IW.Services;
 using MapsterMapper;

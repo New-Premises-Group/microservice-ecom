@@ -3,7 +3,7 @@ using IW.Exceptions.ReadItemError;
 using IW.Interfaces;
 using IW.Models.DTOs;
 using IW.Models.DTOs.Item;
-using IW.Models.DTOs.ItemDto;
+using IW.Models.DTOs.ItemDtos;
 using IW.Models.Entities;
 using MapsterMapper;
 

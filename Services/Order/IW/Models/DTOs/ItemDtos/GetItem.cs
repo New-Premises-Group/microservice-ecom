@@ -1,5 +1,5 @@
 ﻿
-namespace IW.Models.DTOs.ItemDto
+namespace IW.Models.DTOs.ItemDtos
 {
     public class GetItem
     {
