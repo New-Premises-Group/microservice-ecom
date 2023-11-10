@@ -13,7 +13,7 @@ namespace IW.Models.DTOs.User
         public string? Token { get; set; }
         public string? ImageURL { get; set; }
         public RoleDto Role { get; set; }
-        public string PhoneNumber { get; set; }
+        public string? PhoneNumber { get; set; }
         public AddressDto? Address { get; set; }
     }
 }

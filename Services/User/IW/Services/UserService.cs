@@ -40,7 +40,7 @@ namespace IW.Services
 
         public async Task<string> LogIn(CreateUser model)
         {
-            var user = await _unitOfWork.Users.FindByCondition(u => u.Name == model.Name);
+            var user = await _unitOfWork.Users.FindByCondition(u => u.Name == model.Name && u.Email==model.Email);
             Role? role = !Equals(user,null)? user.Role: await _unitOfWork.Roles.GetById((int)ROLE.User); 
 
             User newUser = model.Adapt<User>();
