@@ -38,28 +38,36 @@ namespace IW.Services
             return result;
         }
 
-        public async Task<string> LogIn(CreateUser model)
+        public async Task<UserCreatedPayload> LogIn(CreateUser model)
         {
             var user = await _unitOfWork.Users.FindByCondition(u => u.Name == model.Name && u.Email==model.Email);
             Role? role = !Equals(user,null)? user.Role: await _unitOfWork.Roles.GetById((int)ROLE.User); 
 
-            User newUser = model.Adapt<User>();
-            newUser.RoleId = role.Id;
-            newUser.Role = role;
-
-            UserValidator validator = new();
-            validator.ValidateAndThrowException(newUser);
-
             if (Equals(user, null))
             {
+                User newUser = model.Adapt<User>();
+                newUser.RoleId = role.Id;
+                newUser.Role = role;
+
+                UserValidator validator = new();
+                validator.ValidateAndThrowException(newUser);
+
                 _unitOfWork.Users.Add(newUser);
                 await _unitOfWork.CompleteAsync();
                 string newToken = _jwtProvider.Generate(newUser);
-                return newToken;
+                return new UserCreatedPayload
+                {
+                    ApiToken = newToken,
+                    UserId = newUser.Id.ToString().ToUpper(),
+                };
             }
 
-            string token = _jwtProvider.Generate(newUser);
-            return token;
+            string token = _jwtProvider.Generate(user);
+            return new UserCreatedPayload
+            {
+                ApiToken = token,
+                UserId = user.Id.ToString().ToUpper(),
+            };
         }
 
         public async Task<string> RenewToken(Guid id)

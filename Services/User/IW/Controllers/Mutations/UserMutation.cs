@@ -16,12 +16,8 @@ namespace IW.Controllers.Mutations
         [AllowAnonymous]
         public async Task<UserCreatedPayload> LoginUser(CreateUser input, [Service] IUserService userService)
         {
-            var token = await userService.LogIn(input);
-            var payload = new UserCreatedPayload()
-            {
-                Message = "User successfully created",
-                ApiToken = token
-            };
+            var payload = await userService.LogIn(input);
+            payload.Message = "User successfully login";
             return payload;
         }
         [AllowAnonymous]

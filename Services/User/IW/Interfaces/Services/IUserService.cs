@@ -6,7 +6,7 @@ namespace IW.Interfaces
 {
     public interface IUserService
     {
-        Task<string> LogIn(CreateUser model);
+        Task<UserCreatedPayload> LogIn(CreateUser model);
         Task<string> RenewToken(Guid id);
         Task<string> UpdateUserRole(Guid userId,Role role);
         Task<UserDto> GetUser(Guid id);
