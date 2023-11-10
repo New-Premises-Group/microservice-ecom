@@ -16,15 +16,16 @@ namespace IW.Services
             _unitOfWork = unitOfWork;
         }
 
-        public async Task CreateAddress(CreateAddress input)
+        public async Task<int> CreateAddress(CreateAddress input)
         {
             Address newAddress = input.Adapt<Address>();
 
             AddressValidator validator = new();
             validator.ValidateAndThrowException(newAddress);
 
-            _unitOfWork.Addresses.Add(input.Adapt<Address>());
+            _unitOfWork.Addresses.Add(newAddress);
             await _unitOfWork.CompleteAsync();
+            return newAddress.Id;
         }
 
         public async Task DeleteAddress(int id)
@@ -42,9 +43,21 @@ namespace IW.Services
             return address.Adapt<AddressDto?>();
         }
 
-        public async Task<ICollection<AddressDto>> GetAddresses()
+        public async Task<ICollection<AddressDto>> GetAddresses(int amount,int page)
         {
-            ICollection<Address> addresses=await _unitOfWork.Addresses.GetAll(0, 0);
+            ICollection<Address> addresses=await _unitOfWork.Addresses.GetAll(amount, page);
+
+            return addresses.Adapt<ICollection<AddressDto>>();
+        }
+
+        public async Task<ICollection<AddressDto>> GetAddresses(GetAddressQuery query, int amount,int page)
+        {
+            ICollection<Address> addresses=await _unitOfWork.Addresses.FindByConditionToList(
+                addr=>
+                addr.Name==query.Name ||
+                addr.Phone==query.Phone ||
+                addr.UserId==query.UserId
+                ,amount, page);
 
             return addresses.Adapt<ICollection<AddressDto>>();
         }
@@ -52,6 +65,8 @@ namespace IW.Services
         public async Task UpdateAddress(int id, UpdateAddress model)
         {
             Address address =await AddressExist(id);
+            address.Phone= model.Phone;
+            address.Name= model.Name;
             address.Detail= model.Detail;
             address.Ward= model.Ward;
             address.City= model.City;

@@ -53,6 +53,7 @@ public static class ServicesExtension
         builder.Services.AddScoped<IRoleService, RoleService>();
         builder.Services.AddScoped<IRoleRepository, RoleRepository>();
         builder.Services.AddScoped<IAddressRepository, AddressRepository>();
+        builder.Services.AddScoped<IAddressService, AddressService>();
 
         builder.Services.AddScoped<IJwtProvider, JwtProvider>();
     }

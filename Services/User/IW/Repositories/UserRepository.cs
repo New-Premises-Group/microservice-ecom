@@ -28,6 +28,7 @@ namespace IW.Repositories
                 .Include(u=>u.Role)
                 .Include(u=>u.Addresses).FirstOrDefaultAsync();
         }
+
         public override async Task<User?> GetById <Guid>(Guid id)
         {
             return await dbSet.Where(u=>u.Id.Equals(id))

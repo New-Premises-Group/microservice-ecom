@@ -1,5 +1,4 @@
 ﻿using IW.Exceptions.CreateAddressError;
-using IW.Interfaces;
 using IW.Interfaces.Services;
 using IW.Models.DTOs.Address;
 
@@ -11,9 +10,10 @@ namespace IW.Controllers.Mutations
         [Error(typeof(CreateAddressErrorFactory))]
         public async Task<AddressCreatedPayload> CreateAddress(CreateAddress address, [Service] IAddressService addressService)
         {
-            await addressService.CreateAddress(address);
+            var id=await addressService.CreateAddress(address);
             var payload = new AddressCreatedPayload()
             {
+                Id=id,
                 Message = "Address successfully created"
             };
             return payload;

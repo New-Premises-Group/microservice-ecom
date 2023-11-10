@@ -1,5 +1,6 @@
 ﻿using IW.Interfaces;
 using IW.Models;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 
@@ -30,9 +31,13 @@ namespace IW.Common
             dbSet.Update(entity);
         }
 
-        public async Task<ICollection<TEntity>> FindByConditionToList(Expression<Func<TEntity, bool>> expression,int offset, int amount)
+        public async Task<ICollection<TEntity>> FindByConditionToList(Expression<Func<TEntity, bool>> expression,int amount, int page)
         {
-            ICollection<TEntity> results= await dbSet.AsNoTracking().Where(expression).Skip(offset).Take(amount).ToListAsync();
+            ICollection<TEntity> results= await dbSet.AsNoTracking()
+            .Where(expression)
+                .Skip((page - 1) * amount)
+                .Take(amount)
+                .ToListAsync();
             return results;
         }
 
@@ -41,9 +46,11 @@ namespace IW.Common
             return await dbSet.Where(expression).FirstOrDefaultAsync();
         }
 
-        public virtual async Task<ICollection<TEntity>> GetAll(int offset, int amount)
+        public virtual async Task<ICollection<TEntity>> GetAll(int amount, int page)
         {
-            return await dbSet.AsNoTracking().Skip(offset).Take(amount).ToListAsync();
+            return await dbSet.AsNoTracking()
+                .Skip((page-1)*amount)
+                .Take(amount).ToListAsync();
         }
 
         public virtual async Task<TEntity?>GetById<T>(T id)

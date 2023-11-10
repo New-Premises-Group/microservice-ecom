@@ -12,6 +12,8 @@ namespace IW.Models.Entities
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
+        public string Phone {  get; set; }
+        public string Name {  get; set; }
         public string Detail { get; set; }
         public string Ward {  get; set; }
         public string District { get; set; }
@@ -29,10 +31,22 @@ namespace IW.Models.Entities
                 .WithErrorCode($"{VALIDATOR_ERROR_CODE.NotEmpty}")
                 .Length(1, 100)
                 .WithErrorCode($"{VALIDATOR_ERROR_CODE.Length}");
-
-            RuleFor(address => address.Ward)
+            RuleFor(address => address.Detail)
                 .NotEmpty()
-                .WithErrorCode($"{VALIDATOR_ERROR_CODE.NotEmpty}");
+                .WithErrorCode($"{VALIDATOR_ERROR_CODE.NotEmpty}")
+                .Length(1, 100)
+                .WithErrorCode($"{VALIDATOR_ERROR_CODE.Length}");
+            RuleFor(address => address.Name)
+                .NotEmpty()
+                .WithErrorCode($"{VALIDATOR_ERROR_CODE.NotEmpty}")
+                .Length(1, 100)
+                .WithErrorCode($"{VALIDATOR_ERROR_CODE.Length}");
+
+            RuleFor(address => address.Phone)
+                .NotEmpty()
+                .WithErrorCode($"{VALIDATOR_ERROR_CODE.NotEmpty}")
+                .Matches("^0([1-9][0-9]{2})([0-9]{2,3})([0-9]{3})$")
+                .WithErrorCode($"{VALIDATOR_ERROR_CODE.Match}");
 
             RuleFor(address => address.District)
                 .NotEmpty()

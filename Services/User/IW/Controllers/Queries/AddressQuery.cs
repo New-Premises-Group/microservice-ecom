@@ -6,9 +6,15 @@ namespace IW.Controllers.Queries
     [ExtendObjectType("Query")]
     public class AddressQuery
     {
-        public async Task<IEnumerable<AddressDto>> GetAddresses([Service] IAddressService addressService)
+        public async Task<IEnumerable<AddressDto>> GetAddresses([Service] IAddressService addressService,int page,int amount)
         {
-            var address = await addressService.GetAddresses();
+            var address = await addressService.GetAddresses(amount,page);
+            return address;
+        }
+
+        public async Task<IEnumerable<AddressDto>> GetAddressesQuery([Service] IAddressService addressService,GetAddressQuery query, int page, int amount)
+        {
+            var address = await addressService.GetAddresses(query,amount, page);
             return address;
         }
 
