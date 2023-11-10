@@ -17,5 +17,21 @@ namespace IW.Repositories
         {
             return await dbSet.Where(expression).Include(u=>u.Category).FirstOrDefaultAsync();
         }
+
+        public override async Task<IEnumerable<Product>> GetAll(int page, int amount)
+        {
+            return await dbSet.Include(u => u.Category)
+                .AsNoTracking()
+                .Skip((page - 1) * amount)
+                .Take(amount)
+                .ToListAsync();
+        }
+        public override async Task<Product?> GetById (int id)
+        {
+            return await dbSet
+                .Include(u => u.Category)
+                .Where(p=>p.Id==id)
+                .FirstAsync();
+        }
     }
 }

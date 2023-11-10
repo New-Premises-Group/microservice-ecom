@@ -51,6 +51,11 @@ namespace IW.Common
             return await dbSet.FindAsync(id);
         }
 
+        public virtual async Task<TEntity?> GetById (int id)
+        {
+            return await dbSet.FindAsync(id);
+        }
+
         public void Remove(TEntity entity)
         {
             dbSet.Remove(entity);
