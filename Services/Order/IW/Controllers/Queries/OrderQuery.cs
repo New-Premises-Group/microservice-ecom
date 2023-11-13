@@ -16,7 +16,7 @@ namespace IW.MessageBroker.Queries
             return results;
         }
 
-        public async Task<IEnumerable<OrderDto>> GetOrders(GetOrder query,[Service] IOrderService orderService, int page = (int)PAGINATING.OffsetDefault, int amount = (int)PAGINATING.AmountDefault)
+        public async Task<IEnumerable<OrderDto>> FindOrders(GetOrder query,[Service] IOrderService orderService, int page = (int)PAGINATING.OffsetDefault, int amount = (int)PAGINATING.AmountDefault)
         {
             var results = await orderService.GetOrders(query, page, amount);
             return results;

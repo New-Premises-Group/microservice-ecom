@@ -82,7 +82,9 @@ namespace IW.Services
             var orders = await _unitOfWork.Orders.FindByConditionToList(
                 o => o.UserId==query.UserId ||
                 o.Status==query.Status ||
-                o.Date ==query.Date
+                o.Date ==query.Date ||
+                o.UserName==query.UserName ||
+                o.Phone==query.Phone
                 , page, amount);
 
             ICollection<OrderDto> result = _mapper.Map<List<OrderDto>>(orders);

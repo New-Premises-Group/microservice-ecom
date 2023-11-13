@@ -30,6 +30,7 @@
         Confirmed,
         Created,
         Cancelled,
+        Done
     }
     public enum QUEUE_NAME
     {
