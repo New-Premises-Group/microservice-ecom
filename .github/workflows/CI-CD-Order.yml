@@ -78,6 +78,7 @@ jobs:
           git config user.name "github-actions[bot]"
           git add README.md
           git commit -m "Automated report"
+          cat README.md
 
       - name: Push Changes
         uses: ad-m/github-push-action@master
