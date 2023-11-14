@@ -49,12 +49,15 @@ jobs:
           output: both
           thresholds: '5 80'
         id: coverage
+      - name: Upload File as Artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: my-artifact
+          path: code-coverage-results.md
       - name: List file
         run: ls -a
       - name: Echo
-        run: ${{steps.coverage.outputs.*}} > test.MD
-      - name: Cat
-        run: cat test.MD
+        run: ${{steps.coverage.outputs.code-coverage-results.md}} > test.MD
       
   Build-image:
     environment: production
