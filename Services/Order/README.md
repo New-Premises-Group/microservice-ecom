@@ -83,3 +83,4 @@
 >  * __UnitOfWork__ : combine query and command to database in each request into a single roundtrip
 >  * __UserRepository__ : define code to access database
 >  * __UserService__ : define service code
+.....
