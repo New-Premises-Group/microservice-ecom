@@ -48,6 +48,13 @@ jobs:
           indicators: true
           output: both
           thresholds: '5 80'
+        id: coverage
+      - name: List file
+        run: ls -a
+      - name: Write to MD
+        run: cat **/code-coverage-results.md}}
+      - name: Write to MD
+        run: cat ${{steps.code-coverage-results.md}}
       
   Build-image:
     environment: production
