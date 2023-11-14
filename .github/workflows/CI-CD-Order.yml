@@ -52,7 +52,9 @@ jobs:
       - name: List file
         run: ls -a
       - name: Write to MD
-        run: cat ${{steps.coverage.code-coverage-results.md}}
+        run: cat ${{steps.coverage.outputs.*}}
+      - name: Write to MD
+        run: echo ${{steps.coverage.outputs.*}}
       
   Build-image:
     environment: production
