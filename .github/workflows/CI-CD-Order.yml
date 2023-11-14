@@ -78,8 +78,7 @@ jobs:
           git config user.name "github-actions[bot]"
           git add .
           git commit -m "Automated report" -a
-        env:
-          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+
       - name: Push Changes
         uses: ad-m/github-push-action@master
         with:
