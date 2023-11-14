@@ -52,7 +52,7 @@ jobs:
       - name: List file
         run: ls -a
       - name: Write to MD
-        run: cat **/code-coverage-results.md}}
+        run: cat **/code-coverage-results.md
       - name: Write to MD
         run: cat ${{steps.code-coverage-results.md}}
       
