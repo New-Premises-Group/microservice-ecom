@@ -53,7 +53,7 @@ jobs:
         run: ls -a
       - name: Write to MD
         run: cat ${{steps.coverage.outputs.*}}
-      - name: Write to MD
+      - name: Echo
         run: echo ${{steps.coverage.outputs.*}}
       
   Build-image:
