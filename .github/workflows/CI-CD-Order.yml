@@ -34,8 +34,10 @@ jobs:
         run: dotnet restore
       - name: Build
         run: dotnet build
+      
       - name: Unit Testing
         run: dotnet test --no-build --verbosity normal --collect:"XPlat Code Coverage" --results-directory ./coverage
+      
       - name: Code Coverage Report
         uses: irongut/CodeCoverageSummary@v1.3.0
         with:
@@ -48,17 +50,35 @@ jobs:
           indicators: true
           output: both
           thresholds: '5 80'
-        id: coverage
-      # - name: Upload File as Artifact
-      #   uses: actions/upload-artifact@v2
-      #   with:
-      #     name: my-artifact
-      #     path: code-coverage-results.md
-      - name: List file
-        run: ls -a
-      - name: Echo
-        run: cat code-coverage-results.md
-      
+        
+      - name: Upload File as Artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: my-artifact
+          path: code-coverage-results.md
+
+  Update-Report:
+    runs-on: ubuntu-latest
+    needs: [Testing]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        
+      - name: Download Artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: my-artifact
+          path: ./downloaded-artifact
+          
+      # Runs a set of commands using the runners shell 
+      - name: Update README.md
+        run: |
+          sed '/# Test Coverage/r ./downloaded-artifact/code-coverage-results.md' README.md
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git config user.name "github-actions[bot]"
+          git commit -am "Automated report"
+          git push
+        
   Build-image:
     environment: production
     runs-on: ubuntu-latest
