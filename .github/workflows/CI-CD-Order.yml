@@ -51,8 +51,6 @@ jobs:
         id: coverage
       - name: List file
         run: ls -a
-      - name: Write to MD
-        run: cat ${{steps.coverage.outputs.*}}
       - name: Echo
         run: echo ${{steps.coverage.outputs.*}}
       
