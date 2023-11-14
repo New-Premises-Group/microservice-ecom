@@ -73,6 +73,7 @@ jobs:
       # Runs a set of commands using the runners shell 
       - name: Update README.md
         run: |
+          sed -i '/![Code Coverage]/,/Minimum allowed line rate/d' README.md
           sed -i '/# Test Coverage/ r ./downloaded-artifact/code-coverage-results.md' README.md
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git config user.name "github-actions[bot]"
