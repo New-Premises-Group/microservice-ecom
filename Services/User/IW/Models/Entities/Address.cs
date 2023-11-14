@@ -12,6 +12,8 @@ namespace IW.Models.Entities
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
+        [DefaultValue(false)]
+        public bool IsDefault {  get; set; }
         public string Phone {  get; set; }
         public string Name {  get; set; }
         public string Detail { get; set; }

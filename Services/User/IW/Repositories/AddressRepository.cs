@@ -3,8 +3,6 @@ using IW.Interfaces;
 using IW.Models;
 using IW.Models.Entities;
 using Microsoft.EntityFrameworkCore;
-using System.Linq;
-using System.Linq.Expressions;
 
 namespace IW.Repositories
 {
@@ -13,6 +11,19 @@ namespace IW.Repositories
         public AddressRepository(AppDbContext context):base(context)
         {
             
+        }
+
+        public async Task SetDefaultAddress(int id)
+        {
+            await _context
+                .Addresses
+                .Where(addr => 
+                addr.Id == id || 
+                addr.IsDefault == true)
+                .ExecuteUpdateAsync(addr => addr
+                .SetProperty(p => 
+                p.IsDefault, 
+                p=>!p.IsDefault));
         }
 
     }

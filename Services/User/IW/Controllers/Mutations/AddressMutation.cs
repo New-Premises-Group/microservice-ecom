@@ -1,4 +1,5 @@
-﻿using IW.Exceptions.CreateAddressError;
+﻿using HotChocolate.Authorization;
+using IW.Exceptions.CreateAddressError;
 using IW.Interfaces.Services;
 using IW.Models.DTOs.Address;
 
@@ -20,12 +21,24 @@ namespace IW.Controllers.Mutations
         }
 
         [Error(typeof(CreateAddressErrorFactory))]
-        public async Task<AddressCreatedPayload> UpdateAddress(int id, UpdateAddress input, [Service] IAddressService addressService)
+        public async Task<AddressUpdatedPayload> UpdateAddress(int id, UpdateAddress input, [Service] IAddressService addressService)
         {
             await addressService.UpdateAddress(id, input);
-            var payload = new AddressCreatedPayload()
+            var payload = new AddressUpdatedPayload()
             {
                 Message = "Address successfully updated"
+            };
+            return payload;
+        }
+
+        [Error(typeof(CreateAddressErrorFactory))]
+        [AllowAnonymous]
+        public async Task<AddressUpdatedPayload> UpdateDefaultAddress(int id, [Service] IAddressService addressService)
+        {
+            await addressService.SetDefaultAddress(id);
+            var payload = new AddressUpdatedPayload()
+            {
+                Message = "Default address successfully updated"
             };
             return payload;
         }

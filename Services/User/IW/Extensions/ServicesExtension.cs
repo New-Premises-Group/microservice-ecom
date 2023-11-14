@@ -19,7 +19,9 @@ public static class ServicesExtension
     public static void RegisterServices(this WebApplicationBuilder builder)
     {
         builder.Services.AddCors();
-        builder.Services.AddGraphQLServer()
+        builder.Services
+            .AddGraphQLServer()
+            .AddAuthorization()
              .AddQueryType(d => d.Name("Query"))
                 .AddTypeExtension<UserQuery>()
                 .AddTypeExtension<RoleQuery>()
@@ -29,8 +31,7 @@ public static class ServicesExtension
                 .AddTypeExtension<RoleMutation>()
                 .AddTypeExtension<AddressMutation>()
                 .AddErrorFilter<ErrorFilter>()
-            .AddMutationConventions(applyToAllMutations: true)
-            .AddAuthorization();
+            .AddMutationConventions(applyToAllMutations: true);
         //Swagger
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();

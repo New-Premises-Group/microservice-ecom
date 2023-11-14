@@ -79,6 +79,11 @@ namespace IW.Services
             await _unitOfWork.CompleteAsync();
         }
 
+        public async Task SetDefaultAddress(int id)
+        {
+            await _unitOfWork.Addresses.SetDefaultAddress(id);
+        }
+
         private async Task<Address?> AddressExist(int id)
         {
             return await _unitOfWork.Addresses.GetById(id);

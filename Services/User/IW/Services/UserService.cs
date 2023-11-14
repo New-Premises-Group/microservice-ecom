@@ -58,7 +58,7 @@ namespace IW.Services
                 return new UserCreatedPayload
                 {
                     ApiToken = newToken,
-                    UserId = newUser.Id.ToString().ToUpper(),
+                    UserId = newUser.Id.ToString(),
                 };
             }
 
@@ -66,7 +66,7 @@ namespace IW.Services
             return new UserCreatedPayload
             {
                 ApiToken = token,
-                UserId = user.Id.ToString().ToUpper(),
+                UserId = user.Id.ToString(),
             };
         }
 
