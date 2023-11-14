@@ -52,8 +52,6 @@ jobs:
       - name: List file
         run: ls -a
       - name: Write to MD
-        run: cat code-coverage-results.md
-      - name: Write to MD
         run: cat ${{steps.coverage.code-coverage-results.md}}
       
   Build-image:
