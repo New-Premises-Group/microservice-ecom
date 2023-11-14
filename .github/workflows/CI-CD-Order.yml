@@ -52,7 +52,9 @@ jobs:
       - name: List file
         run: ls -a
       - name: Echo
-        run: echo ${{steps.coverage.outputs.*}}
+        run: ${{steps.coverage.outputs.*}} > test.MD
+      - name: Cat
+        run: cat test.MD
       
   Build-image:
     environment: production
