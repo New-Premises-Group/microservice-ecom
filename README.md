@@ -15,6 +15,8 @@
 
 ![Website Status](https://img.shields.io/website-up-down-green-red/https/newpremises.group.svg)
 
+# Test Coverage
+
 # Database & Storage Providers
 
 ![Dependencies](https://img.shields.io/badge/Supabase-181818?style=for-the-badge&logo=supabase&logoColor=white)
