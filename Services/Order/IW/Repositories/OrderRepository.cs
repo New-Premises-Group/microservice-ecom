@@ -3,6 +3,7 @@ using IW.Interfaces.Repositories;
 using IW.Models;
 using IW.Models.Entities;
 using Microsoft.EntityFrameworkCore;
+using System.Linq;
 using System.Linq.Expressions;
 
 namespace IW.Repositories
@@ -26,6 +27,16 @@ namespace IW.Repositories
         public override async Task<Order?> FindByCondition(Expression<Func<Order, bool>> expression)
         {
             return await dbSet.Where(expression).Include(u => u.Items).FirstOrDefaultAsync();
+        }
+
+        public async Task<IEnumerable<Order>> FindByConditionToList(Expression<Func<Order, bool>> expression, int page, int amount)
+        {
+            return await dbSet.Where(expression)
+                .Include(u => u.Items)
+                .Where(expression)
+                .Skip((page - 1) * amount)
+                .Take(amount)
+                .ToListAsync(); ;
         }
     }
 }
