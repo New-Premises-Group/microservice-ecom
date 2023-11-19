@@ -3,6 +3,5 @@
     public class ProductUpdatedPayload
     {
         public string Message { get; set; }
-        public string? ApiToken {  get; set; }
     }
 }
