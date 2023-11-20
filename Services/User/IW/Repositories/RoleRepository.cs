@@ -12,7 +12,7 @@ namespace IW.Repositories
         {
         }
 
-        public override async Task<ICollection<Role>> GetAll(int offset, int amount)
+        public override async Task<ICollection<Role>> GetAll(int page, int amount)
         {
             return await dbSet.AsNoTracking().ToListAsync();
         }

@@ -36,12 +36,16 @@ namespace IW.Repositories
                 .Include(u => u.Addresses)
                 .FirstAsync();
         }
-        public override async Task<ICollection<User>> GetAll(int offset, int amount)
+        public override async Task<ICollection<User>> GetAll( int amount, int page)
         {
             return await dbSet
                 .Include(u => u.Role)
-                .Include(u => u.Addresses)
-                .AsNoTracking().Skip(offset).Take(amount).ToListAsync();
+                .Include(
+                u => u.Addresses)
+                .AsNoTracking()
+                .Skip((page-1)*amount)
+                .OrderBy(u=>u.Id)
+                .Take(amount).ToListAsync();
         }
     }
 }

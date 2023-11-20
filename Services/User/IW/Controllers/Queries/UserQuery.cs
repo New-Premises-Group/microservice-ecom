@@ -13,15 +13,15 @@ namespace IW.Controllers.Queries
             return user;
         }
 
-        public async Task<IEnumerable<UserDto>> GetUsers([Service] IUserService userService)
+        public async Task<IEnumerable<UserDto>> GetUsers(int page,int amount,[Service] IUserService userService)
         {
-            var users = await userService.GetUsers(((int)PAGINATING.OffsetDefault), ((int)PAGINATING.AmountDefault));
+            var users = await userService.GetUsers(amount, page);
             return users;
         }
 
-        public async Task<IEnumerable<UserDto>> GetUsers(GetUser query, [Service] IUserService userService)
+        public async Task<IEnumerable<UserDto>> GetUsers(int page, int amount, GetUser query, [Service] IUserService userService)
         {
-            var users = await userService.GetUsers(query, ((int)PAGINATING.OffsetDefault), ((int)PAGINATING.AmountDefault));
+            var users = await userService.GetUsers(query, amount, page);
             return users;
         }
     }

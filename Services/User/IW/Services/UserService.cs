@@ -125,20 +125,20 @@ namespace IW.Services
             return user;
         }
 
-        public async Task<IEnumerable<UserDto>> GetUsers(int offset = 0, int amount = 10)
+        public async Task<IEnumerable<UserDto>> GetUsers(int page = ((int)PAGINATING.OffsetDefault), int amount = ((int)PAGINATING.AmountDefault))
         {
-            ICollection<User> users =await _unitOfWork.Users.GetAll(offset,amount);
+            ICollection<User> users =await _unitOfWork.Users.GetAll(page, amount);
             ICollection<UserDto> result = users.Adapt<ICollection<UserDto>>();
             
             return result;
         }
 
-        public async Task<IEnumerable<UserDto>> GetUsers(GetUser query, int offset=((int)PAGINATING.OffsetDefault),int amount=((int)PAGINATING.AmountDefault))
+        public async Task<IEnumerable<UserDto>> GetUsers(GetUser query, int page=((int)PAGINATING.OffsetDefault),int amount=((int)PAGINATING.AmountDefault))
         {
             var users = await _unitOfWork.Users.FindByConditionToList(
                 u=>u.Name==query.Name ||
                 u.Email == query.Email
-                , offset,amount);
+                , page,amount);
             ICollection<UserDto> result = users.Adapt<ICollection<UserDto>>();
 
             return result;
