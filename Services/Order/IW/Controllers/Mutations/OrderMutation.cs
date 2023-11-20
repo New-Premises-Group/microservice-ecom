@@ -37,14 +37,23 @@ namespace IW.MessageBroker.Mutations
 
         [Error(typeof(CreateOrderErrorFactory))]
         [Authorize(Roles = new[] { nameof(ROLE.Admin) })]
-        public async Task<OrderCreatedPayload> UpdateOrder(int id, UpdateOrder input, [Service] IOrderService orderService)
+        public async Task<OrderUpdatedPayload> UpdateOrder(int id, UpdateOrder input, [Service] IOrderService orderService)
         {
             await orderService.UpdateOrder(id, input);
-            var payload = new OrderCreatedPayload()
+            var payload = new OrderUpdatedPayload()
             {
                 Message = "Order successfully updated"
             };
             return payload;
+        }
+
+        public async Task<OrderUpdatedPayload> FinishOrder(int id, [Service] IOrderService orderService)
+        {
+            await orderService.FinishOrder(id);
+            return new OrderUpdatedPayload()
+            {
+                Message = "Finish Order Successfully"
+            };
         }
 
         public async Task<OrderDeletedPayload> DeleteOrder(int id, [Service] IOrderService orderService)

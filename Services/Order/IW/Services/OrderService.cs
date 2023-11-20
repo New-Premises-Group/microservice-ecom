@@ -109,6 +109,11 @@ namespace IW.Services
             await _unitOfWork.CompleteAsync();
         }
 
+        public async Task FinishOrder(int id)
+        {
+            await _unitOfWork.Orders.SetDone(id);
+        }
+
         private async Task<Order?> OrderExist(int id)
         {
             if (id.ToString() == String.Empty) return null;

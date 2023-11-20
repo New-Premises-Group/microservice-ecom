@@ -3,6 +3,7 @@ using IW.Models;
 using IW.Models.DTOs.OrderDtos;
 using IW.Models.Entities;
 using Mapster;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.Extensions.Caching.Distributed;
 using Newtonsoft.Json;
 
@@ -77,7 +78,28 @@ namespace IW.Services
 
         public async Task<IEnumerable<OrderDto>> GetOrders(int offset, int amount)
         {
-            return await _orderService.GetOrders(offset, amount);
+            string key = CreateKey("all");
+
+            string? cachedProducts = await _distributedCache.GetStringAsync(key);
+
+            if (string.IsNullOrEmpty(cachedProducts))
+            {
+                Console.WriteLine("Missed");
+                IEnumerable<OrderDto> newProducts = await _orderService.GetOrders(offset, amount);
+
+                await _distributedCache.SetStringAsync(key,
+                JsonConvert.SerializeObject(newProducts),
+                new DistributedCacheEntryOptions()
+                {
+                    SlidingExpiration = TimeSpan.FromSeconds(30),
+                });
+
+                return newProducts;
+            }
+            Console.WriteLine("Hit");
+            var orders = JsonConvert.DeserializeObject<IEnumerable<OrderDto>>(cachedProducts);
+
+            return orders;
         }
 
         public async Task<IEnumerable<OrderDto>> GetOrders(GetOrder query, int offset, int amount)
@@ -92,6 +114,13 @@ namespace IW.Services
             if (string.IsNullOrEmpty(cachedProducts))
             {
                 IEnumerable<OrderDto> newProducts = await _orderService.GetOrders(query, offset, amount);
+
+                await _distributedCache.SetStringAsync(key,
+                JsonConvert.SerializeObject(newProducts),
+                new DistributedCacheEntryOptions()
+                {
+                    SlidingExpiration = TimeSpan.FromSeconds(30),
+                });
 
                 return newProducts;
             }
@@ -153,6 +182,17 @@ namespace IW.Services
         private static string CreateKey(string key)
         {
             return $"order-{key}";
+        }
+
+        public async Task FinishOrder(int id)
+        {
+            string oneProductKey = CreateKey(id);
+            string multipleProductKey = CreateKey("all");
+
+            Task finishOrder=_orderService.FinishOrder(id);
+            Task updateCacheForOne = _distributedCache.RemoveAsync(oneProductKey);
+            Task updateCacheForMany = _distributedCache.RemoveAsync(multipleProductKey);
+            await Task.WhenAll(updateCacheForOne, updateCacheForMany, finishOrder);
         }
     }
 }
