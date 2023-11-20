@@ -6,7 +6,6 @@ using IW.Models.DTOs.Cart;
 namespace IW.Controllers.Queries
 {
     [ExtendObjectType("Query")]
-    [Authorize]
     public class CartQuery
     {
         public async Task<CartDto> GetCart(int id, [Service] ICartService cartService)
@@ -14,7 +13,7 @@ namespace IW.Controllers.Queries
             var result = await cartService.GetCart(id);
             return result;
         }
-
+        [AllowAnonymous]
         public async Task<IEnumerable<CartDto>> GetCarts([Service] ICartService cartService, int offset = ((int)PAGINATING.OffsetDefault), int amount = ((int)PAGINATING.AmountDefault))
         {
             var results = await cartService.GetCarts(offset, amount);

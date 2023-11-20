@@ -8,7 +8,6 @@ using IW.Models.DTOs.Cart;
 namespace IW.Controllers.Mutations
 {
     [ExtendObjectType("Mutation")]
-    [Authorize(Roles = new[] { nameof(ROLE.Admin) })]
     public class CartMutation
     {
         [Error(typeof(CreateCartErrorFactory))]
