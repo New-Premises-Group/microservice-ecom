@@ -3,11 +3,13 @@ using IW.Exceptions.ReadInventoryError;
 using IW.Interfaces;
 using IW.Interfaces.Services;
 using IW.MessageBroker;
+using IW.MessageBroker.Exceptions;
 using IW.Models.DTOs;
 using IW.Models.DTOs.Inventory;
 using IW.Models.DTOs.InventoryDto;
 using IW.Models.DTOs.TransactionDto;
 using IW.Models.Entities;
+using IW.Repository;
 using Mapster;
 using MapsterMapper;
 
@@ -119,18 +121,45 @@ namespace IW.Services
 
         public async Task UpdateStocks(ICollection<InventoryDto> inventoryDto,TRANSACTION_TYPE type)
         {
-
-            foreach (var item in inventoryDto)
+            using var transaction = _unitOfWork.StartTrasaction();
+            try
             {
-                _unitOfWork.Inventories.GetId(out int temp, item.Adapt<Inventory>());
-                item.Id = temp;
-                _unitOfWork.Inventories.UpdateQuantity(item.Adapt<Inventory>());
+                foreach (var item in inventoryDto)
+                {
+                    var inventoryDetail = await _unitOfWork.Inventories
+                        .FindByCondition(
+                        i => i.ProductId == item.ProductId);
+
+                    if (inventoryDetail == null)
+                        throw new InventoryNotFoundException((int)item.ProductId);
+
+                    item.Id = inventoryDetail.Id;
+                    _unitOfWork.Inventories.UpdateQuantity(item.Adapt<Inventory>());
+
+                    if (inventoryDetail.Quantity < item.Quantity)
+                        throw new OutOfStockException(inventoryDetail.ProductId);
+                }
+                await _unitOfWork.CompleteAsync();
+
+                await AttachTransaction(inventoryDto, type);
+                IUnitOfWork.Commit(transaction);
+            }catch (InventoryNotFoundException ex)
+            {
+                await IUnitOfWork.Rollback(transaction);
+                throw;
+            }catch (OutOfStockException ex)
+            {
+                await IUnitOfWork.Rollback(transaction);
+                throw;
             }
-            await _unitOfWork.CompleteAsync();
-
-            await AttachTransaction(inventoryDto, type);
         }
-
+        
+        /// <summary>
+        /// Attach inventory transaction to the inventory
+        /// </summary>
+        /// <param name="inventoryDtos"></param>
+        /// <param name="type"></param>
+        /// <returns></returns>
         private async Task AttachTransaction(ICollection<InventoryDto> inventoryDtos, TRANSACTION_TYPE type)
         {
             TypeAdapterConfig<InventoryDto, CreateTransaction>
@@ -141,6 +170,12 @@ namespace IW.Services
             await _transactionService.CreateTransactions(transactionDto);
         }
 
+        /// <summary>
+        /// Attach inventory transaction to the inventory
+        /// </summary>
+        /// <param name="inventoryDto"></param>
+        /// <param name="type"></param>
+        /// <returns></returns>
         private async Task AttachTransaction(InventoryDto inventoryDto, TRANSACTION_TYPE type)
         {
             CreateTransaction transactionDto = _mapper.Map<CreateTransaction>(inventoryDto);
@@ -148,6 +183,12 @@ namespace IW.Services
             await _transactionService.CreateTransaction(transactionDto);
         }
 
+        /// <summary>
+        /// Attach inventory transaction to the inventory
+        /// </summary>
+        /// <param name="inventory"></param>
+        /// <param name="type"></param>
+        /// <returns></returns>
         private async Task AttachTransaction(Inventory inventory, TRANSACTION_TYPE type)
         {
             CreateTransaction transactionDto = _mapper.Map<CreateTransaction>(inventory);

@@ -1,4 +1,4 @@
-﻿namespace IW.MessageBroker
+﻿namespace IW.MessageBroker.MessageType
 {
     public class OrderConfirmedMessage
     {

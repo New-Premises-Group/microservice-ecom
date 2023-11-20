@@ -1,5 +1,4 @@
-﻿
-namespace IW.Models
+﻿namespace IW.MessageBroker.MessageType
 {
     public class OrderCreatedMessage
     {

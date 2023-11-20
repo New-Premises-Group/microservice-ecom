@@ -5,9 +5,11 @@ using Newtonsoft.Json;
 using IW.Common;
 using IW.Models.DTOs.Inventory;
 using IW.Services;
-using IW.Models;
 using Mapster;
 using Microsoft.Extensions.DependencyInjection;
+using IW.Exceptions.ReadInventoryError;
+using IW.MessageBroker.MessageType;
+using IW.MessageBroker.Exceptions;
 
 namespace IW.MessageBroker
 {
@@ -61,10 +63,28 @@ namespace IW.MessageBroker
             using (var scope = _services.CreateScope())
             {
                 IInventoryService inventoryService=scope.ServiceProvider.GetRequiredService<IInventoryService>();
-                await inventoryService.UpdateStocks(inventories, TRANSACTION_TYPE.Sale);
+                try
+                {
+                    await inventoryService.UpdateStocks(inventories, TRANSACTION_TYPE.Sale);
+                    IRabbitMqProducer<OrderConfirmedMessage> producer = scope
+                        .ServiceProvider
+                        .GetRequiredService<IRabbitMqProducer<OrderConfirmedMessage>>();
+                    producer.Send(nameof(QUEUE_NAME.Order_Confirmed), message.Adapt<OrderConfirmedMessage>());
+                }
+                catch (InventoryNotFoundException ex)
+                {
 
-                IRabbitMqProducer<OrderConfirmedMessage> producer = scope.ServiceProvider.GetRequiredService<IRabbitMqProducer<OrderConfirmedMessage>>();
-                producer.Send(nameof(QUEUE_NAME.Order_Confirmed), message.Adapt<OrderConfirmedMessage>());
+                }
+                catch (OutOfStockException ex)
+                {
+                    IRabbitMqProducer<OrderPendingMessage> producerPending = scope
+                        .ServiceProvider
+                        .GetRequiredService<IRabbitMqProducer<OrderPendingMessage>>();
+
+                    OrderPendingMessage pendingMessage=message.Adapt<OrderPendingMessage>();
+                    pendingMessage.OutOfStockItem = ex.ProductId;
+                    producerPending.Send(nameof(QUEUE_NAME.Order_Pending), pendingMessage);
+                }
             }
             Console.WriteLine(message);
         }

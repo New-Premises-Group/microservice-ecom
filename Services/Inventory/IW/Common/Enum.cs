@@ -36,6 +36,7 @@
         Order_Confirmed,
         Order_Delivered,
         Order_Shipped,
+        Order_Pending,
         Items
     }
 }

@@ -16,6 +16,7 @@ using MapsterMapper;
 using System.Reflection;
 using IW.MessageBroker;
 using IW.Configurations;
+using IW.MessageBroker.MessageType;
 
 namespace IW.Extensions;
 
@@ -66,6 +67,7 @@ public static class ServicesExtension
         builder.Services.AddScoped<ITransactionService, TransactionService>();
         builder.Services.AddScoped<ITransactionRepository, TransactionRepository>();
         builder.Services.AddScoped<IRabbitMqProducer<OrderConfirmedMessage>, RabbitMqProducer<OrderConfirmedMessage>>();
+        builder.Services.AddScoped<IRabbitMqProducer<OrderPendingMessage>, RabbitMqProducer<OrderPendingMessage>>();
         //builder.Services.AddScoped<IRabbitMqConsumer<Order>,RabbitMqConsumer<Order>>()
         builder.Services.AddSingleton<IRabbitMqConsumer, RabbitMqConsumer>();
         builder.Services.AddSingleton<IConsumerService, ConsumerService>();
