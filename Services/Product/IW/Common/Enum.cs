@@ -18,4 +18,12 @@
         Admin,
         Seller
     }
+    public enum QUEUE_NAME
+    {
+        Order_Placed,
+        Order_Confirmed,
+        Order_Delivered,
+        Order_Shipped,
+        Items
+    }
 }

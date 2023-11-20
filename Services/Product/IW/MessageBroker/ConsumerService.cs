@@ -4,6 +4,7 @@
 //using Newtonsoft.Json;
 //using IW.Models;
 //using Mapster;
+//using IW.Common;
 
 //namespace IW.MessageBroker
 //{
@@ -56,7 +57,7 @@
 //            ICollection<InventoryDto> inventories = message.Items.Adapt<ICollection<InventoryDto>>();
 //            using (var scope = _services.CreateScope())
 //            {
-//                IInventoryService inventoryService=scope.ServiceProvider.GetRequiredService<IInventoryService>();
+//                IInventoryService inventoryService = scope.ServiceProvider.GetRequiredService<IInventoryService>();
 //                await inventoryService.UpdateStocks(inventories, TRANSACTION_TYPE.Sale);
 
 //                IRabbitMqProducer<OrderConfirmedMessage> producer = scope.ServiceProvider.GetRequiredService<IRabbitMqProducer<OrderConfirmedMessage>>();
