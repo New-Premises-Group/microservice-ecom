@@ -24,6 +24,7 @@ namespace IW.Repositories
                 .AsNoTracking()
                 .Skip((page - 1) * amount)
                 .Take(amount)
+                .OrderBy(p => p.Id)
                 .ToListAsync();
         }
         public override async Task<Product?> GetById (int id)
