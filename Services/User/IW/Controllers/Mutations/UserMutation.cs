@@ -5,6 +5,7 @@ using IW.Models.DTOs.User;
 using HotChocolate.Authorization;
 using IW.Common;
 using IW.Models.Entities;
+using Mapster;
 
 namespace IW.Controllers.Mutations
 {
@@ -43,22 +44,11 @@ namespace IW.Controllers.Mutations
             return payload;
         }
 
-        public async Task<UserUpdatedPayload> SetUserRole(Guid userId, int roleId, [Service] IUserService userService, [Service] IRoleService roleService)
+        public async Task<string> SetUserRole(Guid userId, int roleId, [Service] IUserService userService, [Service] IRoleService roleService)
         {
             var roleDto = await roleService.GetRole(roleId);
-            Role role = new()
-            {
-                Description = roleDto.Description,
-                Id = roleId,
-                Name = roleDto.Name
-            };
-            var newToken = await userService.UpdateUserRole(userId, role);
-            var payload = new UserUpdatedPayload()
-            {
-                Message = "Renew token successful",
-                ApiToken = newToken
-            };
-            return payload;
+            var newToken = await userService.UpdateUserRole(userId, roleDto.Adapt<Role>());
+            return "Role update successful";
         }
 
         [Authorize(Roles = new[] { nameof(ROLE.Admin) })]

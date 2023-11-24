@@ -18,8 +18,7 @@ namespace IW.Repositories
         {
             await _context.Users.Where(u=>u.Id==guid)
                 .ExecuteUpdateAsync(
-                p=>p.SetProperty(u=>u.Role, role)
-                .SetProperty(u=>u.RoleId,role.Id));
+                p=>p.SetProperty(u=>u.RoleId,role.Id));
         }
 
         public override async Task<User?> FindByCondition(Expression<Func<User, bool>> expression)
