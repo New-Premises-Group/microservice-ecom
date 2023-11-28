@@ -1,9 +1,10 @@
 ﻿using IW.Common;
+using IW.Interfaces.Commands;
 using IW.Models.DTOs.Item;
 
 namespace IW.Models.DTOs.OrderDtos
 {
-    public class OrderDto
+    public class OrderDto : IRequest
     {
         public int? Id { get; set; }
         public Guid? UserId { get; set; }

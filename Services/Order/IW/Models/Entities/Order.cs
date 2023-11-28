@@ -21,6 +21,9 @@ namespace IW.Models.Entities
         public string ShippingAddress { get; set; }
         public string? CancelReason { get; set; }
         public decimal Total{ get; set; }
+        public string? DiscountCode { get; set; }
+        [NotMapped]
+        public Discount? Discount {  get; set; }
         public ICollection<OrderItem>? Items { get; set; }
     }
 

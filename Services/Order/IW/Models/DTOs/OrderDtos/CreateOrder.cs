@@ -1,9 +1,10 @@
 ﻿using IW.Common;
+using IW.Interfaces.Commands;
 using System.ComponentModel.DataAnnotations;
 
 namespace IW.Models.DTOs.OrderDtos
 {
-    public class CreateOrder
+    public class CreateOrder : IRequest
     {
         [Required]
         public Guid UserId { get; set; }

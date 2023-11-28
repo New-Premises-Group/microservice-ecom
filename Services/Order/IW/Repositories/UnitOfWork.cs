@@ -12,11 +12,18 @@ namespace IW.Repository
 
         public IOrderRepository Orders { get; }
 
-        public UnitOfWork(AppDbContext context,IItemRepository itemRepository, IOrderRepository orderRepository)
+        public IDiscountRepository Discounts { get; }
+
+        public UnitOfWork(
+            AppDbContext context,
+            IItemRepository itemRepository, 
+            IOrderRepository orderRepository,
+            IDiscountRepository discountRepository)
         {
             _context = context;
             Items= itemRepository;
             Orders= orderRepository;
+            Discounts= discountRepository;
         }
 
         public async Task<int> CompleteAsync()

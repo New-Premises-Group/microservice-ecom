@@ -1,9 +1,10 @@
 ﻿using IW.Common;
+using IW.Interfaces.Commands;
 using System.ComponentModel.DataAnnotations;
 
 namespace IW.Models.DTOs.OrderDtos
 {
-    public class CreateGuestOrder
+    public class CreateGuestOrder:IRequest
     {
         [Required]
         public string Email{ get; set; }

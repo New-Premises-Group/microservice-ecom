@@ -18,5 +18,6 @@ namespace IW.Models
         }
         public DbSet<OrderItem> Items { get; set; }
         public DbSet<Order> Orders { get; set; }
+        public DbSet<Discount> Discounts { get; set; }
     }
 }

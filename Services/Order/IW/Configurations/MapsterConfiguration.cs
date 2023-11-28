@@ -1,6 +1,7 @@
 ﻿using IW.Models;
 using IW.Models.DTOs;
 using IW.Models.DTOs.Item;
+using IW.Models.DTOs.ItemDtos;
 using IW.Models.Entities;
 using Mapster;
 
@@ -38,6 +39,10 @@ namespace IW.Configurations
             config
                 .NewConfig<CreateItem, OrderItem>()
                 .Map(dst => dst.Subtotal, src => src.Price * src.Quantity);
+            config
+                .NewConfig<Order, CreateItems>()
+                .Map(dst => dst.Items, src => src.Items)
+                .Map(dst => dst.OrderId, src => src.Id);
         }
     }
 }
