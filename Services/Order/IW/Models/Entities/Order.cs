@@ -14,6 +14,7 @@ namespace IW.Models.Entities
         public int Id { get; set; }
         public Guid UserId { get; set; }
         public string UserName {  get; set; }
+        public string Email {  get; set; }
         public string Phone { get; set; }
         public DateTime Date { get; set; }
         [Column(TypeName = "varchar(15)")]
