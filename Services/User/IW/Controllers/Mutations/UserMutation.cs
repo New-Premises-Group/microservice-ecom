@@ -47,7 +47,11 @@ namespace IW.Controllers.Mutations
         {
             var roleDto = await roleService.GetRole(roleId);
             var newToken = await userService.UpdateUserRole(userId, roleDto.Adapt<Role>());
-            return "Role update successful";
+            var payload = new UserUpdatedPayload()
+            {
+                Message = "User successfully updated"
+            };
+            return payload;
         }
 
         [Authorize(Roles = new[] { nameof(ROLE.Admin) })]
