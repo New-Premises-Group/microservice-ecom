@@ -20,10 +20,10 @@ namespace IW.Authentication
         {
             //Custom claims use to authorize api
             var claims = new Claim[] {
-                new Claim(JwtRegisteredClaimNames.Sid, user.Id.ToString()),
-                new Claim(JwtRegisteredClaimNames.Name, user.Name),
-                new Claim(JwtRegisteredClaimNames.Jti, user.Id.ToString().ToUpper()),
-                new Claim(ClaimTypes.Role,user.Role.Name)
+                new(JwtRegisteredClaimNames.Sid, user.Id.ToString()),
+                new(JwtRegisteredClaimNames.Name, user.Name),
+                new(JwtRegisteredClaimNames.Jti, user.Id.ToString().ToUpper()),
+                new(ClaimTypes.Role,user.Role.Name)
             };
 
             var signingCreadentials = new SigningCredentials(

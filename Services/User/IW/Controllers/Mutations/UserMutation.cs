@@ -10,18 +10,16 @@ using Mapster;
 namespace IW.Controllers.Mutations
 {
     [ExtendObjectType("Mutation")]
-    [Authorize]
     public class UserMutation
     {
         [Error(typeof(CreateUserErrorFactory))]
-        [AllowAnonymous]
         public async Task<UserCreatedPayload> LoginUser(CreateUser input, [Service] IUserService userService)
         {
             var payload = await userService.LogIn(input);
             payload.Message = "User successfully login";
             return payload;
         }
-        [AllowAnonymous]
+
         public async Task<UserCreatedPayload> RenewToken(Guid id, [Service] IUserService userService)
         {
             var token = await userService.RenewToken(id);
@@ -34,6 +32,7 @@ namespace IW.Controllers.Mutations
         }
 
         [Error(typeof(CreateUserErrorFactory))]
+        [Authorize]
         public async Task<UserUpdatedPayload> UpdateUser(Guid id, UpdateUser input, [Service] IUserService userService)
         {
             await userService.UpdateUser(id, input);
@@ -44,7 +43,7 @@ namespace IW.Controllers.Mutations
             return payload;
         }
 
-        public async Task<string> SetUserRole(Guid userId, int roleId, [Service] IUserService userService, [Service] IRoleService roleService)
+        public async Task<UserUpdatedPayload> SetUserRole(Guid userId, int roleId, [Service] IUserService userService, [Service] IRoleService roleService)
         {
             var roleDto = await roleService.GetRole(roleId);
             var newToken = await userService.UpdateUserRole(userId, roleDto.Adapt<Role>());
