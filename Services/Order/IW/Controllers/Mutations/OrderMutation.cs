@@ -15,7 +15,7 @@ namespace IW.MessageBroker.Mutations
         [Error(typeof(CreateOrderErrorFactory))]
         public async Task<OrderCreatedPayload> CreateOrder(CreateOrder input, [Service] IOrderService orderService)
         {
-            int orderId=await orderService.CreateOrder(input);
+            int orderId = await orderService.CreateOrder(input);
             var payload = new OrderCreatedPayload()
             {
                 Message = "Order successfully created"
@@ -36,7 +36,7 @@ namespace IW.MessageBroker.Mutations
         }
 
         [Error(typeof(CreateOrderErrorFactory))]
-        [Authorize(Roles = new[] { nameof(ROLE.Admin) })]
+        [Authorize(Roles = new[] { nameof(ROLE.Admin), nameof(ROLE.User) })]
         public async Task<OrderUpdatedPayload> UpdateOrder(int id, UpdateOrder input, [Service] IOrderService orderService)
         {
             await orderService.UpdateOrder(id, input);
