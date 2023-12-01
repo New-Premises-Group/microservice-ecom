@@ -14,10 +14,14 @@ namespace IW.Services
     public class OrderService : IOrderService
     {
         public readonly IUnitOfWork _unitOfWork;
-        private readonly IRabbitMqProducer<OrderCreatedMessage> _producer;
+        private readonly IRabbitMqProducer _producer;
         private readonly IMapper _mapper;
         private readonly IMailService _mailService;
-        public OrderService(IUnitOfWork unitOfWork, IRabbitMqProducer<OrderCreatedMessage> producer, IMapper mapper, IMailService mailService)
+        public OrderService(
+            IUnitOfWork unitOfWork, 
+            IRabbitMqProducer producer, 
+            IMapper mapper, 
+            IMailService mailService)
         {
             _unitOfWork = unitOfWork;
             _producer = producer;
@@ -110,6 +114,13 @@ namespace IW.Services
         public async Task FinishOrder(int id)
         {
             await _unitOfWork.Orders.SetDone(id);
+        }
+        
+        public async Task CancelOrder(int id)
+        {
+            var order=await _unitOfWork.Orders.SetCancel(id);
+            var message = order.Adapt<OrderCancelledMessage>();
+            _producer.Send(nameof(QUEUE_NAME.Order_Cancelled), message);
         }
 
         private async Task<Order?> OrderExist(int id)

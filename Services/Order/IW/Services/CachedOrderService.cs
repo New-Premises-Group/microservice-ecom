@@ -200,5 +200,10 @@ namespace IW.Services
             IEnumerable<OrderDto> newProducts = await _orderService.GetOrdersByStatus(query, page, amount);
             return newProducts;
         }
+
+        public async Task CancelOrder(int id)
+        {
+            await _orderService.CancelOrder(id);
+        }
     }
 }

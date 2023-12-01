@@ -56,5 +56,19 @@ namespace IW.Repositories
                 .ExecuteUpdateAsync(u => u
                 .SetProperty(property => property.Status, ORDER_STATUS.Done));
         }
+        
+        public async Task<Order> SetCancel(int id)
+        {
+            await dbSet
+                .Where(order => order.Id==id)
+                .ExecuteUpdateAsync(u => u
+                .SetProperty(property => property.Status, ORDER_STATUS.Cancelled));
+            Order order = await dbSet
+                .Where(order => order.Id==id)
+                .Include(
+                order => order.Items)
+                .FirstAsync() ;
+            return order;
+        }
     }
 }

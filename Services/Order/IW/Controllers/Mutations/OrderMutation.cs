@@ -56,6 +56,17 @@ namespace IW.MessageBroker.Mutations
             };
         }
 
+        public async Task<OrderUpdatedPayload> CancelOrder(
+            int id, 
+            [Service] IOrderService orderService)
+        {
+            await orderService.CancelOrder(id);
+            return new OrderUpdatedPayload()
+            {
+                Message = "Cancel Order Successfully"
+            };
+        }
+
         public async Task<OrderDeletedPayload> DeleteOrder(int id, [Service] IOrderService orderService)
         {
             await orderService.DeleteOrder(id);
