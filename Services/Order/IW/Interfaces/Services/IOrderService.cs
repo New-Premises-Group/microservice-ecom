@@ -12,5 +12,6 @@ namespace IW.Interfaces.Services
         Task DeleteOrder(int id);
         Task<int> CreateOrder(CreateOrder input);
         Task<int> CreateGuestOrder(CreateGuestOrder input);
+        Task<IEnumerable<OrderDto>> GetOrdersByStatus(GetOrder query, int page, int amount);
     }
 }

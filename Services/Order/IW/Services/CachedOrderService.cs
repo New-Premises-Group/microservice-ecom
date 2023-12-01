@@ -194,5 +194,11 @@ namespace IW.Services
             Task updateCacheForMany = _distributedCache.RemoveAsync(multipleProductKey);
             await Task.WhenAll(updateCacheForOne, updateCacheForMany, finishOrder);
         }
+        //for now, no caching
+        public async Task<IEnumerable<OrderDto>> GetOrdersByStatus(GetOrder query, int page, int amount)
+        {
+            IEnumerable<OrderDto> newProducts = await _orderService.GetOrdersByStatus(query, page, amount);
+            return newProducts;
+        }
     }
 }
