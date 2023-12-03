@@ -10,6 +10,7 @@ namespace IW.Interfaces
         Task<ProductDto?> GetProduct(int id);
         Task<IEnumerable<ProductDto>> GetProducts(int page, int amount);
         Task<IEnumerable<ProductDto>> GetProducts(GetProduct query, int page , int amount );
+        Task<IEnumerable<ProductDto>> GetProductsByName(string name, int page, int amount);
         Task UpdateProduct(int id, UpdateProduct model);
         Task DeleteProduct(int id);
     }
