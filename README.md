@@ -16,6 +16,14 @@
 ![Website Status](https://img.shields.io/website-up-down-green-red/https/newpremises.group.svg)
 
 # Test Coverage
+![Code Coverage](https://img.shields.io/badge/Code%20Coverage-9%25-yellow?style=flat)
+
+Package | Line Rate | Branch Rate | Health
+-------- | --------- | ----------- | ------
+IW | 9% | 10% | ➖
+**Summary** | **9%** (163 / 1904) | **10%** (7 / 70) | ➖
+
+_Minimum allowed line rate is `5%`_
 ![Code Coverage](https://img.shields.io/badge/Code%20Coverage-8%25-yellow?style=flat)
 
 Package | Line Rate | Branch Rate | Health
