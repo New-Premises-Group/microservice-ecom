@@ -153,7 +153,6 @@ namespace IW.Services
 
         public async Task<IEnumerable<OrderDto>> GetOrdersByStatus(GetOrder query, int page, int amount)
         {
-            await Console.Out.WriteLineAsync("This is calling");
             var orders = await _unitOfWork.Orders.FindByConditionToList(
                o => o.Status == query.Status
                , page, amount);

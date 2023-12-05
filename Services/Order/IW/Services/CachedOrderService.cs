@@ -31,7 +31,7 @@ namespace IW.Services
                 JsonConvert.SerializeObject(input),
                 new DistributedCacheEntryOptions()
                 {
-                    SlidingExpiration = TimeSpan.FromSeconds(30),
+                    SlidingExpiration = TimeSpan.FromSeconds(5),
                 });
             return orderId;
         }
@@ -61,7 +61,7 @@ namespace IW.Services
                     JsonConvert.SerializeObject(order),
                     new DistributedCacheEntryOptions()
                     {
-                        SlidingExpiration = TimeSpan.FromSeconds(30)
+                        SlidingExpiration = TimeSpan.FromSeconds(5)
                     });
                 return order;
             }
@@ -91,7 +91,7 @@ namespace IW.Services
                 JsonConvert.SerializeObject(newProducts),
                 new DistributedCacheEntryOptions()
                 {
-                    SlidingExpiration = TimeSpan.FromSeconds(30),
+                    SlidingExpiration = TimeSpan.FromSeconds(5),
                 });
 
                 return newProducts;
@@ -119,7 +119,7 @@ namespace IW.Services
                 JsonConvert.SerializeObject(newProducts),
                 new DistributedCacheEntryOptions()
                 {
-                    SlidingExpiration = TimeSpan.FromSeconds(30),
+                    SlidingExpiration = TimeSpan.FromSeconds(5),
                 });
 
                 return newProducts;
@@ -151,7 +151,7 @@ namespace IW.Services
                 JsonConvert.SerializeObject(order),
                 new DistributedCacheEntryOptions()
                 {
-                    SlidingExpiration = TimeSpan.FromSeconds(30),
+                    SlidingExpiration = TimeSpan.FromSeconds(5),
                 });
         }
 
@@ -164,7 +164,7 @@ namespace IW.Services
                 JsonConvert.SerializeObject(input),
                 new DistributedCacheEntryOptions()
                 {
-                    SlidingExpiration = TimeSpan.FromSeconds(30),
+                    SlidingExpiration = TimeSpan.FromSeconds(5),
                 });
             return GuestEmail;
         }
