@@ -1,16 +1,13 @@
 ﻿using IW.Common;
 using IW.Interfaces;
-using IW.Interfaces.Commands;
-using IW.Models.DTOs.Item;
 using IW.Models;
 using IW.Models.DTOs.OrderDtos;
 using IW.Models.Entities;
 using MapsterMapper;
-using IW.Exceptions.ReadOrderError;
-using IW.Commands;
 using IW.Models.DTOs;
 using IW.Models.DTOs.ItemDtos;
 using IW.Interfaces.Services;
+using IW.Models.DTOs.DiscountDtos;
 
 namespace IW.Handlers.Orders
 {
@@ -33,16 +30,25 @@ namespace IW.Handlers.Orders
             OrderValidator validator = new();
             validator.ValidateAndThrowException(newOrder);
 
+            await _mediator.Send(new ApplyDiscount()
+            {
+                Code = newOrder.DiscountCode,
+                Order = newOrder,
+                Condition = request.Condition,
+            });
+
             _unitOfWork.Orders.Add(newOrder);
             
             await _unitOfWork.CompleteAsync();
 
             var createNotification = _mapper.Map<CreateNotification>(newOrder);
             createNotification.Message = _mapper.Map<OrderCreatedMessage>(newOrder);
-            await _mediator.Send(_mapper.Map<CreateItems>(newOrder));
-            await _mediator.Send(createNotification);
+
+            Task createItem= _mediator.Send(_mapper.Map<CreateItems>(newOrder));
+            Task createNoti= _mediator.Send(createNotification);
 
             _savedOrder = newOrder;
+            await Task.WhenAll(createItem, createNoti);
             return newOrder.Id;
         }
 

@@ -35,8 +35,8 @@ namespace IW.Handlers.Notifications
                 
             });
             var sendEmailTask = _mailService.Send(
-                    request.UserName,
                     request.Email,
+                    request.UserName,
                     _mapper.Map<ICollection<ItemDto>>(request.Items),
                     request.Total);
             await Task.WhenAll(sendToQueueTask, sendEmailTask);

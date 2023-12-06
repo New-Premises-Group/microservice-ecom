@@ -38,10 +38,12 @@ public static class ServicesExtension
              .AddQueryType(d => d.Name("Query"))
                 .AddTypeExtension<ItemQuery>()
                 .AddTypeExtension<OrderQuery>()
+                .AddTypeExtension<DiscountQuery>()
             .AddErrorFilter<ErrorFilter>()
             .AddMutationType(m => m.Name("Mutation"))
                 .AddTypeExtension<ItemMutation>()
                 .AddTypeExtension<OrderMutation>()
+                .AddTypeExtension<DiscountMutation>()
             .AddMutationConventions(applyToAllMutations: true)
             .AddAuthorization();
         //Swagger
@@ -59,20 +61,20 @@ public static class ServicesExtension
         // Application database context
         builder.Services.AddDbContext<AppDbContext>(options =>
         {
-            if (builder.Environment.IsDevelopment())
-            {
-                options.UseNpgsql(builder.Configuration.GetConnectionString("DevConnection"), builder =>
-                {
-                    builder.EnableRetryOnFailure(5, TimeSpan.FromSeconds(10), null);
-                });
-                Console.WriteLine("Development Evironment");
-            }
-            if (builder.Environment.IsProduction())
-            {
-                options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"));
-                Console.WriteLine("Production Evironment");
-            }
-            //options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"));
+            //if (builder.Environment.IsDevelopment())
+            //{
+            //    options.UseNpgsql(builder.Configuration.GetConnectionString("DevConnection"), builder =>
+            //    {
+            //        builder.EnableRetryOnFailure(5, TimeSpan.FromSeconds(10), null);
+            //    });
+            //    Console.WriteLine("Development Evironment");
+            //}
+            //if (builder.Environment.IsProduction())
+            //{
+            //    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"));
+            //    Console.WriteLine("Production Evironment");
+            //}
+            options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"));
         });
 
         // Redis cache database
@@ -114,6 +116,7 @@ public static class ServicesExtension
         builder.Services.AddScoped<DeleteItemHandler>();
         builder.Services.AddScoped<AddNotificationHandler>();
         builder.Services.AddScoped<CreateDiscountHandler>();
+        builder.Services.AddScoped<ApplyDiscountHandler>();
         builder.Services.AddScoped<UpdateDiscountHandler>();
         builder.Services.AddScoped<DeleteDiscountHandler>();
 

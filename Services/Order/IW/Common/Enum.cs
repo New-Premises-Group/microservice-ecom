@@ -56,4 +56,12 @@
         Fixed,
         Tier
     }
+
+    public enum DISCOUNT_CONDITION
+    {
+        None,
+        Total,
+        Birthday,
+        SpecialDay
+    }
 }

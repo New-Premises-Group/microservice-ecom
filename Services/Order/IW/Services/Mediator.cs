@@ -7,7 +7,6 @@ using IW.Handlers.Discounts;
 using IW.Handlers.Items;
 using IW.Handlers.Notifications;
 using IW.Handlers.Orders;
-using IW.Interfaces.Commands;
 using IW.Interfaces.Services;
 using IW.Models.DTOs;
 using IW.Models.DTOs.DiscountDtos;
@@ -15,7 +14,6 @@ using IW.Models.DTOs.Item;
 using IW.Models.DTOs.ItemDtos;
 using IW.Models.DTOs.OrderDtos;
 using Mapster;
-using System.Collections;
 
 namespace IW.Services
 {
@@ -124,6 +122,14 @@ namespace IW.Services
             return await command.Execute();
         }
 
+        public async Task<int> Send(ApplyDiscount request)
+        {
+            var handler = _serviceProvider.GetService<ApplyDiscountHandler>();
+            var command = new ApplyDiscountCommand(handler, request);
+            _prevCommands.Push(command);
+            return await command.Execute();
+        }
+
         public async Task<int> Send(UpdateDiscount request)
         {
             var handler = _serviceProvider.GetService<UpdateDiscountHandler>();
@@ -161,6 +167,7 @@ namespace IW.Services
                         UpdateItem trequest => await Send(trequest),
                         DeleteItem trequest => await Send(trequest),
                         CreateDiscount trequest => await Send(trequest),
+                        ApplyDiscount trequest => await Send(trequest),
                         DeleteDiscount trequest => await Send(trequest),
                         UpdateDiscount trequest => await Send(trequest),
                         CreateNotification trequest => await Send(trequest),
