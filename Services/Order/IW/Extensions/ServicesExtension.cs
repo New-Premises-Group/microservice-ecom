@@ -102,8 +102,7 @@ public static class ServicesExtension
         //builder.Services.AddSingleton<IRabbitMqConsumer, RabbitMqConsumer<Order>>();
         //builder.Services.AddSingleton<IConsumerService, ConsumerService<Order>>();
         //builder.Services.AddHostedService<ConsumerHostedService>();
-        builder.Services.AddScoped<IRabbitMqProducer<OrderCreatedMessage>, RabbitMqProducer<OrderCreatedMessage>>();
-        builder.Services.AddScoped<IRabbitMqProducer<ItemDto>, RabbitMqProducer<ItemDto>>();
+        builder.Services.AddScoped<IRabbitMqProducer, RabbitMqProducer>();
 
         //Inject command handler services
         builder.Services.AddScoped<CreateOrderHandler>();

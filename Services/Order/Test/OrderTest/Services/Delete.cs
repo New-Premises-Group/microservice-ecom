@@ -22,7 +22,7 @@ namespace Test.OrderTest.Services
             IUnitOfWork _unitOfWork = A.Fake<IUnitOfWork>();
             IMapper _mapper = new Mapper();
             IMailService _mailService = A.Fake<IMailService>();
-            IRabbitMqProducer<OrderCreatedMessage> _producer = A.Fake<IRabbitMqProducer<OrderCreatedMessage>>();
+            IRabbitMqProducer _producer = A.Fake<IRabbitMqProducer>();
             OrderService _orderService = new OrderService(_unitOfWork, _producer, _mapper, _mailService);
             _orderService.DeleteOrder(orderId).Wait();
 

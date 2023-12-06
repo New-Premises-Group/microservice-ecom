@@ -13,8 +13,9 @@
     }
     public enum ROLE
     {
-        User,
         Admin,
-        Seller
+        User,
+        Seller,
+        nvk
     }
 }

@@ -39,9 +39,9 @@ namespace IW.Services
             await _unitOfWork.CompleteAsync();
         }
 
-        public async Task<IEnumerable<CategoryDto>> GetCategories()
+        public async Task<IEnumerable<CategoryDto>> GetCategories(int page, int amount)
         {
-            var categories = await _unitOfWork.Categories.GetAll((int)PAGINATING.OffsetDefault, (int)PAGINATING.AmountDefault);
+            var categories = await _unitOfWork.Categories.GetAll(page, amount);
             ICollection<CategoryDto> result = new List<CategoryDto>();
             foreach (var category in categories)
             {
@@ -80,7 +80,7 @@ namespace IW.Services
             category.Name = input.Name ?? category.Name;
             category.Description = input.Description ?? category.Description;
 
-            CategoryValidator validator = new ();
+            CategoryValidator validator = new();
             validator.ValidateAndThrowException(category);
 
             _unitOfWork.Categories.Update(category);

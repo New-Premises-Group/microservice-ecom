@@ -25,5 +25,11 @@ namespace IW.Controllers.Queries
             var results = await productService.GetProducts(query, page, amount);
             return results;
         }
+
+        public async Task<IEnumerable<ProductDto>> GetProductsByName(string name, [Service] IProductService productService, int page = ((int)PAGINATING.OffsetDefault), int amount = ((int)PAGINATING.AmountDefault))
+        {
+            var results = await productService.GetProductsByName(name, page, amount);
+            return results;
+        }
     }
 }

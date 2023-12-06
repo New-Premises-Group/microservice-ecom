@@ -1,7 +1,7 @@
 ﻿namespace IW.Interfaces
 {
-    public interface IRabbitMqProducer<T> where T : class
+    public interface IRabbitMqProducer 
     {
-        public void Send(string queueName, T message);
+        public void Send <TMessage>(string queueName, TMessage message);
     }
 }

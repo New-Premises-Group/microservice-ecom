@@ -35,7 +35,7 @@ namespace Test.OrderTest.Services
             IUnitOfWork _unitOfWork = A.Fake<IUnitOfWork>();
             IMapper _mapper = new Mapper();
             IMailService _mailService = A.Fake<IMailService>();
-            IRabbitMqProducer<OrderCreatedMessage> _producer = A.Fake<IRabbitMqProducer<OrderCreatedMessage>>();
+            IRabbitMqProducer _producer = A.Fake<IRabbitMqProducer>();
             OrderService _orderService = new OrderService(_unitOfWork, _producer, _mapper, _mailService);
 
             A.CallTo(() => _unitOfWork.Orders.GetById(orderId)).Returns(_ValidOrder);
@@ -102,7 +102,7 @@ namespace Test.OrderTest.Services
             IUnitOfWork _unitOfWork = A.Fake<IUnitOfWork>();
             IMapper _mapper = new Mapper();
             IMailService _mailService = A.Fake<IMailService>();
-            IRabbitMqProducer<OrderCreatedMessage> _producer = A.Fake<IRabbitMqProducer<OrderCreatedMessage>>();
+            IRabbitMqProducer _producer = A.Fake<IRabbitMqProducer>();
             OrderService _orderService = new OrderService(_unitOfWork, _producer, _mapper, _mailService);
 
             A.CallTo(() => _unitOfWork.Orders.GetAll(A<int>.Ignored, A<int>.Ignored)).Returns(_orderList);

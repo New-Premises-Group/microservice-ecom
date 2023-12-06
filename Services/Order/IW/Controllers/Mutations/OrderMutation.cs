@@ -1,4 +1,4 @@
-﻿using HotChocolate.Authorization;
+using HotChocolate.Authorization;
 using IW.Commands.Orders;
 using IW.Common;
 using IW.Exceptions.CreateOrderError;

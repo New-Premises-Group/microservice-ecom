@@ -21,6 +21,11 @@ namespace IW.MessageBroker.Queries
             var results = await orderService.GetOrders(query, page, amount);
             return results;
         }
+        public async Task<IEnumerable<OrderDto>> FindOrdersByStatus(GetOrder query, [Service] IOrderService orderService, int page = (int)PAGINATING.OffsetDefault, int amount = (int)PAGINATING.AmountDefault)
+        {
+            var results = await orderService.GetOrdersByStatus(query, page, amount);
+            return results;
+        }
 
         [AllowAnonymous]
         public async Task<OrderDto> GetOrder(int id, [Service] IOrderService orderService)

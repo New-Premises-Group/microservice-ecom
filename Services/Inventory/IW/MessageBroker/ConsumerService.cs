@@ -66,9 +66,9 @@ namespace IW.MessageBroker
                 try
                 {
                     await inventoryService.UpdateStocks(inventories, TRANSACTION_TYPE.Sale);
-                    IRabbitMqProducer<OrderConfirmedMessage> producer = scope
+                    IRabbitMqProducer producer = scope
                         .ServiceProvider
-                        .GetRequiredService<IRabbitMqProducer<OrderConfirmedMessage>>();
+                        .GetRequiredService<IRabbitMqProducer>();
                     producer.Send(nameof(QUEUE_NAME.Order_Confirmed), message.Adapt<OrderConfirmedMessage>());
                 }
                 catch (InventoryNotFoundException ex)
@@ -77,9 +77,9 @@ namespace IW.MessageBroker
                 }
                 catch (OutOfStockException ex)
                 {
-                    IRabbitMqProducer<OrderPendingMessage> producerPending = scope
+                    IRabbitMqProducer producerPending = scope
                         .ServiceProvider
-                        .GetRequiredService<IRabbitMqProducer<OrderPendingMessage>>();
+                        .GetRequiredService<IRabbitMqProducer>();
 
                     OrderPendingMessage pendingMessage=message.Adapt<OrderPendingMessage>();
                     pendingMessage.OutOfStockItem = ex.ProductId;

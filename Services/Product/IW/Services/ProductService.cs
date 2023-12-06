@@ -6,6 +6,7 @@ using IW.Models.DTOs.Product;
 using IW.Models.DTOs.ProductDto;
 using IW.Models.Entities;
 using Mapster;
+using Microsoft.EntityFrameworkCore;
 
 namespace IW.Services
 {
@@ -93,6 +94,15 @@ namespace IW.Services
         {
             if (id.ToString() == String.Empty) return null;
             var result = await _unitOfWork.Products.GetById(id);
+            return result;
+        }
+
+        public async Task<IEnumerable<ProductDto>> GetProductsByName(string name, int page, int amount)
+        {
+            var products = await _unitOfWork.Products.FindByConditionToList(
+                p => EF.Functions.ILike(p.Name, $"%{name}%")
+                , page, amount);
+            ICollection<ProductDto> result = products.Adapt<ICollection<ProductDto>>();
             return result;
         }
     }

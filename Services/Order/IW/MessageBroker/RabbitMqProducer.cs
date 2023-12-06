@@ -7,7 +7,7 @@ using System.Text;
 
 namespace IW.MessageBroker
 {
-    public class RabbitMqProducer<T> : IRabbitMqProducer<T> where T : class
+    public class RabbitMqProducer : IRabbitMqProducer
     {
         readonly ConnectionFactory _connectionFactory;
         private readonly RabbitMqOptions _options;
@@ -23,7 +23,7 @@ namespace IW.MessageBroker
                 VirtualHost = _options.VirtualHost,
             };
         }
-        public void Send(string queueName,T message)
+        public void Send <TMessage>(string queueName, TMessage message)
         {
             using var connection = _connectionFactory.CreateConnection();
             using var channel = connection.CreateModel();

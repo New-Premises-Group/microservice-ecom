@@ -9,9 +9,9 @@ namespace IW.Controllers.Queries
     public class CategoryQuery
     {
         [Authorize(Roles = new[] { nameof(ROLE.Admin) })]
-        public async Task<IEnumerable<CategoryDto>> GetCategories([Service] ICategoryService categoryService)
+        public async Task<IEnumerable<CategoryDto>> GetCategories([Service] ICategoryService categoryService, int page = (int)PAGINATING.OffsetDefault, int amount = (int)PAGINATING.AmountDefault)
         {
-            var results = await categoryService.GetCategories();
+            var results = await categoryService.GetCategories(page, amount);
             return results;
         }
 

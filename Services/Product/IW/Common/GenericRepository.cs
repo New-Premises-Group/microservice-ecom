@@ -30,7 +30,7 @@ namespace IW.Common
             dbSet.Update(entity);
         }
 
-        public async Task<IEnumerable<TEntity>> FindByConditionToList(Expression<Func<TEntity, bool>> expression,int page, int amount)
+        public virtual async Task<IEnumerable<TEntity>> FindByConditionToList(Expression<Func<TEntity, bool>> expression,int page, int amount)
         {
             IEnumerable<TEntity> results= await dbSet.AsNoTracking().Where(expression).Skip((page-1)*amount).Take(amount).ToListAsync();
             return results;

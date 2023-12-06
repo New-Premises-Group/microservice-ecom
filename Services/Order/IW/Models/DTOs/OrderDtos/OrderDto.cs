@@ -16,5 +16,6 @@ namespace IW.Models.DTOs.OrderDtos
         public string? CancelReason { get; set; }
         public decimal Total { get; set; }
         public ICollection<ItemDto>? Items { get; set; }
+        public string? Email { get; set; }
     }
 }

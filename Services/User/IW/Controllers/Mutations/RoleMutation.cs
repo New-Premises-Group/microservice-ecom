@@ -8,10 +8,10 @@ using IW.Models.DTOs.User;
 namespace IW.Controllers.Mutations
 {
     [ExtendObjectType("Mutation")]
-    [Authorize(Roles = new[] { nameof(ROLE.Admin) })]
     public class RoleMutation
     {
         [Error(typeof(CreateRoleErrorFactory))]
+        [Authorize(Roles = new[] { nameof(ROLE.Admin) })]
         public async Task<RoleCreatedPayload> CreateRole(CreateRole role, [Service] IRoleService roleService)
         {
             await roleService.CreateRole(role);
@@ -23,6 +23,7 @@ namespace IW.Controllers.Mutations
         }
 
         [Error(typeof(CreateRoleErrorFactory))]
+        [Authorize(Roles = new[] { nameof(ROLE.Admin) })]
         public async Task<RoleCreatedPayload> UpdateRole(int id, UpdateRole input, [Service] IRoleService roleService)
         {
             await roleService.UpdateRole(id, input);

@@ -7,6 +7,7 @@ using IW.Models.Entities;
 using Mapster;
 using Microsoft.Extensions.Caching.Distributed;
 using Newtonsoft.Json;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace IW.Services
 {
@@ -142,6 +143,35 @@ namespace IW.Services
         private static string CreateKey(string key)
         {
             return $"product-{key}";
+        }
+
+        public async Task<IEnumerable<ProductDto>> GetProductsByName(string name, int page, int amount)
+        {
+            string key = "";
+            if (!string.IsNullOrEmpty(name))
+            {
+                key = CreateKey(name);
+            }
+
+            string? cachedProducts = await _distributedCache.GetStringAsync(key);
+
+            if (string.IsNullOrEmpty(cachedProducts))
+            {
+                IEnumerable<ProductDto> newProducts = await _decorated.GetProductsByName(name, page, amount);
+
+                return newProducts;
+            }
+
+            var products = JsonConvert.DeserializeObject<IEnumerable<ProductDto>>(cachedProducts);
+
+            if (products is not null)
+            {
+                foreach (Product product in products.Adapt<IEnumerable<Product>>())
+                {
+                    _dbContext.Set<Product>().Attach(product);
+                }
+            }
+            return products;
         }
     }
 }

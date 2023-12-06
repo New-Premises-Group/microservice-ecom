@@ -1,4 +1,5 @@
 ﻿using HotChocolate.Authorization;
+using IW.Common;
 using IW.Exceptions.CreateAddressError;
 using IW.Interfaces.Services;
 using IW.Models.DTOs.Address;
@@ -9,7 +10,9 @@ namespace IW.Controllers.Mutations
     public class AddressMutation
     {
         [Error(typeof(CreateAddressErrorFactory))]
-        public async Task<AddressCreatedPayload> CreateAddress(CreateAddress address, [Service] IAddressService addressService)
+        public async Task<AddressCreatedPayload> CreateAddress(
+            CreateAddress address,
+            [Service] IAddressService addressService)
         {
             var id=await addressService.CreateAddress(address);
             var payload = new AddressCreatedPayload()
@@ -21,7 +24,10 @@ namespace IW.Controllers.Mutations
         }
 
         [Error(typeof(CreateAddressErrorFactory))]
-        public async Task<AddressUpdatedPayload> UpdateAddress(int id, UpdateAddress input, [Service] IAddressService addressService)
+        public async Task<AddressUpdatedPayload> UpdateAddress(
+            int id, 
+            UpdateAddress input, 
+            [Service] IAddressService addressService)
         {
             await addressService.UpdateAddress(id, input);
             var payload = new AddressUpdatedPayload()
@@ -32,8 +38,9 @@ namespace IW.Controllers.Mutations
         }
 
         [Error(typeof(CreateAddressErrorFactory))]
-        [AllowAnonymous]
-        public async Task<AddressUpdatedPayload> UpdateDefaultAddress(int id, [Service] IAddressService addressService)
+        public async Task<AddressUpdatedPayload> UpdateDefaultAddress(
+            int id, 
+            [Service] IAddressService addressService)
         {
             await addressService.SetDefaultAddress(id);
             var payload = new AddressUpdatedPayload()
@@ -43,7 +50,9 @@ namespace IW.Controllers.Mutations
             return payload;
         }
 
-        public async Task<AddressDeletedPayload> DeleteAddress(int id, [Service] IAddressService addressService)
+        public async Task<AddressDeletedPayload> DeleteAddress(
+            int id, 
+            [Service] IAddressService addressService)
         {
             await addressService.DeleteAddress(id);
             var payload = new AddressDeletedPayload()
