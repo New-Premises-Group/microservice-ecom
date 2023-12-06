@@ -1,8 +1,8 @@
-![Code Coverage](https://img.shields.io/badge/Code%20Coverage-9%25-yellow?style=flat)
+![Code Coverage](https://img.shields.io/badge/Code%20Coverage-5%25-yellow?style=flat)
 
 Package | Line Rate | Branch Rate | Health
 -------- | --------- | ----------- | ------
-IW | 9% | 10% | ➖
-**Summary** | **9%** (163 / 1904) | **10%** (7 / 70) | ➖
+IW | 5% | 4% | ➖
+**Summary** | **5%** (171 / 3156) | **4%** (7 / 193) | ➖
 
 _Minimum allowed line rate is `5%`_
