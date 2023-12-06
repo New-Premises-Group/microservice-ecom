@@ -9,6 +9,7 @@ using IW.Common;
 using IW.Models.Entities;
 using FakeItEasy.Sdk;
 using IW.Interfaces.Repositories;
+using IW.Interfaces.Services;
 
 namespace Test.OrderTest.Services
 {

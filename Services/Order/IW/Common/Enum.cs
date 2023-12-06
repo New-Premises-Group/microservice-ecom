@@ -6,6 +6,7 @@
         Match,
         Length,
         GreaterThan,
+        GreaterThanOrEqualTo,
         BeAValidDate,
         LessThanOrEqualTo,
         IsInEnum
@@ -40,5 +41,28 @@
         Order_Delivered,
         Order_Shipped,
         Items
+    }
+
+    public enum PAYLOAD_TYPE
+    {
+        Create,
+        Update,
+        Delete,
+    }
+
+    public enum DISCOUNT_TYPE
+    {
+        None,
+        Percent,
+        Fixed,
+        Tier
+    }
+
+    public enum DISCOUNT_CONDITION
+    {
+        None,
+        Total,
+        Birthday,
+        SpecialDay
     }
 }

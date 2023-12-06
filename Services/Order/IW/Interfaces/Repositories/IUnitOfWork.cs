@@ -7,6 +7,7 @@ namespace IW.Interfaces
         // Add your Repository here
         IItemRepository Items { get; }
         IOrderRepository Orders { get; }
+        IDiscountRepository Discounts { get; }
         Task<int> CompleteAsync();
     }
 }

@@ -39,6 +39,7 @@
 
   <ItemGroup>
     <Folder Include="Migrations\" />
+    <Folder Include="Queries\" />
   </ItemGroup>
 
 </Project>

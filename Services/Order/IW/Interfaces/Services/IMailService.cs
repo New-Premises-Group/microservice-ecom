@@ -1,6 +1,6 @@
 ﻿using IW.Models.DTOs.Item;
 
-namespace IW.Interfaces
+namespace IW.Interfaces.Services
 {
     public interface IMailService
     {

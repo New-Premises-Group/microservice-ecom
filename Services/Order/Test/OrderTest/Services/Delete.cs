@@ -1,5 +1,6 @@
 ﻿using FakeItEasy;
 using IW.Interfaces;
+using IW.Interfaces.Services;
 using IW.Models;
 using IW.Models.Entities;
 using IW.Services;

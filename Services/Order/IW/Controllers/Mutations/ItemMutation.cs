@@ -4,6 +4,10 @@ using IW.Common;
 using IW.Exceptions.CreateItemError;
 using IW.Models.DTOs.Item;
 using IW.Models.DTOs;
+using IW.Models.DTOs.ItemPayloads;
+using IW.Interfaces.Payloads;
+using IW.Models.DTOs.ItemDtos;
+using IW.Interfaces.Services;
 
 namespace IW.MessageBroker.Mutations
 {
@@ -12,36 +16,39 @@ namespace IW.MessageBroker.Mutations
     public class ItemMutation
     {
         [Error(typeof(CreateItemErrorFactory))]
-        public async Task<ItemCreatedPayload> CreateItem(int orderId,CreateItem input, [Service] IItemService itemService)
+        public async Task<string> CreateItem(
+            int orderId,
+            CreateItem input, 
+            [Service] IItemService itemService, 
+            [Service] IItemPayloadFactory payloadFactory)
         {
             await itemService.CreateItem(orderId,input);
-            var payload = new ItemCreatedPayload()
-            {
-                Message = "Item successfully created"
-            };
-            return payload;
+            var payload = payloadFactory.GetResponsePayload(PAYLOAD_TYPE.Create);
+
+            return payload.GetDetail($"Order-id:{orderId}");
         }
 
         [Error(typeof(CreateItemErrorFactory))]
-        public async Task<ItemUpdatedPayload> UpdateItem(int id, UpdateItem input, [Service] IItemService itemService)
+        public async Task<string> UpdateItem(UpdateItem input,
+            [Service] IMediator mediator, 
+            [Service] IItemPayloadFactory payloadFactory)
         {
-            await itemService.UpdateItem(id, input);
-            var payload = new ItemUpdatedPayload()
-            {
-                Message = "Item successfully updated",
-            };
-            return payload;
+            var id=await mediator.Send(input);
+            var payload = payloadFactory.GetResponsePayload(PAYLOAD_TYPE.Create);
+
+            return payload.GetDetail($"{id}");
         }
 
         [Authorize(Roles = new[] { nameof(ROLE.Admin) })]
-        public async Task<ItemDeletedPayload> DeleteItem(int id, [Service] IItemService itemService)
+        public async Task<string> DeleteItem(
+            DeleteItem input,
+            [Service] IMediator mediator, 
+            [Service] IItemPayloadFactory payloadFactory)
         {
-            await itemService.DeleteItem(id);
-            var payload = new ItemDeletedPayload()
-            {
-                Message = "Item successfully deleted"
-            };
-            return payload;
+            var id = await mediator.Send(input);
+            var payload = payloadFactory.GetResponsePayload(PAYLOAD_TYPE.Create);
+            
+            return payload.GetDetail($"{id}");
         }
     }
 }

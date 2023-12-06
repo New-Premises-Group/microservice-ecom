@@ -14,7 +14,7 @@ namespace IW.Models.Entities
         public int Id { get; set; }
         public Guid UserId { get; set; }
         public string UserName {  get; set; }
-        public string Email {  get; set; }
+        public string Email { get; set; }
         public string Phone { get; set; }
         public DateTime Date { get; set; }
         [Column(TypeName = "varchar(15)")]
@@ -22,6 +22,7 @@ namespace IW.Models.Entities
         public string ShippingAddress { get; set; }
         public string? CancelReason { get; set; }
         public decimal Total{ get; set; }
+        public string? DiscountCode { get; set; } = string.Empty;
         public ICollection<OrderItem>? Items { get; set; }
     }
 

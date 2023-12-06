@@ -5,6 +5,8 @@ namespace IW.Models.DTOs
     public class CreateItem
     {
         [Required]
+        public int OrderId {  get; set; }
+        [Required]
         public int ProductId { get; set; }
         [Required]
         public string Name { get; set; }

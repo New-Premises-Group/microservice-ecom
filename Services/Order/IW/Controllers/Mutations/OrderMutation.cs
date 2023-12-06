@@ -1,7 +1,8 @@
-﻿using HotChocolate.Authorization;
+using HotChocolate.Authorization;
+using IW.Commands.Orders;
 using IW.Common;
 using IW.Exceptions.CreateOrderError;
-using IW.Interfaces;
+using IW.Interfaces.Payloads;
 using IW.Interfaces.Services;
 using IW.Models.DTOs.OrderDtos;
 using IW.Services;
@@ -13,68 +14,59 @@ namespace IW.MessageBroker.Mutations
     public class OrderMutation
     {
         [Error(typeof(CreateOrderErrorFactory))]
-        public async Task<OrderCreatedPayload> CreateOrder(CreateOrder input, [Service] IOrderService orderService)
+        public async Task<string> CreateOrder(CreateOrder input,
+            [Service] IMediator mediator, 
+            [Service]IOrderPayloadFactory payloadFactory)
         {
-            int orderId = await orderService.CreateOrder(input);
-            var payload = new OrderCreatedPayload()
-            {
-                Message = "Order successfully created"
-            };
-            return payload;
+            int orderId = await mediator.Send(input);
+            var payload = payloadFactory.GetResponsePayload(PAYLOAD_TYPE.Create);
+            
+            return payload.GetDetail($"orderId:{orderId}");
         }
 
         [Error(typeof(CreateOrderErrorFactory))]
         [AllowAnonymous]
-        public async Task<OrderCreatedPayload> CreateGuestOrder(CreateGuestOrder input, [Service] IOrderService orderService)
+        public async Task<string> CreateGuestOrder(CreateGuestOrder input,
+            [Service] IOrderPayloadFactory payloadFactory,
+            [Service] IMediator mediator)
         {
-            int orderId = await orderService.CreateGuestOrder(input);
-            var payload = new OrderCreatedPayload()
-            {
-                Message = "Order successfully created"
-            };
-            return payload;
+            int orderId = await mediator.Send(input);
+            var payload = payloadFactory.GetResponsePayload(PAYLOAD_TYPE.Create);
+
+            return payload.GetDetail($"orderId:{orderId}");
         }
 
         [Error(typeof(CreateOrderErrorFactory))]
-        [Authorize(Roles = new[] { nameof(ROLE.Admin), nameof(ROLE.User) })]
-        public async Task<OrderUpdatedPayload> UpdateOrder(int id, UpdateOrder input, [Service] IOrderService orderService)
+        [Authorize(Roles = new[] { nameof(ROLE.Admin) })]
+        public async Task<string> UpdateOrder(
+            UpdateOrder input,
+            [Service] IMediator mediator, 
+            [Service] IOrderPayloadFactory payloadFactory)
         {
-            await orderService.UpdateOrder(id, input);
-            var payload = new OrderUpdatedPayload()
-            {
-                Message = "Order successfully updated"
-            };
-            return payload;
+            int orderId = await mediator.Send(input);
+            var payload = payloadFactory.GetResponsePayload(PAYLOAD_TYPE.Update);
+
+            return payload.GetDetail($"orderId:{orderId}");
         }
 
-        public async Task<OrderUpdatedPayload> FinishOrder(int id, [Service] IOrderService orderService)
+        public async Task<string> FinishOrder(DeleteOrder input,
+            [Service] IMediator mediator,
+            [Service] IOrderPayloadFactory payloadFactory)
         {
-            await orderService.FinishOrder(id);
-            return new OrderUpdatedPayload()
-            {
-                Message = "Finish Order Successfully"
-            };
+            int orderId = await mediator.Send(input);
+            var payload = payloadFactory.GetResponsePayload(PAYLOAD_TYPE.Update);
+
+            return payload.GetDetail($"orderId:{orderId}");
         }
 
-        public async Task<OrderUpdatedPayload> CancelOrder(
-            int id, 
-            [Service] IOrderService orderService)
+        public async Task<string> DeleteOrder(FinishOrder input,
+            [Service] IMediator mediator,
+            [Service] IOrderPayloadFactory payloadFactory)
         {
-            await orderService.CancelOrder(id);
-            return new OrderUpdatedPayload()
-            {
-                Message = "Cancel Order Successfully"
-            };
-        }
+            int orderId = await mediator.Send(input);
+            var payload = payloadFactory.GetResponsePayload(PAYLOAD_TYPE.Delete);
 
-        public async Task<OrderDeletedPayload> DeleteOrder(int id, [Service] IOrderService orderService)
-        {
-            await orderService.DeleteOrder(id);
-            var payload = new OrderDeletedPayload()
-            {
-                Message = "Order successfully deleted"
-            };
-            return payload;
+            return payload.GetDetail($"orderId:{orderId}");
         }
     }
 }

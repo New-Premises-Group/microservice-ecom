@@ -1,5 +1,5 @@
 ﻿using FluentEmail.Core;
-using IW.Interfaces;
+using IW.Interfaces.Services;
 using IW.Models.DTOs.Item;
 using System.Text.Json;
 

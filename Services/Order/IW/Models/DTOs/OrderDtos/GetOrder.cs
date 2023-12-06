@@ -1,9 +1,10 @@
 ﻿using IW.Common;
+using IW.Interfaces.Commands;
 using IW.Models.Entities;
 
 namespace IW.Models.DTOs.OrderDtos
 {
-    public class GetOrder
+    public class GetOrder : IRequest
     {
         public Guid? UserId { get; set; }
         public string? UserName { get; set; }
