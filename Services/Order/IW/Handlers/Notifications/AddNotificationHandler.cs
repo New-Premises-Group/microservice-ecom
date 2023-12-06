@@ -14,13 +14,13 @@ namespace IW.Handlers.Notifications
 {
     public class AddNotificationHandler : AbstractCommandHandler
     {
-        private readonly IRabbitMqProducer<OrderCreatedMessage> _producer;
+        private readonly IRabbitMqProducer _producer;
         private readonly IMailService _mailService;
         public AddNotificationHandler(
             IUnitOfWork unitOfWork,
             IMapper mapper,
             IMailService mailService,
-            IRabbitMqProducer<OrderCreatedMessage> producer,
+            IRabbitMqProducer producer,
             IMediator mediator) : base(unitOfWork, mapper, mediator)
         {
             _mailService = mailService;
