@@ -20,7 +20,6 @@ namespace IW.Controllers.Mutations
             };
             return payload;
         }
-
         [Error(typeof(CreateCategoryErrorFactory))]
         public async Task<CategoryCreatedPayload> UpdateCategory(int id, UpdateCategory input, [Service] ICategoryService categoryService)
         {
@@ -28,6 +27,17 @@ namespace IW.Controllers.Mutations
             var payload = new CategoryCreatedPayload()
             {
                 Message = "Category successfully updated"
+            };
+            return payload;
+        }
+
+        [Error(typeof(CreateCategoryErrorFactory))]
+        public async Task<CategoryCreatedPayload> DeleteCategory(int id, [Service] ICategoryService categoryService)
+        {
+            await categoryService.DeleteCategory(id);
+            var payload = new CategoryCreatedPayload()
+            {
+                Message = "Category successfully deleted"
             };
             return payload;
         }
