@@ -39,12 +39,8 @@ namespace IW.Models.Entities
         public decimal Apply(decimal total, DiscountConditionDto condition)
         {
             SetStrategy();
-            if (Strategy.CheckConditon(condition))
-            {
-                return Strategy.ApplyDiscount(total, Amount);
-            }
-            return total;
-        }
+            return Strategy.ApplyDiscount(total, Amount, condition)
+;        }
 
         private void SetStrategy()
         {
@@ -124,7 +120,28 @@ namespace IW.Models.Entities
             _condition = condition;
         }
 
-        public abstract decimal ApplyDiscount(decimal total, int discountAmount);
+        public IDiscountCondition IDiscountCondition
+        {
+            get => default;
+            set
+            {
+            }
+        }
+
+        public abstract decimal CalculateDiscount(decimal total, int discountAmount);
+
+        public decimal ApplyDiscount(
+            decimal total, 
+            int discountAmount, 
+            DiscountConditionDto condition)
+        {
+            if (CheckConditon(condition))
+            {
+                return CalculateDiscount(total, discountAmount);
+            }
+
+            return total;
+        }
 
         public bool CheckConditon(DiscountConditionDto condition)
         {
@@ -138,7 +155,7 @@ namespace IW.Models.Entities
         {
         }
 
-        public override decimal ApplyDiscount(decimal total, int discountAmount)
+        public override decimal CalculateDiscount(decimal total, int discountAmount)
         {
             return total - (total * discountAmount);
         }
@@ -150,7 +167,7 @@ namespace IW.Models.Entities
         {
         }
 
-        public override decimal ApplyDiscount(decimal total, int discountAmount)
+        public override decimal CalculateDiscount(decimal total, int discountAmount)
         {
             return total - discountAmount;
         }
@@ -162,7 +179,7 @@ namespace IW.Models.Entities
         {
         }
 
-        public override decimal ApplyDiscount(decimal total, int discountAmount)
+        public override decimal CalculateDiscount(decimal total, int discountAmount)
         {
             return total;
         }
@@ -196,7 +213,7 @@ namespace IW.Models.Entities
 
         public bool IsApplicable(DiscountConditionDto condition)
         {
-            return _birthday.Month == condition.Birthday.Month;
+            return _birthday.Month == condition.Birthday?.Month;
         }
     }
 

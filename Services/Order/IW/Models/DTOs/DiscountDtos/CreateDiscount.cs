@@ -12,8 +12,8 @@ namespace IW.Models.DTOs.DiscountDtos
         public DateTime ExpireDate { get; set; }
         public DateTime ActiveDate { get; set; }
         public DISCOUNT_TYPE Type { get; set; }
-        public decimal TotalOverCondition { get; init; } = 0;
-        public DateOnly BirthdayCondition { get; init; } = new DateOnly();
-        public DateOnly SpecialDayCondition { get; init; } = new DateOnly();
+        public decimal? TotalOverCondition { get; init; } = 0;
+        public DateOnly? BirthdayCondition { get; init; } = new DateOnly();
+        public DateOnly? SpecialDayCondition { get; init; } = new DateOnly();
     }
 }
