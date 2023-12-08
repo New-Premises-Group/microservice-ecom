@@ -1,0 +1,139 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="IW.Services.Mediator" BaseTypeListCollapsed="true">
+    <Position X="5.5" Y="9.5" Width="1.5" />
+    <AssociationLine Name="CreateItemsCommand" Type="IW.Commands.Items.CreateItemsCommand" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="6.25" Y="11.632" />
+        <Point X="6.25" Y="12.007" />
+        <Point X="3.031" Y="12.007" />
+        <Point X="3.031" Y="13.5" />
+      </Path>
+    </AssociationLine>
+    <AssociationLine Name="CreateOrderCommand" Type="IW.Commands.Orders.CreateOrderCommand" FixedFromPoint="true">
+      <Path>
+        <Point X="6.25" Y="11.632" />
+        <Point X="6.25" Y="12.007" />
+        <Point X="5.375" Y="12.007" />
+        <Point X="5.375" Y="13.5" />
+      </Path>
+    </AssociationLine>
+    <AssociationLine Name="AddNotificationCommand" Type="IW.Commands.Notifications.AddNotificationCommand" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="6.25" Y="11.632" />
+        <Point X="6.25" Y="12.007" />
+        <Point X="8.625" Y="12.007" />
+        <Point X="8.625" Y="13.5" />
+      </Path>
+    </AssociationLine>
+    <AssociationLine Name="ApplyDiscountCommand" Type="IW.Commands.Discounts.ApplyDiscountCommand" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="6.25" Y="11.632" />
+        <Point X="6.25" Y="12.007" />
+        <Point X="11.75" Y="12.007" />
+        <Point X="11.75" Y="13.5" />
+      </Path>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAEAAAAAEAAAgAAIQABAAAAAAAAAAABACA=</HashCode>
+      <FileName>Services\Mediator.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="CreateItemsCommand" />
+      <Property Name="CreateOrderCommand" />
+      <Property Name="AddNotificationCommand" />
+      <Property Name="ApplyDiscountCommand" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="IW.Commands.Orders.CreateOrderCommand" BaseTypeListCollapsed="true">
+    <Position X="4.5" Y="13.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Commands\Orders\CreateOrderCommand.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="CreateOrderHandler" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="IW.Commands.Items.CreateItemsCommand" BaseTypeListCollapsed="true">
+    <Position X="1.25" Y="13.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Commands\Items\CreateItemsCommand.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="CreateItemsHandler" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="IW.Commands.Notifications.AddNotificationCommand" BaseTypeListCollapsed="true">
+    <Position X="7.5" Y="13.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Commands\Notifications\AddNotificationCommand.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="AddNotificationHandler" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="IW.Commands.Discounts.ApplyDiscountCommand" BaseTypeListCollapsed="true">
+    <Position X="10.75" Y="13.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAA=</HashCode>
+      <FileName>Commands\Discounts\ApplyDiscountCommand.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="ApplyDiscountHandler" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="IW.Handlers.Discounts.ApplyDiscountHandler">
+    <Position X="10.75" Y="16.25" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAABAAAAAAAAAAAAAAAAEIAAAAAAAAAAAA=</HashCode>
+      <FileName>Handlers\Discounts\ApplyDiscountHandler.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="IW.Handlers.Items.CreateItemsHandler">
+    <Position X="1.25" Y="16.25" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAABAAAAAAAAAAAAAAAAAIAAAAAAAAAEAA=</HashCode>
+      <FileName>Handlers\Items\CreateItemsHandler.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="IW.Handlers.Notifications.AddNotificationHandler">
+    <Position X="7.5" Y="16.25" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAABABAAAAAAAAAAAAAAAAAIAAAAAAQAAAAA=</HashCode>
+      <FileName>Handlers\Notifications\AddNotificationHandler.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="IW.Handlers.Orders.CreateOrderHandler">
+    <Position X="4.5" Y="16.25" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAABAAIAAAAAAAAAAAAAAIAAAAAAAAAAAA=</HashCode>
+      <FileName>Handlers\Orders\CreateOrderHandler.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="IW.MessageBroker.Mutations.OrderMutation" Collapsed="true">
+    <Position X="5.5" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IQAAAAAAAQAwAQAAAAAAAAAACAAAAAAAAEIAAAAAAgA=</HashCode>
+      <FileName>Controllers\Mutations\OrderMutation.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Mediator" />
+    </ShowAsAssociation>
+  </Class>
+  <Interface Name="IW.Interfaces.Commands.ICommand&lt;TRequest&gt;">
+    <Position X="7.75" Y="9.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAABAQAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Interfaces\Commands\ICommand.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

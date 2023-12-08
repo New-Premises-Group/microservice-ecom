@@ -15,6 +15,38 @@ namespace IW.MessageBroker.Mutations
     [Authorize]
     public class ItemMutation
     {
+        public ItemPayloadFactory ItemPayloadFactory
+        {
+            get => default;
+            set
+            {
+            }
+        }
+
+        public ItemUpdatedPayload ItemUpdatedPayload
+        {
+            get => default;
+            set
+            {
+            }
+        }
+
+        public ItemDeletedPayload ItemDeletedPayload
+        {
+            get => default;
+            set
+            {
+            }
+        }
+
+        public ItemCreatedPayload ItemCreatedPayload
+        {
+            get => default;
+            set
+            {
+            }
+        }
+
         [Error(typeof(CreateItemErrorFactory))]
         public async Task<string> CreateItem(
             int orderId,

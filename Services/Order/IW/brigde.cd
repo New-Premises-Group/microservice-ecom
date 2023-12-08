@@ -1,0 +1,74 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="IW.Models.Entities.DiscountStrategy">
+    <Position X="7.25" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAQAAAAACAAAAAAAAAAAAAAAAgAAAACAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Entities\Discount.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="IDiscountCondition" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="IW.Models.Entities.PercentDiscountStrategy">
+    <Position X="9.5" Y="7.25" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Entities\Discount.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="IW.Models.Entities.FixedDiscountStrategy">
+    <Position X="4.5" Y="7.25" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Entities\Discount.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="IW.Models.Entities.NoDiscountStrategy">
+    <Position X="7.25" Y="7.25" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Entities\Discount.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="IW.Models.Entities.TotalBasedDiscount" BaseTypeListCollapsed="true">
+    <Position X="13" Y="4.75" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAQAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Entities\Discount.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="IW.Models.Entities.BirthdayDiscount" BaseTypeListCollapsed="true">
+    <Position X="15" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAEEAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Entities\Discount.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="IW.Models.Entities.SpecialdayDiscount" BaseTypeListCollapsed="true">
+    <Position X="15" Y="4.75" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAEAAAAAACAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Entities\Discount.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="IW.Models.Entities.FreeForAllDiscount" BaseTypeListCollapsed="true">
+    <Position X="13" Y="6.75" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Entities\Discount.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Interface Name="IW.Models.Entities.IDiscountCondition">
+    <Position X="10.5" Y="4.75" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Entities\Discount.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

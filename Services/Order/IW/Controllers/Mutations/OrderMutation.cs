@@ -13,6 +13,46 @@ namespace IW.MessageBroker.Mutations
     [Authorize]
     public class OrderMutation
     {
+        public Models.DTOs.OrderPayloads.OrderPayloadFactory OrderPayloadFactory
+        {
+            get => default;
+            set
+            {
+            }
+        }
+
+        public Models.DTOs.OrderPayloads.OrderUpdatedPayload OrderUpdatedPayload
+        {
+            get => default;
+            set
+            {
+            }
+        }
+
+        public Models.DTOs.OrderPayloads.OrderDeletedPayload OrderDeletedPayload
+        {
+            get => default;
+            set
+            {
+            }
+        }
+
+        public Models.DTOs.OrderPayloads.OrderCreatedPayload OrderCreatedPayload
+        {
+            get => default;
+            set
+            {
+            }
+        }
+
+        public Mediator Mediator
+        {
+            get => default;
+            set
+            {
+            }
+        }
+
         [Error(typeof(CreateOrderErrorFactory))]
         public async Task<string> CreateOrder(CreateOrder input,
             [Service] IMediator mediator, 

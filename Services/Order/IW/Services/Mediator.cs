@@ -29,6 +29,38 @@ namespace IW.Services
             _prevCommands = new Stack<GenericCommand>();
         }
 
+        //public CreateItemsCommand CreateItemsCommand
+        //{
+        //    get => default;
+        //    set
+        //    {
+        //    }
+        //}
+
+        //public CreateOrderCommand CreateOrderCommand
+        //{
+        //    get => default;
+        //    set
+        //    {
+        //    }
+        //}
+
+        //public AddNotificationCommand AddNotificationCommand
+        //{
+        //    get => default;
+        //    set
+        //    {
+        //    }
+        //}
+
+        //public ApplyDiscountCommand ApplyDiscountCommand
+        //{
+        //    get => default;
+        //    set
+        //    {
+        //    }
+        //}
+
         public void Register()
         {
 

@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Comment CommentText="if (CheckConditon(condition))&#xD;&#xA;{&#xD;&#xA;    return CalculateDiscount(total, discountAmount);&#xD;&#xA;}&#xD;&#xA;&#xD;&#xA;return total;">
+    <Position X="10.018" Y="5.223" Height="1.252" Width="3.05" />
+  </Comment>
+  <Class Name="IW.Models.Entities.DiscountStrategy">
+    <Position X="7.25" Y="4" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAQAAAAACABAAAAAAAAAAAAAAgAAAACAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Entities\Discount.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="IW.Models.Entities.PercentDiscountStrategy">
+    <Position X="9.75" Y="7.25" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Entities\Discount.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="IW.Models.Entities.FixedDiscountStrategy">
+    <Position X="4.5" Y="7.25" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Entities\Discount.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="IW.Models.Entities.NoDiscountStrategy">
+    <Position X="7.25" Y="7.25" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Entities\Discount.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

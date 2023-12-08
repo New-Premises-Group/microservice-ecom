@@ -10,5 +10,13 @@ namespace IW.Commands.Orders
         public CreateOrderCommand(
             CreateOrderHandler handler,
             CreateOrder request) : base(handler, request) { }
+
+        public CreateOrderHandler CreateOrderHandler
+        {
+            get => default;
+            set
+            {
+            }
+        }
     }
 }

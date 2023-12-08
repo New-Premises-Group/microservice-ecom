@@ -11,5 +11,13 @@ namespace IW.Commands.Discounts
         public ApplyDiscountCommand(
             ApplyDiscountHandler handler,
             ApplyDiscount request) : base(handler, request) { }
+
+        public ApplyDiscountHandler ApplyDiscountHandler
+        {
+            get => default;
+            set
+            {
+            }
+        }
     }
 }

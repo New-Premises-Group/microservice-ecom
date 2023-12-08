@@ -10,5 +10,13 @@ namespace IW.Commands.Notifications
         public AddNotificationCommand(
             AddNotificationHandler handler,
             CreateNotification request) : base(handler, request) { }
+
+        public AddNotificationHandler AddNotificationHandler
+        {
+            get => default;
+            set
+            {
+            }
+        }
     }
 }

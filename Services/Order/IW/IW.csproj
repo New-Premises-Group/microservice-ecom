@@ -20,6 +20,7 @@
     <PackageReference Include="FluentValidation" Version="11.7.1" />
     <PackageReference Include="HotChocolate.AspNetCore" Version="13.5.1" />
     <PackageReference Include="HotChocolate.AspNetCore.Authorization" Version="13.5.1" />
+    <PackageReference Include="HotChocolate.Data" Version="13.5.1" />
     <PackageReference Include="Mapster" Version="7.4.0" />
     <PackageReference Include="Mapster.DependencyInjection" Version="1.0.1" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.21" />

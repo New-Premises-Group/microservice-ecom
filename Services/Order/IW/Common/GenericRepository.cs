@@ -36,6 +36,14 @@ namespace IW.Common
             return results;
         }
 
+        public IQueryable<TEntity> FindByConditionToQuery(
+            Expression<Func<TEntity, bool>> expression, 
+            int page, int amount)
+        {
+            var results = dbSet.AsNoTracking().Where(expression).Skip((page - 1) * amount).Take(amount);
+            return results;
+        }
+
         public virtual async Task<TEntity?> FindByCondition(Expression<Func<TEntity, bool>> expression)
         {
             return await dbSet.Where(expression).FirstOrDefaultAsync();
