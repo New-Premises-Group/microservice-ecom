@@ -11,12 +11,18 @@ namespace IW.Repository
         public IProductRepository Products { get; }
 
         public ICategoryRepository Categories { get; }
+        public IReviewRepository Reviews { get; }
 
-        public UnitOfWork(AppDbContext context,IProductRepository productRepository, ICategoryRepository categoryRepository)
+        public UnitOfWork(
+            AppDbContext context,
+            IProductRepository productRepository, 
+            ICategoryRepository categoryRepository,
+            IReviewRepository reviewRepository)
         {
             _context = context;
             Products= productRepository;
             Categories= categoryRepository;
+            Reviews= reviewRepository;
         }
 
         public async Task<int> CompleteAsync()

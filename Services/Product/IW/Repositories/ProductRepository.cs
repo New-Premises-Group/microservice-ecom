@@ -24,6 +24,8 @@ namespace IW.Repositories
             IEnumerable<Product> results = await dbSet
                 .AsNoTracking()
                 .Include(product => product.Category)
+                .Include(
+                product => product.Reviews.Where(review => review.ProductId == product.Id))
                 .Where(expression)
                 .Skip((page - 1) * amount)
                 .Take(amount)
@@ -33,7 +35,9 @@ namespace IW.Repositories
 
         public override async Task<IEnumerable<Product>> GetAll(int page, int amount)
         {
-            return await dbSet.Include(u => u.Category)
+            return await dbSet
+                .Include(u => u.Category)
+                .Include(product => product.Reviews)
                 .AsNoTracking()
                 .Skip((page - 1) * amount)
                 .Take(amount)
@@ -44,6 +48,7 @@ namespace IW.Repositories
         {
             return await dbSet
                 .Include(u => u.Category)
+                .Include(product => product.Reviews)
                 .Where(p=>p.Id==id)
                 .FirstAsync();
         }

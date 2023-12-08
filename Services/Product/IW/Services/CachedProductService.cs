@@ -2,7 +2,6 @@
 using IW.Models;
 using IW.Models.DTOs;
 using IW.Models.DTOs.Product;
-using IW.Models.DTOs.ProductDto;
 using IW.Models.Entities;
 using Mapster;
 using Microsoft.Extensions.Caching.Distributed;

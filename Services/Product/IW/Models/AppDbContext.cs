@@ -15,8 +15,14 @@ namespace IW.Models
            .HasOne<Category>(s => s.Category)
            .WithMany(g => g.Products)
            .HasForeignKey(s => s.CategoryId);
+
+            modelBuilder.Entity<Review>()
+           .HasOne<Product>(s => s.Product)
+           .WithMany(g => g.Reviews)
+           .HasForeignKey(s => s.ProductId);
         }
         public DbSet<Product> Products { get; set; }
         public DbSet<Category> Categories{ get; set; }
+        public DbSet<Review> Reviews { get; set; }
     }
 }

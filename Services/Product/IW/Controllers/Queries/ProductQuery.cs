@@ -1,7 +1,6 @@
 ﻿using IW.Common;
 using IW.Interfaces;
 using IW.Models.DTOs.Product;
-using IW.Models.DTOs.ProductDto;
 
 namespace IW.Controllers.Queries
 {

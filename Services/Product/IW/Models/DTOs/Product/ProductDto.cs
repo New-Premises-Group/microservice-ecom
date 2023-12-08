@@ -1,5 +1,6 @@
 ﻿
 using IW.Models.DTOs.CategoryDto;
+using IW.Models.DTOs.Review;
 using IW.Models.Entities;
 
 namespace IW.Models.DTOs.Product
@@ -14,5 +15,6 @@ namespace IW.Models.DTOs.Product
         public string Images { get; set; }
         public int CategoryId { get; set; }
         public CategoryDto.CategoryDto Category { get; set; }
+        public IEnumerable<ReviewDto>? Reviews { get; set; }
     }
 }

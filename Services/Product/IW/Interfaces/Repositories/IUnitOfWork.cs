@@ -7,6 +7,7 @@ namespace IW.Interfaces
         // Add your Repository here
         IProductRepository Products { get; }
         ICategoryRepository Categories { get; }
+        IReviewRepository Reviews { get; }
         Task<int> CompleteAsync();
     }
 }

@@ -1,5 +1,5 @@
 ﻿
-namespace IW.Models.DTOs.ProductDto
+namespace IW.Models.DTOs.Product
 {
     public class GetProduct
     {

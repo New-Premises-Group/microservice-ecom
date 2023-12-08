@@ -1,6 +1,5 @@
 ﻿using IW.Models.DTOs;
 using IW.Models.DTOs.Product;
-using IW.Models.DTOs.ProductDto;
 
 namespace IW.Interfaces
 {

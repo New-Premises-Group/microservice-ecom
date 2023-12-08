@@ -3,7 +3,6 @@ using IW.Interfaces;
 using IW.Models.DTOs;
 using IW.Models.DTOs.CategoryDto;
 using IW.Models.DTOs.Product;
-using IW.Models.DTOs.ProductDto;
 using IW.Models.Entities;
 using Mapster;
 using Microsoft.EntityFrameworkCore;

@@ -26,4 +26,13 @@
         Order_Shipped,
         Items
     }
+
+    public enum RATING
+    {
+        Very_Good=5,
+        Good=4,
+        Normal=3,
+        Bad=2,
+        VeryBad=1
+    }
 }

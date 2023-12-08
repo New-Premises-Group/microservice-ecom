@@ -26,10 +26,12 @@ public static class ServicesExtension
              .AddQueryType(d => d.Name("Query"))
                 .AddTypeExtension<ProductQuery>()
                 .AddTypeExtension<CategoryQuery>()
+                .AddTypeExtension<ReviewQuery>()
             .AddErrorFilter<ErrorFilter>()
             .AddMutationType(m=>m.Name("Mutation"))
                 .AddTypeExtension<ProductMutation>()
                 .AddTypeExtension<CategoryMutation>()
+                .AddTypeExtension<ReviewMutation>()
             .AddMutationConventions(applyToAllMutations: true)
             .AddAuthorization();
         //Swagger
@@ -68,6 +70,7 @@ public static class ServicesExtension
         builder.Services.AddScoped<IProductRepository, ProductRepository>();
         builder.Services.AddScoped<ICategoryService, CategoryService>();
         builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
+        builder.Services.AddScoped<IReviewRepository, ReviewRepository>();
 
     }
 }
