@@ -29,10 +29,12 @@ public static class ServicesExtension
                 .AddTypeExtension<UserQuery>()
                 .AddTypeExtension<RoleQuery>()
                 .AddTypeExtension<AddressQuery>()
+                .AddTypeExtension<PointQuery>()
             .AddMutationType(m=>m.Name("Mutation"))
                 .AddTypeExtension<UserMutation>()
                 .AddTypeExtension<RoleMutation>()
                 .AddTypeExtension<AddressMutation>()
+                .AddTypeExtension<PointMutation>()
                 .AddErrorFilter<ErrorFilter>()
             .AddMutationConventions(applyToAllMutations: true);
         //Swagger
@@ -64,6 +66,7 @@ public static class ServicesExtension
         builder.Services.AddScoped<IRoleService, RoleService>();
         builder.Services.AddScoped<IRoleRepository, RoleRepository>();
         builder.Services.AddScoped<IAddressRepository, AddressRepository>();
+        builder.Services.AddScoped<IPointRepository, PointRepository>();
         builder.Services.AddScoped<IAddressService, AddressService>();
 
         builder.Services.AddScoped<IJwtProvider, JwtProvider>();

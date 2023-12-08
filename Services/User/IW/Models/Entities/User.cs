@@ -19,6 +19,8 @@ namespace IW.Models.Entities
         public string? PhoneNumber { get; set; }
         public int RoleId {  get; set; }
         public Role Role { get; set; }
+        public int PointId { get; set; }
+        public LoyaltyPoints? LoyaltyPoint { get; set; }
         public ICollection<Address> Addresses { get; set; }
 
     }

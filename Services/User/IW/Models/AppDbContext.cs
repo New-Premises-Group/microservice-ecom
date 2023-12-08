@@ -16,6 +16,11 @@ namespace IW.Models
            .WithMany(g => g.Users)
            .HasForeignKey(s => s.RoleId);
 
+            modelBuilder.Entity<User>()
+           .HasOne<LoyaltyPoints>(s => s.LoyaltyPoint)
+           .WithOne(g => g.User)
+           .HasForeignKey<LoyaltyPoints>(s => s.UserId);
+
             modelBuilder.Entity<Address>()
                 .HasOne(s => s.User)
                 .WithMany(a => a.Addresses)
@@ -25,5 +30,6 @@ namespace IW.Models
         public DbSet<User> Users { get; set; }
         public DbSet<Role> Roles { get; set; }
         public DbSet<Address> Addresses { get; set; }
+        public DbSet<LoyaltyPoints> LoyaltyPoints { get; set; }
     }
 }

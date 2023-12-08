@@ -8,6 +8,7 @@ namespace IW.Interfaces
         IUserRepository Users { get; }
         IRoleRepository Roles { get; }
         IAddressRepository Addresses { get; }
+        IPointRepository Points { get; }
         Task<int> CompleteAsync();
     }
 }

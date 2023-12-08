@@ -13,16 +13,19 @@ namespace IW.Repository
 
         public IRoleRepository Roles { get; }
         public IAddressRepository Addresses { get; }
+        public IPointRepository Points { get; }
 
         public UnitOfWork(AppDbContext context, 
             IUserRepository userRepository,
             IRoleRepository roleRepository, 
-            IAddressRepository addresses)
+            IAddressRepository addresses,
+            IPointRepository pointRepository)
         {
             _context = context;
             Users = userRepository;
             Roles = roleRepository;
             Addresses = addresses;
+            Points = pointRepository;
         }
 
         public async Task<int> CompleteAsync()

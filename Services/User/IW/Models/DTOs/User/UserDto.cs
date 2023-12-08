@@ -1,5 +1,6 @@
 ﻿using HotChocolate.Authorization;
 using IW.Models.DTOs.Address;
+using IW.Models.DTOs.Point;
 using IW.Models.DTOs.Role;
 
 namespace IW.Models.DTOs.User
@@ -14,5 +15,6 @@ namespace IW.Models.DTOs.User
         public RoleDto Role { get; set; }
         public string? PhoneNumber { get; set; }
         public AddressDto? Address { get; set; }
+        public PointDto? Point { get; set; }
     }
 }

@@ -8,7 +8,7 @@ namespace IW.Controllers.Queries
     [ExtendObjectType("Query")]
     public class RoleQuery
     {
-        [Authorize(Roles = new[] { nameof(ROLE.Admin) })]
+        [AllowAnonymous]
         public async Task<IEnumerable<RoleDto>> GetRoles([Service] IRoleService roleService)
         {
             var role = await roleService.GetRoles();

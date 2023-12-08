@@ -33,6 +33,7 @@ namespace IW.Repositories
             return await dbSet.Where(u=>u.Id.Equals(id))
                 .Include(u => u.Role)
                 .Include(u => u.Addresses)
+                .Include(u => u.LoyaltyPoint)
                 .FirstAsync();
         }
         public override async Task<ICollection<User>> GetAll( int amount, int page)
