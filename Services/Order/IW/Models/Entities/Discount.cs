@@ -26,8 +26,10 @@ namespace IW.Models.Entities
         public DateOnly BirthdayCondition { get; init; } = new DateOnly();
         public DateOnly SpecialDayCondition { get; init; } = new DateOnly();
         [NotMapped]
+        [GraphQLIgnore]
         public DiscountStrategy? Strategy { get; set; }
         [NotMapped]
+        [GraphQLIgnore]
         public static Discount Empty => new()
         {
             Id =-1,
@@ -120,6 +122,7 @@ namespace IW.Models.Entities
             _condition = condition;
         }
 
+        [IsProjected(false)]
         public IDiscountCondition IDiscountCondition
         {
             get => default;

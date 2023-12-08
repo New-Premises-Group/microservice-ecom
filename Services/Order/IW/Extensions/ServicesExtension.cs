@@ -39,6 +39,7 @@ public static class ServicesExtension
                 .AddTypeExtension<ItemQuery>()
                 .AddTypeExtension<OrderQuery>()
                 .AddTypeExtension<DiscountQuery>()
+                .AddProjections()
             .AddErrorFilter<ErrorFilter>()
             .AddMutationType(m => m.Name("Mutation"))
                 .AddTypeExtension<ItemMutation>()
