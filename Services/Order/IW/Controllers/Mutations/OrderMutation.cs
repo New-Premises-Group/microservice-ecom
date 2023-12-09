@@ -89,7 +89,8 @@ namespace IW.MessageBroker.Mutations
             return payload.GetDetail($"orderId:{orderId}");
         }
 
-        public async Task<string> FinishOrder(DeleteOrder input,
+        [AllowAnonymous]
+        public async Task<string> FinishOrder(FinishOrder input,
             [Service] IMediator mediator,
             [Service] IOrderPayloadFactory payloadFactory)
         {
@@ -99,7 +100,7 @@ namespace IW.MessageBroker.Mutations
             return payload.GetDetail($"orderId:{orderId}");
         }
 
-        public async Task<string> DeleteOrder(FinishOrder input,
+        public async Task<string> DeleteOrder(DeleteOrder input,
             [Service] IMediator mediator,
             [Service] IOrderPayloadFactory payloadFactory)
         {
