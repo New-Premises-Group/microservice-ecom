@@ -13,11 +13,11 @@ namespace IW.Handlers.Orders
 {
     public class CreateOrderHandler : AbstractCommandHandler
     {
-        
+
         private Order? _savedOrder;
         public CreateOrderHandler(IUnitOfWork unitOfWork,
-            IMapper mapper, 
-            IMediator mediator) : base(unitOfWork, mapper,mediator)
+            IMapper mapper,
+            IMediator mediator) : base(unitOfWork, mapper, mediator)
         {
         }
 
@@ -38,17 +38,19 @@ namespace IW.Handlers.Orders
             });
 
             _unitOfWork.Orders.Add(newOrder);
-            
+
             await _unitOfWork.CompleteAsync();
 
             var createNotification = _mapper.Map<CreateNotification>(newOrder);
             createNotification.Message = _mapper.Map<OrderCreatedMessage>(newOrder);
 
-            Task createItem= _mediator.Send(_mapper.Map<CreateItems>(newOrder));
-            Task createNoti= _mediator.Send(createNotification);
+            //Task createItem= _mediator.Send(_mapper.Map<CreateItems>(newOrder));
+            Task createNoti = _mediator.Send(createNotification);
 
             _savedOrder = newOrder;
-            await Task.WhenAll(createItem, createNoti);
+            await Task.WhenAll(
+                //createItem,
+                createNoti);
             return newOrder.Id;
         }
 
