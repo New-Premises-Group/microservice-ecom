@@ -23,21 +23,24 @@ namespace IW.Models.DTOs.OrderPayloads
             {
                 case PAYLOAD_TYPE.Update:
                     {
-                        var payload = new OrderUpdatedPayload("Order successfully updated"); ;
+                        var payload = 
+                            new OrderUpdatedPayload("Order successfully updated");
                         storedPayload.Add(type, payload);
                         return payload;
                     }
 
                 case PAYLOAD_TYPE.Create:
                     {
-                        var payload = new OrderCreatedPayload("Order successfully created"); ;
+                        var payload = 
+                            new OrderCreatedPayload("Order successfully created");
                         storedPayload.Add(type, payload);
                         return payload;
                     }
 
                 case PAYLOAD_TYPE.Delete:
                     {
-                        var payload = new OrderDeletedPayload("Order successfully deleted"); ;
+                        var payload = 
+                            new OrderDeletedPayload("Order successfully deleted");
                         storedPayload.Add(type, payload);
                         return payload;
                     }

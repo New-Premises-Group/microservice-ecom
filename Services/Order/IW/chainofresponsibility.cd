@@ -1,9 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1">
   <Class Name="IW.Services.Mediator" BaseTypeListCollapsed="true">
-    <Position X="2.75" Y="10.25" Width="2.25" />
+    <Position X="1.75" Y="12" Width="2.25" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAEAAAAAEAAAgAAIQABAAAAAAAAAAABACA=</HashCode>
+      <HashCode>AAAAAAAAAAAEAAAAAEAAAAAAAAABAAAAAAAAAAABAAA=</HashCode>
       <FileName>Services\Mediator.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" Collapsed="true" />
@@ -39,23 +39,13 @@
   <Class Name="IW.Common.AbstractCommandHandler">
     <Position X="5.25" Y="13" Width="2.25" />
     <TypeIdentifier>
-      <HashCode>AAABAAAAAAAABAAAAgABAAAAAAAAAAIABAAAAAAAAAA=</HashCode>
+      <HashCode>AAABAAAAAAAABAAAAgABAAAAAAAAAAIAAAAAAAAAAAA=</HashCode>
       <FileName>Common\AbstractCommandHandler.cs</FileName>
     </TypeIdentifier>
-    <ShowAsAssociation>
-      <Property Name="IMediator" />
-    </ShowAsAssociation>
     <Lollipop Position="0.2" />
   </Class>
-  <Interface Name="IW.Interfaces.Services.IMediator">
-    <Position X="5.5" Y="10.25" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Interfaces\Services\IMediator.cs</FileName>
-    </TypeIdentifier>
-  </Interface>
   <Interface Name="IW.Interfaces.Commands.IRequest" Collapsed="true">
-    <Position X="4.5" Y="19.25" Width="1.5" />
+    <Position X="8.5" Y="13.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Interfaces\Commands\IRequest.cs</FileName>

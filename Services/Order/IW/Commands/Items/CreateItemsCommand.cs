@@ -12,13 +12,5 @@ namespace IW.Commands.Items
         public CreateItemsCommand(
             CreateItemsHandler handler,
             CreateItems request) : base(handler, request) { }
-
-        public CreateItemsHandler CreateItemsHandler
-        {
-            get => default;
-            set
-            {
-            }
-        }
     }
 }

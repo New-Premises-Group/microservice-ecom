@@ -22,14 +22,6 @@ namespace IW.Common
             _mediator = mediator;
         }
 
-        public IMediator IMediator
-        {
-            get => default;
-            set
-            {
-            }
-        }
-
         public abstract Task<int> Handle <TRequest>(TRequest request);
 
         public abstract Task Undo();

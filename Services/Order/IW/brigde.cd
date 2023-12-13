@@ -3,31 +3,28 @@
   <Class Name="IW.Models.Entities.DiscountStrategy">
     <Position X="7.25" Y="4.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAQAAAAACAAAAAAAAAAAAAAAAgAAAACAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAQAAAAAAABAAAAAAAAAAAAAAgAAAACAAAAAAAAAAA=</HashCode>
       <FileName>Models\Entities\Discount.cs</FileName>
     </TypeIdentifier>
-    <ShowAsAssociation>
-      <Property Name="IDiscountCondition" />
-    </ShowAsAssociation>
   </Class>
   <Class Name="IW.Models.Entities.PercentDiscountStrategy">
     <Position X="9.5" Y="7.25" Width="2" />
     <TypeIdentifier>
-      <HashCode>AAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Models\Entities\Discount.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="IW.Models.Entities.FixedDiscountStrategy">
     <Position X="4.5" Y="7.25" Width="2" />
     <TypeIdentifier>
-      <HashCode>AAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Models\Entities\Discount.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="IW.Models.Entities.NoDiscountStrategy">
     <Position X="7.25" Y="7.25" Width="1.75" />
     <TypeIdentifier>
-      <HashCode>AAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Models\Entities\Discount.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -62,6 +59,13 @@
       <FileName>Models\Entities\Discount.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="IW.Models.Entities.Discount">
+    <Position X="4.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAGBAAAABCgAAAABAIgAAGAAAACAAAAAQAAgBAAAAE=</HashCode>
+      <FileName>Models\Entities\Discount.cs</FileName>
+    </TypeIdentifier>
   </Class>
   <Interface Name="IW.Models.Entities.IDiscountCondition">
     <Position X="10.5" Y="4.75" Width="1.75" />

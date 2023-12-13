@@ -13,48 +13,9 @@ namespace IW.MessageBroker.Mutations
     [Authorize]
     public class OrderMutation
     {
-        public Models.DTOs.OrderPayloads.OrderPayloadFactory OrderPayloadFactory
-        {
-            get => default;
-            set
-            {
-            }
-        }
-
-        public Models.DTOs.OrderPayloads.OrderUpdatedPayload OrderUpdatedPayload
-        {
-            get => default;
-            set
-            {
-            }
-        }
-
-        public Models.DTOs.OrderPayloads.OrderDeletedPayload OrderDeletedPayload
-        {
-            get => default;
-            set
-            {
-            }
-        }
-
-        public Models.DTOs.OrderPayloads.OrderCreatedPayload OrderCreatedPayload
-        {
-            get => default;
-            set
-            {
-            }
-        }
-
-        public Mediator Mediator
-        {
-            get => default;
-            set
-            {
-            }
-        }
-
         [Error(typeof(CreateOrderErrorFactory))]
-        public async Task<string> CreateOrder(CreateOrder input,
+        public async Task<string> CreateOrder(
+            CreateOrder input,
             [Service] IMediator mediator, 
             [Service]IOrderPayloadFactory payloadFactory)
         {
@@ -66,7 +27,8 @@ namespace IW.MessageBroker.Mutations
 
         [Error(typeof(CreateOrderErrorFactory))]
         [AllowAnonymous]
-        public async Task<string> CreateGuestOrder(CreateGuestOrder input,
+        public async Task<string> CreateGuestOrder(
+            CreateGuestOrder input,
             [Service] IOrderPayloadFactory payloadFactory,
             [Service] IMediator mediator)
         {
@@ -90,7 +52,8 @@ namespace IW.MessageBroker.Mutations
         }
 
         [AllowAnonymous]
-        public async Task<string> FinishOrder(FinishOrder input,
+        public async Task<string> FinishOrder(
+            FinishOrder input,
             [Service] IMediator mediator,
             [Service] IOrderPayloadFactory payloadFactory)
         {
@@ -100,7 +63,8 @@ namespace IW.MessageBroker.Mutations
             return payload.GetDetail($"orderId:{orderId}");
         }
 
-        public async Task<string> DeleteOrder(DeleteOrder input,
+        public async Task<string> DeleteOrder(
+            DeleteOrder input,
             [Service] IMediator mediator,
             [Service] IOrderPayloadFactory payloadFactory)
         {
