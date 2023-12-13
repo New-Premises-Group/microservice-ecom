@@ -11,7 +11,7 @@ namespace IW.Controllers.Mutations
     {
         [AllowAnonymous]
         public async Task<string> CreateReview(
-            CreateReview input, 
+            CreateReview input,
             [Service] IUnitOfWork unitOfWork)
         {
             Review newReview = input.Adapt<Review>();
@@ -28,15 +28,15 @@ namespace IW.Controllers.Mutations
             UpdateReview input,
             [Service] IUnitOfWork unitOfWork)
         {
-            var review=await unitOfWork.Reviews.GetById(input.Id);
-            if(review == null)
+            var review = await unitOfWork.Reviews.GetById(input.Id);
+            if (review == null)
             {
                 return "Review not found";
             }
 
-            review.Detail=input.Detail ?? review.Detail;
-            review.Rating=input.Rating ?? review.Rating;
-            review.UpdatedDate= DateTime.Now.ToUniversalTime();
+            review.Detail = input.Detail ?? review.Detail;
+            review.Rating = input.Rating ?? review.Rating;
+            review.UpdatedDate = DateTime.Now.ToUniversalTime();
 
             unitOfWork.Reviews.Update(review);
             await unitOfWork.CompleteAsync();
@@ -49,7 +49,7 @@ namespace IW.Controllers.Mutations
             DeleteReview input,
             [Service] IUnitOfWork unitOfWork)
         {
-            var review= await unitOfWork.Reviews.GetById(input.Id);
+            var review = await unitOfWork.Reviews.GetById(input.Id);
 
             if (review == null)
             {
