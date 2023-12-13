@@ -47,7 +47,7 @@ public static class ServicesExtension
         builder.Services.AddDbContext<AppDbContext>(options =>
         {
             options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"));
-        });
+        }, ServiceLifetime.Transient);
 
         // Redis cache database
         builder.Services.AddStackExchangeRedisCache(redisOptions =>
