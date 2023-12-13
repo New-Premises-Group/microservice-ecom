@@ -56,7 +56,7 @@ namespace IW.Services
             {
                 throw new ItemNotFoundException(id);
             }
-            var order = await _unitOfWork.Orders.GetById(item.Id);
+            var order = await _unitOfWork.Orders.GetById(item.OrderId);
             ItemDto result = _mapper.Map<ItemDto>(item);
             return result;
         }
