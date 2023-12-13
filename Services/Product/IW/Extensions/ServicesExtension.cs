@@ -64,10 +64,10 @@ public static class ServicesExtension
         var mapperConfig = new Mapper(typeAdapterConfig);
         builder.Services.AddSingleton<IMapper>(mapperConfig);
 
-        builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
-        builder.Services.AddScoped<ProductService>();
-        builder.Services.AddScoped<IProductService,CachedProductService>();
-        builder.Services.AddScoped<IProductRepository, ProductRepository>();
+        builder.Services.AddTransient<IUnitOfWork, UnitOfWork>();
+        builder.Services.AddTransient<ProductService>();
+        builder.Services.AddTransient<IProductService,CachedProductService>();
+        builder.Services.AddTransient<IProductRepository, ProductRepository>();
         builder.Services.AddScoped<ICategoryService, CategoryService>();
         builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
         builder.Services.AddScoped<IReviewRepository, ReviewRepository>();
