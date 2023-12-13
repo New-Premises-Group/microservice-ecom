@@ -13,5 +13,7 @@ namespace IW.Models.DTOs.Review
         public string? Detail { get; set; }
         public DateTime CreatedDate { get; set; } = DateTime.Now.ToUniversalTime();
         public DateTime UpdatedDate { get; set; } = DateTime.Now.ToUniversalTime();
+        public string orderId { get; set; } = String.Empty;
+
     }
 }

@@ -3,6 +3,7 @@ using IW.Common;
 using IW.Exceptions.CreateAddressError;
 using IW.Interfaces.Services;
 using IW.Models.DTOs.Address;
+using IW.Models.Entities;
 
 namespace IW.Controllers.Mutations
 {
@@ -40,9 +41,10 @@ namespace IW.Controllers.Mutations
         [Error(typeof(CreateAddressErrorFactory))]
         public async Task<AddressUpdatedPayload> UpdateDefaultAddress(
             int id, 
+            string userId,
             [Service] IAddressService addressService)
         {
-            await addressService.SetDefaultAddress(id);
+            await addressService.SetDefaultAddress(id, userId);
             var payload = new AddressUpdatedPayload()
             {
                 Message = "Default address successfully updated"

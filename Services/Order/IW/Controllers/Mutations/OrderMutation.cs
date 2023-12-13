@@ -21,7 +21,7 @@ namespace IW.MessageBroker.Mutations
         {
             int orderId = await mediator.Send(input);
             var payload = payloadFactory.GetResponsePayload(PAYLOAD_TYPE.Create);
-            
+
             return payload.GetDetail($"orderId:{orderId}");
         }
 
@@ -42,7 +42,7 @@ namespace IW.MessageBroker.Mutations
         [Authorize(Roles = new[] { nameof(ROLE.Admin) })]
         public async Task<string> UpdateOrder(
             UpdateOrder input,
-            [Service] IMediator mediator, 
+            [Service] IMediator mediator,
             [Service] IOrderPayloadFactory payloadFactory)
         {
             int orderId = await mediator.Send(input);

@@ -4,6 +4,6 @@ namespace IW.Interfaces
 {
     public interface IAddressRepository: IBaseRepository<Address>
     {
-        public Task SetDefaultAddress(int id);
+        public Task SetDefaultAddress(int id, string userId);
     }
 }

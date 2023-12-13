@@ -9,7 +9,7 @@ namespace IW.Interfaces.Services
         Task<ICollection<AddressDto>> GetAddresses(GetAddressQuery query, int amount, int page);
         Task<int> CreateAddress(CreateAddress input);
         Task UpdateAddress(int id, UpdateAddress input);
-        public Task SetDefaultAddress(int id);
+        public Task SetDefaultAddress(int id, string userId);
         Task DeleteAddress(int id);
     }
 }

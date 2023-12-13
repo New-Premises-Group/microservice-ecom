@@ -13,8 +13,10 @@ namespace IW.Models.Entities
         public Product Product { get; set; }
         public int ProductId { get; set; }
         public RATING Rating { get; set; }
-        public string Detail {  get; set; }
+        public string Detail { get; set; }
         public DateTime UpdatedDate { get; set; } = DateTime.Now;
         public DateTime CreatedDate { get; set; } = DateTime.Now;
+        public string orderId { get; set; } = String.Empty;
+
     }
 }
