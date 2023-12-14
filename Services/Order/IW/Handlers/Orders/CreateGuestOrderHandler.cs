@@ -44,11 +44,13 @@ namespace IW.Handlers.Orders
 
             var createNotification = _mapper.Map<CreateNotification>(newOrder);
             createNotification.Message = _mapper.Map<OrderCreatedMessage>(newOrder);
-            Task createItem= _mediator.Send(_mapper.Map<CreateItems>(newOrder));
+            //Task createItem= _mediator.Send(_mapper.Map<CreateItems>(newOrder));
             Task createNoti= _mediator.Send(createNotification);
 
             _savedOrder = newOrder;
-            await Task.WhenAll(createItem, createNoti);
+            await Task.WhenAll(
+                //createItem,
+                createNoti);
             return newOrder.Id;
         }
 
