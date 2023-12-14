@@ -3,6 +3,6 @@
 Package | Line Rate | Branch Rate | Health
 -------- | --------- | ----------- | ------
 IW | 5% | 4% | ➖
-**Summary** | **5%** (174 / 3301) | **4%** (7 / 179) | ➖
+**Summary** | **5%** (174 / 3302) | **4%** (7 / 179) | ➖
 
 _Minimum allowed line rate is `5%`_
