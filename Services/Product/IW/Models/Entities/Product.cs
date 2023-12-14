@@ -19,7 +19,7 @@ namespace IW.Models.Entities
         public string SKU { get; set; }
         public string Images {  get; set; }
         public Category Category { get; set; }
-        public IEnumerable<Review> Reviews { get; set; }
+        public IEnumerable<Review>? Reviews { get; set; }
     }
 
     internal class ProductValidator : GenericValidator<Product>
