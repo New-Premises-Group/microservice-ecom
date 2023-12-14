@@ -9,6 +9,50 @@
         'forward_client_headers': true,
       },
     'comment': '',
+    'remote_relationships':
+      [
+        {
+          'relationships':
+            [
+              {
+                'definition':
+                  {
+                    'to_remote_schema':
+                      {
+                        'lhs_fields': ['productId'],
+                        'remote_field':
+                          {
+                            'productSync':
+                              { 'arguments': { 'id': '$productId' } },
+                          },
+                        'remote_schema': 'Product',
+                      },
+                  },
+                'name': 'Product',
+              },
+            ],
+          'type_name': 'ItemDto',
+        },
+        {
+          'relationships':
+            [
+              {
+                'definition':
+                  {
+                    'to_remote_schema':
+                      {
+                        'lhs_fields': ['userId'],
+                        'remote_field':
+                          { 'user': { 'arguments': { 'id': '$userId' } } },
+                        'remote_schema': 'User',
+                      },
+                  },
+                'name': 'User',
+              },
+            ],
+          'type_name': 'OrderDto',
+        },
+      ],
   },
   {
     'name': 'Product',
@@ -33,39 +77,39 @@
       },
     'comment': '',
   },
-  {
-    'name': 'Inventory',
-    'definition':
-      {
-        'url': 'http://inventory/graphql',
-        'timeout_seconds': 60,
-        'customization':
-          { 'type_names': { 'mapping': {}, 'prefix': 'inventory' } },
-        'forward_client_headers': true,
-      },
-    'comment': '',
-  },
-  {
-    'name': 'Cart',
-    'definition':
-      {
-        'url': 'http://cart/graphql',
-        'timeout_seconds': 60,
-        'customization': { 'type_names': { 'mapping': {}, 'prefix': 'cart' } },
-        'forward_client_headers': true,
-      },
-    'comment': '',
-  },
-  {
-    'name': 'Payment',
-    'definition':
-      {
-        'url': 'http://payment/graphql',
-        'timeout_seconds': 60,
-        'customization':
-          { 'type_names': { 'mapping': {}, 'prefix': 'payment' } },
-        'forward_client_headers': true,
-      },
-    'comment': '',
-  },
+  # {
+  #   'name': 'Inventory',
+  #   'definition':
+  #     {
+  #       'url': 'http://inventory/graphql',
+  #       'timeout_seconds': 60,
+  #       'customization':
+  #         { 'type_names': { 'mapping': {}, 'prefix': 'inventory' } },
+  #       'forward_client_headers': true,
+  #     },
+  #   'comment': '',
+  # },
+  # {
+  #   'name': 'Cart',
+  #   'definition':
+  #     {
+  #       'url': 'http://cart/graphql',
+  #       'timeout_seconds': 60,
+  #       'customization': { 'type_names': { 'mapping': {}, 'prefix': 'cart' } },
+  #       'forward_client_headers': true,
+  #     },
+  #   'comment': '',
+  # },
+  # {
+  #   'name': 'Payment',
+  #   'definition':
+  #     {
+  #       'url': 'http://payment/graphql',
+  #       'timeout_seconds': 60,
+  #       'customization':
+  #         { 'type_names': { 'mapping': {}, 'prefix': 'payment' } },
+  #       'forward_client_headers': true,
+  #     },
+  #   'comment': '',
+  # },
 ]

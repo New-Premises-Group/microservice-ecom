@@ -22,26 +22,26 @@ services:
       - 32774:80
       - 32775:403
 
-  inventory:
-    restart: unless-stopped
-    image: hifam/inventory-service:main
-    ports:
-      - 32776:80
-      - 32777:403
+  # inventory:
+  #   restart: unless-stopped
+  #   image: hifam/inventory-service:main
+  #   ports:
+  #     - 32776:80
+  #     - 32777:403
 
-  cart:
-    restart: unless-stopped
-    image: hifam/cart-service:main
-    ports:
-      - 32778:80
-      - 32779:403
+  # cart:
+  #   restart: unless-stopped
+  #   image: hifam/cart-service:main
+  #   ports:
+  #     - 32778:80
+  #     - 32779:403
 
-  payment:
-    restart: unless-stopped
-    image: hifam/payment-service:main
-    ports:
-      - 32780:80
-      - 32781:403
+  # payment:
+  #   restart: unless-stopped
+  #   image: hifam/payment-service:main
+  #   ports:
+  #     - 32780:80
+  #     - 32781:403
 
   postgres:
     image: postgres:15
@@ -77,10 +77,10 @@ services:
       - user
       - product
       - order
-      - inventory
-      - cart
-      - data-connector-agent
-      - payment
+      # - inventory
+      # - cart
+      # - data-connector-agent
+      # - payment
   data-connector-agent:
     image: hasura/graphql-data-connector:v2.33.0
     restart: always
