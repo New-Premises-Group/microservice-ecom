@@ -11,5 +11,6 @@ namespace IW.Models.DTOs.OrderDtos
         public string? Phone { get; set; }
         public DateTime? Date { get; set; }
         public ORDER_STATUS? Status { get; set; }
+        public float PointDeductionAmount { get; set; }
     }
 }

@@ -24,6 +24,7 @@ namespace IW.Models.Entities
         public decimal Total{ get; set; }
         public string? DiscountCode { get; set; } = string.Empty;
         public ICollection<OrderItem>? Items { get; set; }
+        public float PointDeductionAmount { get; set; }
     }
 
     public class OrderValidator : GenericValidator<Order>

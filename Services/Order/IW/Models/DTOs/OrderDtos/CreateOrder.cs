@@ -22,5 +22,6 @@ namespace IW.Models.DTOs.OrderDtos
         public string ShippingAddress { get; set; }
         [Required]
         public ICollection<CreateItem> Items { get; set; }
+        public float? PointDeductionAmount { get; set; }
     }
 }

@@ -17,5 +17,6 @@ namespace IW.Models.DTOs.OrderDtos
         public decimal Total { get; set; }
         public ICollection<ItemDto>? Items { get; set; }
         public string? Email { get; set; }
+        public float PointDeductionAmount { get; set; }
     }
 }

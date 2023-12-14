@@ -10,10 +10,22 @@ namespace IW.Controllers.Queries
     public class PointQuery
     {
         public async Task<PointDto> GetPoint(
-            int id, 
+            int id,
             [Service] IPointRepository pointRepository)
         {
             var point = await pointRepository.GetById(id);
+            return point.Adapt<PointDto>();
+        }
+        public async Task<PointDto?> GetPointByUserId(
+        string userId,
+        [Service] IPointRepository pointRepository)
+        {
+            var point = await pointRepository.FindByCondition(
+                point => point.UserId.ToString().Equals(userId.ToString()));
+            if (point == null)
+            {
+                return null;
+            }
             return point.Adapt<PointDto>();
         }
     }
