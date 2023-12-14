@@ -50,109 +50,117 @@ namespace IW.Services
             string? cachedOrder = await _distributedCache.GetStringAsync(key);
 
             OrderDto? order;
-            if (string.IsNullOrEmpty(cachedOrder))
-            {
-                order = await _orderService.GetOrder(id);
-                if (order is null)
-                {
-                    return order;
-                }
-                await _distributedCache.SetStringAsync(key,
-                    JsonConvert.SerializeObject(order),
-                    new DistributedCacheEntryOptions()
-                    {
-                        SlidingExpiration = TimeSpan.FromSeconds(5)
-                    });
-                return order;
-            }
-
-            order = JsonConvert.DeserializeObject<OrderDto>(cachedOrder);
-
-            if (order is not null)
-            {
-                _appDbContext.Set<Order>().Attach(order.Adapt<Order>());
-            }
-
+            order = await _orderService.GetOrder(id);
             return order;
+
+            //if (string.IsNullOrEmpty(cachedOrder))
+            //{
+            //    order = await _orderService.GetOrder(id);
+            //    if (order is null)
+            //    {
+            //        return order;
+            //    }
+            //    await _distributedCache.SetStringAsync(key,
+            //        JsonConvert.SerializeObject(order),
+            //        new DistributedCacheEntryOptions()
+            //        {
+            //            SlidingExpiration = TimeSpan.FromSeconds(5)
+            //        });
+            //    return order;
+            //}
+
+            //order = JsonConvert.DeserializeObject<OrderDto>(cachedOrder);
+
+            //if (order is not null)
+            //{
+            //    _appDbContext.Set<Order>().Attach(order.Adapt<Order>());
+            //}
+
+            //return order;
         }
 
         public async Task<IEnumerable<OrderDto>> GetOrders(int offset, int amount)
         {
-            string key = CreateKey("all");
+            IEnumerable<OrderDto> newProducts = await _orderService.GetOrders(offset, amount);
+            return newProducts;
 
-            string? cachedProducts = await _distributedCache.GetStringAsync(key);
+            //string key = CreateKey("all");
 
-            if (string.IsNullOrEmpty(cachedProducts))
-            {
-                Console.WriteLine("Missed");
-                IEnumerable<OrderDto> newProducts = await _orderService.GetOrders(offset, amount);
+            //string? cachedProducts = await _distributedCache.GetStringAsync(key);
 
-                await _distributedCache.SetStringAsync(key,
-                JsonConvert.SerializeObject(newProducts),
-                new DistributedCacheEntryOptions()
-                {
-                    SlidingExpiration = TimeSpan.FromSeconds(5),
-                });
+            //if (string.IsNullOrEmpty(cachedProducts))
+            //{
+            //    Console.WriteLine("Missed");
+            //    IEnumerable<OrderDto> newProducts = await _orderService.GetOrders(offset, amount);
 
-                return newProducts;
-            }
-            Console.WriteLine("Hit");
-            var orders = JsonConvert.DeserializeObject<IEnumerable<OrderDto>>(cachedProducts);
+            //    await _distributedCache.SetStringAsync(key,
+            //    JsonConvert.SerializeObject(newProducts),
+            //    new DistributedCacheEntryOptions()
+            //    {
+            //        SlidingExpiration = TimeSpan.FromSeconds(5),
+            //    });
 
-            return orders;
+            //    return newProducts;
+            //}
+            //Console.WriteLine("Hit");
+            //var orders = JsonConvert.DeserializeObject<IEnumerable<OrderDto>>(cachedProducts);
+
+            //return orders;
         }
 
         public async Task<IEnumerable<OrderDto>> GetOrders(GetOrder query, int offset, int amount)
         {
-            string key = "";
-            if (!string.IsNullOrEmpty(query.UserId.ToString()))
-            {
-                key = CreateKey(query.UserId.ToString());
-            }
-            string? cachedProducts = await _distributedCache.GetStringAsync(key);
+            IEnumerable<OrderDto> newProducts = await _orderService.GetOrders(query, offset, amount);
+            return newProducts;
+            //string key = "";
+            //if (!string.IsNullOrEmpty(query.UserId.ToString()))
+            //{
+            //    key = CreateKey(query.UserId.ToString());
+            //}
+            //string? cachedProducts = await _distributedCache.GetStringAsync(key);
 
-            if (string.IsNullOrEmpty(cachedProducts))
-            {
-                IEnumerable<OrderDto> newProducts = await _orderService.GetOrders(query, offset, amount);
+            //if (string.IsNullOrEmpty(cachedProducts))
+            //{
+            //    IEnumerable<OrderDto> newProducts = await _orderService.GetOrders(query, offset, amount);
 
-                await _distributedCache.SetStringAsync(key,
-                JsonConvert.SerializeObject(newProducts),
-                new DistributedCacheEntryOptions()
-                {
-                    SlidingExpiration = TimeSpan.FromSeconds(5),
-                });
+            //    await _distributedCache.SetStringAsync(key,
+            //    JsonConvert.SerializeObject(newProducts),
+            //    new DistributedCacheEntryOptions()
+            //    {
+            //        SlidingExpiration = TimeSpan.FromSeconds(5),
+            //    });
 
-                return newProducts;
-            }
-            var orders = JsonConvert.DeserializeObject<IEnumerable<OrderDto>>(cachedProducts);
+            //    return newProducts;
+            //}
+            //var orders = JsonConvert.DeserializeObject<IEnumerable<OrderDto>>(cachedProducts);
 
-            if (orders is not null)
-            {
-                foreach (Order order in orders.Adapt<IEnumerable<Order>>())
-                {
-                    _appDbContext.Set<Order>().Attach(order);
-                }
-            }
-            return orders;
+            //if (orders is not null)
+            //{
+            //    foreach (Order order in orders.Adapt<IEnumerable<Order>>())
+            //    {
+            //        _appDbContext.Set<Order>().Attach(order);
+            //    }
+            //}
+            //return orders;
         }
 
         public async Task UpdateOrder(int id, UpdateOrder model)
         {
             await _orderService.UpdateOrder(id, model);
-            OrderDto order = _appDbContext
-                .Set<Order>()
-                .Entry(model.Adapt<Order>())
-                .Properties
-                .Select(e => e.CurrentValue)
-                .Adapt<OrderDto>();
+            //OrderDto order = _appDbContext
+            //    .Set<Order>()
+            //    .Entry(model.Adapt<Order>())
+            //    .Properties
+            //    .Select(e => e.CurrentValue)
+            //    .Adapt<OrderDto>();
 
-            string key = CreateKey(order.Id.ToString());
-            await _distributedCache.SetStringAsync(key,
-                JsonConvert.SerializeObject(order),
-                new DistributedCacheEntryOptions()
-                {
-                    SlidingExpiration = TimeSpan.FromSeconds(5),
-                });
+            //string key = CreateKey(order.Id.ToString());
+            //await _distributedCache.SetStringAsync(key,
+            //    JsonConvert.SerializeObject(order),
+            //    new DistributedCacheEntryOptions()
+            //    {
+            //        SlidingExpiration = TimeSpan.FromSeconds(5),
+            //    });
         }
 
         public async Task<int> CreateGuestOrder(CreateGuestOrder input)
