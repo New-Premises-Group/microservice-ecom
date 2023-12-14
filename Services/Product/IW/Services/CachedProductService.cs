@@ -6,7 +6,6 @@ using IW.Models.Entities;
 using Mapster;
 using Microsoft.Extensions.Caching.Distributed;
 using Newtonsoft.Json;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace IW.Services
 {
@@ -171,6 +170,11 @@ namespace IW.Services
                 }
             }
             return products;
+        }
+
+        public ProductDto? GetProductSync(int id)
+        {
+            return ((IProductService)_decorated).GetProductSync(id);
         }
     }
 }

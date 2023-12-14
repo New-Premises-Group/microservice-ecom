@@ -45,6 +45,13 @@ namespace IW.Services
             return result;
         }
 
+        public ProductDto? GetProductSync(int id)
+        {
+            var product = ProductExistSync(id);
+            ProductDto result = product.Adapt<ProductDto>();
+            return result;
+        }
+
         public async Task<IEnumerable<ProductDto>> GetProducts(int page, int amount)
         {
             var products = await _unitOfWork.Products.GetAll(page, amount);
@@ -93,6 +100,13 @@ namespace IW.Services
         {
             if (id.ToString() == String.Empty) return null;
             var result = await _unitOfWork.Products.GetById(id);
+            return result;
+        }
+
+        private Product? ProductExistSync(int id)
+        {
+            if (id.ToString() == String.Empty) return null;
+            var result = _unitOfWork.Products.GetByIdSync(id);
             return result;
         }
 

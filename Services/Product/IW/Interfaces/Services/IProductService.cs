@@ -8,6 +8,7 @@ namespace IW.Interfaces
         Task CreateProduct(CreateProduct input);
         Task<ProductDto?> GetProduct(int id);
         Task<IEnumerable<ProductDto>> GetProducts(int page, int amount);
+        ProductDto? GetProductSync(int id);
         Task<IEnumerable<ProductDto>> GetProducts(GetProduct query, int page , int amount );
         Task<IEnumerable<ProductDto>> GetProductsByName(string name, int page, int amount);
         Task UpdateProduct(int id, UpdateProduct model);

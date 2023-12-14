@@ -7,7 +7,6 @@ namespace IW.Models.DTOs.Review
     {
         public int? Id { get; set; }
         public Guid? UserId { get; set; }
-        public ProductDto? Product { get; set; }
         public int? ProductId { get; set; }
         public RATING? Rating { get; set; }
         public string? Detail { get; set; }

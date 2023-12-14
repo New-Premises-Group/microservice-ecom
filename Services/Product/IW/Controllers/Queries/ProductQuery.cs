@@ -13,6 +13,12 @@ namespace IW.Controllers.Queries
             return result;
         }
 
+        public ProductDto? GetProductSync(int id, [Service] IProductService productService)
+        {
+            var result = productService.GetProductSync(id);
+            return result;
+        }
+
         public async Task<IEnumerable<ProductDto>> GetProducts([Service] IProductService productService, int page = ((int)PAGINATING.OffsetDefault), int amount = ((int)PAGINATING.AmountDefault))
         {
             var results = await productService.GetProducts(page, amount);

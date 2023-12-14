@@ -52,5 +52,14 @@ namespace IW.Repositories
                 .Where(p=>p.Id==id)
                 .FirstAsync();
         }
+
+        public Product? GetByIdSync(int id)
+        {
+            return dbSet
+                .Include(u => u.Category)
+                .Include(product => product.Reviews)
+                .Where(p => p.Id == id)
+                .FirstOrDefault();
+        }
     }
 }

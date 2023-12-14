@@ -14,7 +14,7 @@ namespace IW.Models.DTOs.Product
         public string SKU { get; set; }
         public string Images { get; set; }
         public int CategoryId { get; set; }
-        public CategoryDto.CategoryDto Category { get; set; }
+        public CategoryDto.CategoryDto? Category { get; set; }
         public IEnumerable<ReviewDto>? Reviews { get; set; }
     }
 }
