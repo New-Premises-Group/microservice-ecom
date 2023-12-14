@@ -45,33 +45,36 @@ namespace IW.Services
 
         public async Task<ProductDto?> GetProduct(int id)
         {
-            string key = CreateKey(id);
-            string? cachedProduct = await _distributedCache.GetStringAsync(key);
+            //string key = CreateKey(id);
+            //string? cachedProduct = await _distributedCache.GetStringAsync(key);
 
             ProductDto? product;
-            if (string.IsNullOrEmpty(cachedProduct))
-            {
-                product = await _decorated.GetProduct(id);
-                if (product is null)
-                {
-                    return product;
-                }
-                await _distributedCache.SetStringAsync(key, 
-                    JsonConvert.SerializeObject(product), 
-                    new DistributedCacheEntryOptions()
-                {
-                    SlidingExpiration = TimeSpan.FromSeconds(30),
-                });
-                return product;
-            }
-
-            product = JsonConvert.DeserializeObject<ProductDto>(cachedProduct);
-
-            if (product is not null)
-            {
-                _dbContext.Set<Product>().Attach(product.Adapt<Product>());
-            }
+            product = await _decorated.GetProduct(id);
             return product;
+
+            //if (string.IsNullOrEmpty(cachedProduct))
+            //{
+            //    product = await _decorated.GetProduct(id);
+            //    if (product is null)
+            //    {
+            //        return product;
+            //    }
+            //    await _distributedCache.SetStringAsync(key, 
+            //        JsonConvert.SerializeObject(product), 
+            //        new DistributedCacheEntryOptions()
+            //    {
+            //        SlidingExpiration = TimeSpan.FromSeconds(30),
+            //    });
+            //    return product;
+            //}
+
+            //product = JsonConvert.DeserializeObject<ProductDto>(cachedProduct);
+
+            //if (product is not null)
+            //{
+            //    _dbContext.Set<Product>().Attach(product.Adapt<Product>());
+            //}
+            //return product;
         }
 
         public async Task<IEnumerable<ProductDto>> GetProducts(int page, int amount)
@@ -81,32 +84,35 @@ namespace IW.Services
 
         public async Task<IEnumerable<ProductDto>> GetProducts(GetProduct query, int page, int amount)
         {
-            string key = "";
-            if (!string.IsNullOrEmpty(query.Name)){
-                key = CreateKey(query.Name);
-            }
-            if (query.CategoryId!=null)
-            {
-                key = CreateKey((int)query.CategoryId);
-            }
-            string? cachedProducts = await _distributedCache.GetStringAsync(key);
+            IEnumerable<ProductDto> newProducts = await _decorated.GetProducts(query, page, amount);
 
-            if(string.IsNullOrEmpty(cachedProducts))
-            {
-                IEnumerable<ProductDto> newProducts = await _decorated.GetProducts(query, page, amount);
+            return newProducts;
+            //string key = "";
+            //if (!string.IsNullOrEmpty(query.Name)){
+            //    key = CreateKey(query.Name);
+            //}
+            //if (query.CategoryId!=null)
+            //{
+            //    key = CreateKey((int)query.CategoryId);
+            //}
+            //string? cachedProducts = await _distributedCache.GetStringAsync(key);
+
+            //if(string.IsNullOrEmpty(cachedProducts))
+            //{
+            //    IEnumerable<ProductDto> newProducts = await _decorated.GetProducts(query, page, amount);
                 
-                return newProducts;
-            }
-            var products = JsonConvert.DeserializeObject<IEnumerable<ProductDto>>(cachedProducts);
+            //    return newProducts;
+            //}
+            //var products = JsonConvert.DeserializeObject<IEnumerable<ProductDto>>(cachedProducts);
 
-            if (products is not null)
-            {
-                foreach(Product product in products.Adapt<IEnumerable<Product>>())
-                {
-                    _dbContext.Set<Product>().Attach(product);
-                }
-            }
-            return products;
+            //if (products is not null)
+            //{
+            //    foreach(Product product in products.Adapt<IEnumerable<Product>>())
+            //    {
+            //        _dbContext.Set<Product>().Attach(product);
+            //    }
+            //}
+            //return products;
         }
 
         public async Task UpdateProduct(int id, UpdateProduct model)
@@ -145,31 +151,34 @@ namespace IW.Services
 
         public async Task<IEnumerable<ProductDto>> GetProductsByName(string name, int page, int amount)
         {
-            string key = "";
-            if (!string.IsNullOrEmpty(name))
-            {
-                key = CreateKey(name);
-            }
+            IEnumerable<ProductDto> newProducts = await _decorated.GetProductsByName(name, page, amount);
 
-            string? cachedProducts = await _distributedCache.GetStringAsync(key);
+            return newProducts;
+            //string key = "";
+            //if (!string.IsNullOrEmpty(name))
+            //{
+            //    key = CreateKey(name);
+            //}
 
-            if (string.IsNullOrEmpty(cachedProducts))
-            {
-                IEnumerable<ProductDto> newProducts = await _decorated.GetProductsByName(name, page, amount);
+            //string? cachedProducts = await _distributedCache.GetStringAsync(key);
 
-                return newProducts;
-            }
+            //if (string.IsNullOrEmpty(cachedProducts))
+            //{
+            //    IEnumerable<ProductDto> newProducts = await _decorated.GetProductsByName(name, page, amount);
 
-            var products = JsonConvert.DeserializeObject<IEnumerable<ProductDto>>(cachedProducts);
+            //    return newProducts;
+            //}
 
-            if (products is not null)
-            {
-                foreach (Product product in products.Adapt<IEnumerable<Product>>())
-                {
-                    _dbContext.Set<Product>().Attach(product);
-                }
-            }
-            return products;
+            //var products = JsonConvert.DeserializeObject<IEnumerable<ProductDto>>(cachedProducts);
+
+            //if (products is not null)
+            //{
+            //    foreach (Product product in products.Adapt<IEnumerable<Product>>())
+            //    {
+            //        _dbContext.Set<Product>().Attach(product);
+            //    }
+            //}
+            //return products;
         }
 
         public ProductDto? GetProductSync(int id)
