@@ -14,7 +14,7 @@ namespace IW.Controllers.Mutations
         [Error(typeof(CreateProductErrorFactory))]
         public async Task<ProductCreatedPayload> CreateProduct(CreateProduct input, [Service] IProductService productService)
         {
-            await productService.CreateProduct(input);
+            // await productService.CreateProduct(input);
             var payload = new ProductCreatedPayload()
             {
                 Message = "Product successfully created"

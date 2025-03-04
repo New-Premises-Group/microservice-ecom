@@ -1,0 +1,177 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = "postgres://postgres:postgrespassword@localhost:5432/postgres"
+}
+
+model EFMigrationsHistory {
+  MigrationId    String @id(map: "PK___EFMigrationsHistory") @db.VarChar(150)
+  ProductVersion String @db.VarChar(32)
+
+  @@map("__EFMigrationsHistory")
+}
+
+model Categories {
+  Id          Int        @id(map: "PK_Categories") @default(autoincrement())
+  Name        String
+  Description String?
+  Products    Products[]
+}
+
+model Products {
+  Id          Int        @id(map: "PK_Products") @default(autoincrement())
+  Name        String
+  Description String?
+  Price       Decimal    @db.Decimal
+  CategoryId  Int
+  Images      String     @default("")
+  SKU         String     @default("")
+  Categories  Categories @relation(fields: [CategoryId], references: [Id], onDelete: Cascade, onUpdate: NoAction, map: "FK_Products_Categories_CategoryId")
+  Reviews     Reviews[]
+
+  @@index([CategoryId], map: "IX_Products_CategoryId")
+}
+
+model Reviews {
+  Id          Int      @id(map: "PK_Reviews") @default(autoincrement())
+  UserId      String   @db.Uuid
+  ProductId   Int
+  Rating      Int
+  Detail      String
+  UpdatedDate DateTime @db.Timestamptz(6)
+  CreatedDate DateTime @db.Timestamptz(6)
+  orderId     String   @default("")
+  Products    Products @relation(fields: [ProductId], references: [Id], onDelete: Cascade, onUpdate: NoAction, map: "FK_Reviews_Products_ProductId")
+
+  @@index([ProductId], map: "IX_Reviews_ProductId")
+}
+
+model Addresses {
+  Id        Int     @id(map: "PK_Addresses") @default(autoincrement())
+  IsDefault Boolean
+  Phone     String
+  Name      String
+  Detail    String
+  Ward      String
+  District  String
+  City      String
+  UserId    String  @db.Uuid
+  Users     Users   @relation(fields: [UserId], references: [Id], onDelete: Cascade, onUpdate: NoAction, map: "FK_Addresses_Users_UserId")
+
+  @@index([UserId], map: "IX_Addresses_UserId")
+}
+
+model CartItems {
+  Id          Int     @id(map: "PK_CartItems")
+  Name        String
+  Description String
+  Price       Decimal @db.Decimal
+  Quantity    Int
+  CartId      Int
+  Subtotal    Decimal @db.Decimal
+  Carts       Carts   @relation(fields: [Id], references: [Id], onDelete: Cascade, onUpdate: NoAction, map: "FK_CartItems_Carts_Id")
+}
+
+model Carts {
+  Id        Int        @id(map: "PK_Carts") @default(autoincrement())
+  UserId    String     @db.Uuid
+  CartItems CartItems?
+}
+
+model Discounts {
+  Id                  Int      @id(map: "PK_Discounts") @default(autoincrement())
+  Code                String
+  Description         String
+  Amount              Int
+  Quantity            Int
+  ExpireDate          DateTime @db.Timestamptz(6)
+  ActiveDate          DateTime @db.Timestamptz(6)
+  Type                Int
+  Condition           Int
+  TotalOverCondition  Decimal  @db.Decimal
+  BirthdayCondition   DateTime @db.Date
+  SpecialDayCondition DateTime @db.Date
+}
+
+model Inventories {
+  Id           Int            @id(map: "PK_Inventories") @default(autoincrement())
+  ProductId    Int
+  Availability Boolean
+  Quantity     Int
+  Transactions Transactions[]
+}
+
+model Items {
+  Id        Int     @id(map: "PK_Items") @default(autoincrement())
+  OrderId   Int
+  ProductId Int
+  Name      String
+  Price     Decimal @db.Decimal
+  SKU       String
+  Quantity  Int
+  Subtotal  Decimal @db.Decimal
+  Orders    Orders  @relation(fields: [OrderId], references: [Id], onDelete: Cascade, onUpdate: NoAction, map: "FK_Items_Orders_OrderId")
+
+  @@index([OrderId], map: "IX_Items_OrderId")
+}
+
+model LoyaltyPoints {
+  Id     Int    @id(map: "PK_LoyaltyPoints") @default(autoincrement())
+  Point  Int
+  UserId String @unique(map: "IX_LoyaltyPoints_UserId") @db.Uuid
+  Users  Users  @relation(fields: [UserId], references: [Id], onDelete: Cascade, onUpdate: NoAction, map: "FK_LoyaltyPoints_Users_UserId")
+}
+
+model Orders {
+  Id                   Int      @id(map: "PK_Orders") @default(autoincrement())
+  UserId               String   @db.Uuid
+  Date                 DateTime @db.Timestamptz(6)
+  Status               String   @db.VarChar(15)
+  ShippingAddress      String
+  CancelReason         String?
+  Total                Decimal  @default(0.0) @db.Decimal
+  UserName             String   @default("")
+  Phone                String   @default("")
+  Email                String   @default("")
+  DiscountCode         String?  @default("")
+  PointDeductionAmount Float    @default(0) @db.Real
+  Items                Items[]
+}
+
+model Roles {
+  Id          Int     @id(map: "PK_Roles") @default(autoincrement())
+  Name        String
+  Description String?
+  Users       Users[]
+}
+
+model Transactions {
+  Id          Int         @id(map: "PK_Transactions") @default(autoincrement())
+  InventoryId Int
+  Date        DateTime    @db.Timestamptz(6)
+  Type        String      @db.VarChar(15)
+  Quantity    Int
+  Note        String?
+  Inventories Inventories @relation(fields: [InventoryId], references: [Id], onDelete: Cascade, onUpdate: NoAction, map: "FK_Transactions_Inventories_InventoryId")
+
+  @@index([InventoryId], map: "IX_Transactions_InventoryId")
+}
+
+model Users {
+  Id            String         @id(map: "PK_Users") @db.Uuid
+  Name          String
+  Email         String?
+  Token         String
+  ImageURL      String?
+  PhoneNumber   String?
+  RoleId        Int
+  PointId       Int
+  Addresses     Addresses[]
+  LoyaltyPoints LoyaltyPoints?
+  Roles         Roles          @relation(fields: [RoleId], references: [Id], onDelete: Cascade, onUpdate: NoAction, map: "FK_Users_Roles_RoleId")
+
+  @@index([RoleId], map: "IX_Users_RoleId")
+}

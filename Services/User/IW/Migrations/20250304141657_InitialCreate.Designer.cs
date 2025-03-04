@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace IW.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20231027182310_addressMigration")]
-    partial class addressMigration
+    [Migration("20250304141657_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -45,6 +45,17 @@ namespace IW.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<bool>("IsDefault")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Phone")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<Guid>("UserId")
                         .HasColumnType("uuid");
 
@@ -57,6 +68,28 @@ namespace IW.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Addresses");
+                });
+
+            modelBuilder.Entity("IW.Models.Entities.LoyaltyPoints", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("Point")
+                        .HasColumnType("integer");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId")
+                        .IsUnique();
+
+                    b.ToTable("LoyaltyPoints");
                 });
 
             modelBuilder.Entity("IW.Models.Entities.Role", b =>
@@ -96,8 +129,10 @@ namespace IW.Migrations
                         .HasColumnType("text");
 
                     b.Property<string>("PhoneNumber")
-                        .IsRequired()
                         .HasColumnType("text");
+
+                    b.Property<int>("PointId")
+                        .HasColumnType("integer");
 
                     b.Property<int>("RoleId")
                         .HasColumnType("integer");
@@ -124,6 +159,17 @@ namespace IW.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("IW.Models.Entities.LoyaltyPoints", b =>
+                {
+                    b.HasOne("IW.Models.Entities.User", "User")
+                        .WithOne("LoyaltyPoint")
+                        .HasForeignKey("IW.Models.Entities.LoyaltyPoints", "UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("IW.Models.Entities.User", b =>
                 {
                     b.HasOne("IW.Models.Entities.Role", "Role")
@@ -143,6 +189,8 @@ namespace IW.Migrations
             modelBuilder.Entity("IW.Models.Entities.User", b =>
                 {
                     b.Navigation("Addresses");
+
+                    b.Navigation("LoyaltyPoint");
                 });
 #pragma warning restore 612, 618
         }

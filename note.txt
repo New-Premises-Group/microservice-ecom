@@ -1,0 +1,63 @@
+docker compose up --force-recreate
+
+dotnet tool install --global dotnet-ef --version 6.*
+export PATH=$PATH:$HOME/.dotnet/tools
+
+
+cd Services/Product/IW/
+cd Services/Inventory/IW/
+cd Services/User/IW/
+cd Services/Cart/IW/
+cd Services/Order/IW/
+cd Services/Payment/IW/
+
+
+cd Services/Product/IW/ && dotnet ef database update --connection "Host=postgres;Database=postgres;Username=postgres;Password=postgrespassword"
+cd ../../../Services/User/IW/ && dotnet ef database update --connection "Host=postgres;Database=postgres;Username=postgres;Password=postgrespassword"
+cd ../../../Services/Inventory/IW/ && dotnet ef database update --connection "Host=postgres;Database=postgres;Username=postgres;Password=postgrespassword"
+cd ../../../Services/Cart/IW/ && dotnet ef database update --connection "Host=postgres;Database=postgres;Username=postgres;Password=postgrespassword"
+cd ../../../Services/Order/IW/ && dotnet ef database update --connection "Host=postgres;Database=postgres;Username=postgres;Password=postgrespassword"
+
+
+
+query MyQuery {
+  __typename
+}
+
+mutation MyMutation {
+  loginUser(input: {input: {roleId: 1, token: "1", email: "sang@gmail.com", name: "Sang", phoneNumber: "0123456789"}}) {
+    userCreatedPayload {
+      apiToken
+      message
+      userId
+    }
+  }
+}
+
+mutation MyMutation {
+  createCategory(input: {description: "1", name: "CAT 1"}) {
+    categoryCreatedPayload {
+      message
+    }
+  }
+}
+
+
+
+mutation MyMutation {
+  createProduct(input: {categoryId: 1, images: "123", name: "PROD 1", price: 10000, sku: "123456", description: "DES"}) {
+    productCreatedPayload {
+      message
+    }
+    errors {
+      ... on productProductNameTakenError {
+        __typename
+        message
+      }
+      ... on productValidateProductError {
+        __typename
+        message
+      }
+    }
+  }
+}
