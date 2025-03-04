@@ -5,6 +5,8 @@ services:
     ports:
       - 32770:80
       - 32771:403
+    depends_on:
+      - rabbitmq
 
   order:
     restart: unless-stopped
@@ -12,6 +14,8 @@ services:
     ports:
       - 32772:80
       - 32773:403
+    depends_on:
+      - rabbitmq
 
   product:
     restart: unless-stopped
@@ -19,6 +23,8 @@ services:
     ports:
       - 32774:80
       - 32775:403
+    depends_on:
+      - rabbitmq
 
   postgres:
     image: postgres:15
@@ -36,6 +42,8 @@ services:
     ports:
       - 32776:80
       - 32777:403
+    depends_on:
+      - rabbitmq
 
   cart:
     restart: unless-stopped
@@ -43,6 +51,8 @@ services:
     ports:
       - 32778:80
       - 32779:403
+    depends_on:
+      - rabbitmq
 
   payment:
     restart: unless-stopped
@@ -50,6 +60,8 @@ services:
     ports:
       - 32780:80
       - 32781:403
+    depends_on:
+      - rabbitmq
 
   graphql-engine:
     image: hasura/graphql-engine:v2.33.0.cli-migrations-v3
@@ -74,6 +86,7 @@ services:
       - cart
       - data-connector-agent
       - payment
+      - rabbitmq
 
   data-connector-agent:
     image: hasura/graphql-data-connector:v2.33.0
@@ -99,6 +112,23 @@ services:
       - postgres
     tty: true
     entrypoint: /bin/bash -c "dotnet tool install --global dotnet-ef --version 6.* && export PATH=\$PATH:\$HOME/.dotnet/tools && /bin/bash"
+
+  rabbitmq:
+    image: rabbitmq:3.9-management
+    restart: always
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    # environment:
+      # RABBITMQ_DEFAULT_USER: guest 
+      # RABBITMQ_DEFAULT_PASS: guest 
+      # RABBITMQ_DEFAULT_VHOST: ubmtzzec
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "ping"]
+      interval: 5s
+      timeout: 10s
+      retries: 5
+      start_period: 10s
 
 volumes:
   db_data:
