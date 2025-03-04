@@ -1,9 +1,9 @@
-﻿using IW.Interfaces;
-using HotChocolate.Authorization;
+﻿using HotChocolate.Authorization;
 using IW.Common;
 using IW.Exceptions.CreateProductError;
-using IW.Models.DTOs.Product;
+using IW.Interfaces;
 using IW.Models.DTOs;
+using IW.Models.DTOs.Product;
 
 namespace IW.Controllers.Mutations
 {
@@ -14,7 +14,7 @@ namespace IW.Controllers.Mutations
         [Error(typeof(CreateProductErrorFactory))]
         public async Task<ProductCreatedPayload> CreateProduct(CreateProduct input, [Service] IProductService productService)
         {
-            // await productService.CreateProduct(input);
+            await productService.CreateProduct(input);
             var payload = new ProductCreatedPayload()
             {
                 Message = "Product successfully created"

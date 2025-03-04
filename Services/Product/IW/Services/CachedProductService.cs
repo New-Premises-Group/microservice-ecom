@@ -15,7 +15,7 @@ namespace IW.Services
         private readonly IDistributedCache _distributedCache;
         private readonly AppDbContext _dbContext;
 
-        public CachedProductService(ProductService decorated, IDistributedCache distributedCache,AppDbContext dbContext)
+        public CachedProductService(ProductService decorated, IDistributedCache distributedCache, AppDbContext dbContext)
         {
             _decorated = decorated;
             _distributedCache = distributedCache;
@@ -27,20 +27,20 @@ namespace IW.Services
             await _decorated.CreateProduct(input);
 
             string key = input.Name;
-            await _distributedCache.SetStringAsync(key,
-                JsonConvert.SerializeObject(input),
-                new DistributedCacheEntryOptions()
-                {
-                    SlidingExpiration = TimeSpan.FromSeconds(30),
-                });
+            //await _distributedCache.SetStringAsync(key,
+            //    JsonConvert.SerializeObject(input),
+            //    new DistributedCacheEntryOptions()
+            //    {
+            //        SlidingExpiration = TimeSpan.FromSeconds(30),
+            //    });
         }
 
         public async Task DeleteProduct(int id)
         {
             string key = CreateKey(id);
-            Task deleteProduct= _decorated.DeleteProduct(id);
-            Task updateCache= _distributedCache.RemoveAsync(key);
-            await Task.WhenAll(updateCache,deleteProduct);
+            Task deleteProduct = _decorated.DeleteProduct(id);
+            Task updateCache = _distributedCache.RemoveAsync(key);
+            await Task.WhenAll(updateCache, deleteProduct);
         }
 
         public async Task<ProductDto?> GetProduct(int id)
@@ -100,7 +100,7 @@ namespace IW.Services
             //if(string.IsNullOrEmpty(cachedProducts))
             //{
             //    IEnumerable<ProductDto> newProducts = await _decorated.GetProducts(query, page, amount);
-                
+
             //    return newProducts;
             //}
             //var products = JsonConvert.DeserializeObject<IEnumerable<ProductDto>>(cachedProducts);
@@ -117,7 +117,7 @@ namespace IW.Services
 
         public async Task UpdateProduct(int id, UpdateProduct model)
         {
-            await _decorated.UpdateProduct(id,model);
+            await _decorated.UpdateProduct(id, model);
             ProductDto product = _dbContext
                 .Set<Product>()
                 .Entry(model.Adapt<Product>())
