@@ -43,7 +43,8 @@ services:
       - 32776:80
       - 32777:403
     depends_on:
-      - rabbitmq
+      rabbitmq:
+        condition: service_healthy
 
   cart:
     restart: unless-stopped
@@ -119,9 +120,9 @@ services:
     ports:
       - "5672:5672"
       - "15672:15672"
-    # environment:
-      # RABBITMQ_DEFAULT_USER: guest 
-      # RABBITMQ_DEFAULT_PASS: guest 
+    environment:
+      RABBITMQ_DEFAULT_USER: guest 
+      RABBITMQ_DEFAULT_PASS: guest 
       # RABBITMQ_DEFAULT_VHOST: ubmtzzec
     healthcheck:
       test: ["CMD", "rabbitmq-diagnostics", "ping"]
