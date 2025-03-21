@@ -4,6 +4,10 @@ dotnet tool install --global dotnet-ef --version 6.*
 export PATH=$PATH:$HOME/.dotnet/tools
 
 
+npm i prisma -g
+
+npx prisma db pull
+
 cd Services/Product/IW/
 cd Services/Inventory/IW/
 cd Services/User/IW/
