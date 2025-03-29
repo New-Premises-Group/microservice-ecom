@@ -15,10 +15,10 @@ namespace IW.Controllers.Mutations
             CreateAddress address,
             [Service] IAddressService addressService)
         {
-            var id=await addressService.CreateAddress(address);
+            var id = await addressService.CreateAddress(address);
             var payload = new AddressCreatedPayload()
             {
-                Id=id,
+                Id = id,
                 Message = "Address successfully created"
             };
             return payload;
@@ -26,8 +26,8 @@ namespace IW.Controllers.Mutations
 
         [Error(typeof(CreateAddressErrorFactory))]
         public async Task<AddressUpdatedPayload> UpdateAddress(
-            int id, 
-            UpdateAddress input, 
+            int id,
+            UpdateAddress input,
             [Service] IAddressService addressService)
         {
             await addressService.UpdateAddress(id, input);
@@ -40,7 +40,7 @@ namespace IW.Controllers.Mutations
 
         [Error(typeof(CreateAddressErrorFactory))]
         public async Task<AddressUpdatedPayload> UpdateDefaultAddress(
-            int id, 
+            int id,
             string userId,
             [Service] IAddressService addressService)
         {
@@ -53,7 +53,7 @@ namespace IW.Controllers.Mutations
         }
 
         public async Task<AddressDeletedPayload> DeleteAddress(
-            int id, 
+            int id,
             [Service] IAddressService addressService)
         {
             await addressService.DeleteAddress(id);

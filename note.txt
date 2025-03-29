@@ -16,11 +16,11 @@ cd Services/Order/IW/
 cd Services/Payment/IW/
 
 
-cd Services/Product/IW/ && dotnet ef database update --connection "Host=postgres;Database=postgres;Username=postgres;Password=postgrespassword"
-cd ../../../Services/User/IW/ && dotnet ef database update --connection "Host=postgres;Database=postgres;Username=postgres;Password=postgrespassword"
-cd ../../../Services/Inventory/IW/ && dotnet ef database update --connection "Host=postgres;Database=postgres;Username=postgres;Password=postgrespassword"
-cd ../../../Services/Cart/IW/ && dotnet ef database update --connection "Host=postgres;Database=postgres;Username=postgres;Password=postgrespassword"
-cd ../../../Services/Order/IW/ && dotnet ef database update --connection "Host=postgres;Database=postgres;Username=postgres;Password=postgrespassword"
+cd Services/Product/IW/ && dotnet ef database update --connection "Host=localhost;Port=5433;Database=postgres;Username=postgres;Password=postgrespassword"
+cd ../../../Services/User/IW/ && dotnet ef database update --connection "Host=localhost;Port=5433;Database=postgres;Username=postgres;Password=postgrespassword"
+cd ../../../Services/Inventory/IW/ && dotnet ef database update --connection "Host=localhost;Port=5433;Database=postgres;Username=postgres;Password=postgrespassword"
+cd ../../../Services/Cart/IW/ && dotnet ef database update --connection "Host=localhost;Port=5433;Database=postgres;Username=postgres;Password=postgrespassword"
+cd ../../../Services/Order/IW/ && dotnet ef database update --connection "Host=localhost;Port=5433;Database=postgres;Username=postgres;Password=postgrespassword"
 
 
 

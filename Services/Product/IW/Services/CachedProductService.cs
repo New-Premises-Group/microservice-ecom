@@ -5,7 +5,6 @@ using IW.Models.DTOs.Product;
 using IW.Models.Entities;
 using Mapster;
 using Microsoft.Extensions.Caching.Distributed;
-using Newtonsoft.Json;
 
 namespace IW.Services
 {
@@ -39,8 +38,8 @@ namespace IW.Services
         {
             string key = CreateKey(id);
             Task deleteProduct = _decorated.DeleteProduct(id);
-            Task updateCache = _distributedCache.RemoveAsync(key);
-            await Task.WhenAll(updateCache, deleteProduct);
+            //Task updateCache = _distributedCache.RemoveAsync(key);
+            await Task.WhenAll(deleteProduct);
         }
 
         public async Task<ProductDto?> GetProduct(int id)
@@ -126,12 +125,12 @@ namespace IW.Services
                 .Adapt<ProductDto>();
 
             string key = CreateKey(product.Id);
-            await _distributedCache.SetStringAsync(key,
-                JsonConvert.SerializeObject(product),
-                new DistributedCacheEntryOptions()
-                {
-                    SlidingExpiration = TimeSpan.FromSeconds(30),
-                });
+            //await _distributedCache.SetStringAsync(key,
+            //    JsonConvert.SerializeObject(product),
+            //    new DistributedCacheEntryOptions()
+            //    {
+            //        SlidingExpiration = TimeSpan.FromSeconds(30),
+            //    });
         }
 
         /// <summary>
